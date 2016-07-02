@@ -26,6 +26,10 @@ public class UserDTO {
     @Size(max = 50)
     private String lastName;
 
+    @Size(min = 12, max = 12)
+    @Pattern(regexp = Constants.PHONE_REGEX)
+    private String phone;
+
     @Email
     @Size(min = 5, max = 100)
     private String email;
@@ -42,13 +46,13 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this(user.getLogin(), user.getFirstName(), user.getLastName(),
-            user.getEmail(), user.getActivated(), user.getLangKey(),
+            user.getEmail(), user.getActivated(), user.getLangKey(), user.getPhone(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, Set<String> authorities) {
+        String email, boolean activated, String langKey, String phone, Set<String> authorities) {
 
         this.login = login;
         this.firstName = firstName;
@@ -57,6 +61,7 @@ public class UserDTO {
         this.activated = activated;
         this.langKey = langKey;
         this.authorities = authorities;
+        this.phone = phone;
     }
 
     public String getLogin() {
@@ -87,6 +92,14 @@ public class UserDTO {
         return authorities;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -94,6 +107,7 @@ public class UserDTO {
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
+            ", phone='" + phone + '\'' +
             ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
             ", authorities=" + authorities +

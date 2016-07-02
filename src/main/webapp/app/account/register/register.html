@@ -50,6 +50,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label" for="phone" translate="global.form.phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="{{'global.form.phone.placeholder' | translate}}"
+                           ng-model="vm.registerAccount.phone" ng-pattern="/^\+7[0-9]{10,10}$/" required>
+                    <div ng-show="form.phone.$dirty && form.phone.$invalid">
+                        <p class="help-block"
+                           ng-show="form.phone.$error.required" translate="register.messages.validate.phone.required">
+                            Your phone is required.
+                        </p>
+                        <p class="help-block"
+                           ng-show="form.phone.$error.pattern" translate="register.messages.validate.phone.pattern">
+                            Your phone must match number pattern: +7XXXXXXXXXX.
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label" for="email" translate="global.form.email">E-mail</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="{{'global.form.email.placeholder' | translate}}"
                            ng-model="vm.registerAccount.email" ng-minlength=5 ng-maxlength=100 required>

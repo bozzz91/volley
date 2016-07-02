@@ -1,0 +1,26 @@
+{
+    "volleyApp": {
+        "gym" : {
+            "home": {
+                "title": "Gyms",
+                "createLabel": "Create a new Gym",
+                "createOrEditLabel": "Create or edit a Gym",
+                "search": "Search for Gym"
+            },
+            "created": "A new Gym is created with identifier {{ param }}",
+            "updated": "A Gym is updated with identifier {{ param }}",
+            "deleted": "A Gym is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Gym {{ id }}?"
+            },
+            "detail": {
+                "title": "Gym"
+            },
+            "name": "Name",
+            "location": "Location",
+            "description": "Description",
+            "training": "Training",
+            "city": "City"
+        }
+    }
+}

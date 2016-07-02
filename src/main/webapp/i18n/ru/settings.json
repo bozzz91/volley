@@ -6,6 +6,8 @@
             "firstname.placeholder": "Ваше имя",
             "lastname": "Фамилия",
             "lastname.placeholder": "Ваша фамилия",
+            "phone": "Телефон",
+            "phone.placeholder": "+79999999999",
             "language": "Язык",
             "button": "Сохранить"
         },
@@ -25,6 +27,10 @@
                     "required": "Фамилия должна быть указана.",
                     "minlength": "Длина фамилии должна быть хотя-бы 1 символ",
                     "maxlength": "Фамилия не может быть длиннее чем 50 символов"
+                },
+                "phone": {
+                    "required": "Необходимо ввести телефон",
+                    "pattern": "Телефон должен иметь вид: +7XXXXXXXXXX"
                 }
             }
         }

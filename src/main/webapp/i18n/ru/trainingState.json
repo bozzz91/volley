@@ -1,0 +1,10 @@
+{
+    "volleyApp": {
+        "TrainingState" : {
+            "null": "",
+            "REGISTRATION": "Запись на игру",
+            "PROCESS": "Идет игра",
+            "DONE": "Игра окончена"
+        }
+    }
+}

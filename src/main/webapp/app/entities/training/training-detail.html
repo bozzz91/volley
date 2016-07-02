@@ -1,0 +1,52 @@
+
+<div>
+    <h2><span translate="volleyApp.training.detail.title">Training</span> {{vm.training.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span translate="volleyApp.training.startAt">Start At</span></dt>
+        <dd>
+            <span>{{vm.training.startAt | date:'medium'}}</span>
+        </dd>
+        <dt><span translate="volleyApp.training.endAt">End At</span></dt>
+        <dd>
+            <span>{{vm.training.endAt | date:'medium'}}</span>
+        </dd>
+        <dt><span translate="volleyApp.training.price">Price</span></dt>
+        <dd>
+            <span>{{vm.training.price}}</span>
+        </dd>
+        <dt><span translate="volleyApp.training.state">State</span></dt>
+        <dd>
+            <span translate="{{'volleyApp.TrainingState.' + vm.training.state}}">{{vm.training.state}}</span>
+        </dd>
+        <dt><span translate="volleyApp.training.description">Description</span></dt>
+        <dd>
+            <span>{{vm.training.description}}</span>
+        </dd>
+        <dt><span translate="volleyApp.training.user">User</span></dt>
+        <dd>
+            <span ng-repeat="user in vm.training.users">
+                {{user.login}}{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span translate="volleyApp.training.level">Level</span></dt>
+        <dd>
+            <a ui-sref="level-detail({id:vm.training.level.id})">{{vm.training.level.name}}</a>
+        </dd>
+        <dt><span translate="volleyApp.training.organizer">Organizer</span></dt>
+        <dd>
+            {{vm.training.organizer.login}}
+        </dd>
+        <dt><span translate="volleyApp.training.gym">Gym</span></dt>
+        <dd>
+            <a ui-sref="gym-detail({id:vm.training.gym.id})">{{vm.training.gym.name}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

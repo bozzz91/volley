@@ -1,0 +1,46 @@
+
+entity City {
+	name String required
+}
+
+entity Gym {
+	name String required,
+	location String,
+    description String
+}
+
+entity Training {
+	startAt ZonedDateTime required,
+    endAt ZonedDateTime required,
+	price Integer required min(0),
+    state TrainingState required,
+	description String
+}
+
+entity Level {
+	name String required,
+	description String
+}
+
+enum TrainingState {
+	REGISTRATION,
+    PROCESS,
+    DONE
+}
+
+relationship ManyToMany {
+	Training{user(login)} to User{training}
+}
+
+relationship OneToMany {
+	City{gym(name)} to Gym{city(name)},
+	Gym{training} to Training{gym(name)}
+}
+
+relationship ManyToOne {
+	Training{level(name)} to Level,
+	Training{organizer(login)} to User
+}
+
+paginate Training with infinite-scroll
+

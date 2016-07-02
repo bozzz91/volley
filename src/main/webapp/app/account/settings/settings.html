@@ -36,16 +36,31 @@
                            ng-model="vm.settingsAccount.lastName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
                     <div ng-show="form.lastName.$dirty && form.lastName.$invalid">
                         <p class="help-block"
-                               ng-show="form.lastName.$error.required" translate="settings.messages.validate.lastname.required">
+                           ng-show="form.lastName.$error.required" translate="settings.messages.validate.lastname.required">
                             Your last name is required.
                         </p>
                         <p class="help-block"
-                               ng-show="form.lastName.$error.minlength" translate="settings.messages.validate.lastname.minlength">
+                           ng-show="form.lastName.$error.minlength" translate="settings.messages.validate.lastname.minlength">
                             Your last name is required to be at least 1 character.
                         </p>
                         <p class="help-block"
-                               ng-show="form.lastName.$error.maxlength" translate="settings.messages.validate.lastname.maxlength">
+                           ng-show="form.lastName.$error.maxlength" translate="settings.messages.validate.lastname.maxlength">
                             Your last name cannot be longer than 50 characters.
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="phone" translate="settings.form.phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="{{'settings.form.phone.placeholder' | translate}}"
+                           ng-model="vm.settingsAccount.phone" ng-pattern="/^\+7[0-9]{10,10}$/" required>
+                    <div ng-show="form.phone.$dirty && form.phone.$invalid">
+                        <p class="help-block"
+                           ng-show="form.phone.$error.required" translate="settings.messages.validate.phone.required">
+                            Your phone is required.
+                        </p>
+                        <p class="help-block"
+                           ng-show="form.phone.$error.pattern" translate="settings.messages.validate.phone.pattern">
+                            Your phone must match number pattern: +7XXXXXXXXXX.
                         </p>
                     </div>
                 </div>

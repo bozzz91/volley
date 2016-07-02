@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity Training.
+    -->
+    <changeSet id="20160701212331-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="trainings_id"
+                                 baseTableName="training_user"
+                                 constraintName="fk_training_user_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="training"/>
+        <addForeignKeyConstraint baseColumnNames="users_id"
+                                 baseTableName="training_user"
+                                 constraintName="fk_training_user_training_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+        
+        <addForeignKeyConstraint baseColumnNames="level_id"
+                                 baseTableName="training"
+                                 constraintName="fk_training_level_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="level"/>
+
+        <addForeignKeyConstraint baseColumnNames="organizer_id"
+                                 baseTableName="training"
+                                 constraintName="fk_training_organizer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="gym_id"
+                                 baseTableName="training"
+                                 constraintName="fk_training_gym_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="gym"/>
+
+    </changeSet>
+</databaseChangeLog>

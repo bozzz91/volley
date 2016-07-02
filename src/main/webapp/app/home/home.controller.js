@@ -17,6 +17,7 @@
         $scope.$on('authenticationSuccess', function() {
             getAccount();
         });
+        $scope.supportUrl = 'https://vk.com/bozzz';
 
         getAccount();
 

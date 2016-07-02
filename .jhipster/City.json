@@ -1,0 +1,26 @@
+{
+  "relationships": [
+    {
+      "relationshipId": 1,
+      "relationshipType": "one-to-many",
+      "relationshipName": "gym",
+      "otherEntityName": "gym",
+      "otherEntityRelationshipName": "city"
+    }
+  ],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "changelogDate": "20160701212329",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "entityTableName": "city"
+}

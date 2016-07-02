@@ -6,7 +6,11 @@
             "home": "Главная",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
-                "main": "Сущности",
+                "main": "Управление",
+                "city": "Город",
+                "gym": "Зал",
+                "level": "Уровень игры",
+                "training": "Тренировка",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -40,6 +44,8 @@
             "newpassword.placeholder": "Новый пароль",
             "confirmpassword": "Подтверждение нового пароля",
             "confirmpassword.placeholder": "Подтвердите новый пароль",
+            "phone": "Телефон",
+            "phone.placeholder": "+79999999999",
             "email": "E-mail",
             "email.placeholder": "Ваш e-mail"
         },
@@ -106,7 +112,7 @@
             "minbytes": "Это поле должно быть больше, чем {{min}} байтов.",
             "maxbytes": "Это поле не может быть больше, чем {{max}} байтов.",
             "pattern": "Это поле должно следовать модели {{pattern}}.",
-            "number": "Это поле должно быть число.",
+            "number": "Это поле должно быть числом.",
             "datetimelocal": "Это поле должно быть дата и время."
         }
     },
@@ -119,5 +125,5 @@
         "emailexists": "Эл. почта уже используется!!",
         "idexists": "Новый {{entityName}} не может иметь данный ID"
     },
-    "footer": "Это ваш футтер"
+    "footer": "Это ваш футтер, здесь информация о контактах, копирайтах и т.д."
 }

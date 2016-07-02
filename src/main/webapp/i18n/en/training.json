@@ -1,0 +1,30 @@
+{
+    "volleyApp": {
+        "training" : {
+            "home": {
+                "title": "Trainings",
+                "createLabel": "Create a new Training",
+                "createOrEditLabel": "Create or edit a Training",
+                "search": "Search for Training"
+            },
+            "created": "A new Training is created with identifier {{ param }}",
+            "updated": "A Training is updated with identifier {{ param }}",
+            "deleted": "A Training is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Training {{ id }}?"
+            },
+            "detail": {
+                "title": "Training"
+            },
+            "startAt": "Start At",
+            "endAt": "End At",
+            "price": "Price",
+            "state": "State",
+            "description": "Description",
+            "user": "User",
+            "level": "Level",
+            "organizer": "Organizer",
+            "gym": "Gym"
+        }
+    }
+}

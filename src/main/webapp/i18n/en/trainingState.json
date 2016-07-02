@@ -1,0 +1,10 @@
+{
+    "volleyApp": {
+        "TrainingState" : {
+            "null": "",
+            "REGISTRATION": "REGISTRATION",
+            "PROCESS": "PROCESS",
+            "DONE": "DONE"
+        }
+    }
+}

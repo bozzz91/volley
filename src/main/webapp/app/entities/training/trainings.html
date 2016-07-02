@@ -1,0 +1,76 @@
+<div>
+    <h2 translate="volleyApp.training.home.title">Trainings</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="training.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  translate="volleyApp.training.home.createLabel">
+                        Create new Training
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="startAt"><span translate="volleyApp.training.startAt">Start At</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="endAt"><span translate="volleyApp.training.endAt">End At</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="price"><span translate="volleyApp.training.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="state"><span translate="volleyApp.training.state">State</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="description"><span translate="volleyApp.training.description">Description</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="level.name"><span translate="volleyApp.training.level">Level</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="organizer.login"><span translate="volleyApp.training.organizer">Organizer</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="gym.name"><span translate="volleyApp.training.gym">Gym</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="training in vm.trainings track by training.id">
+                    <td><a ui-sref="training-detail({id:training.id})">{{training.id}}</a></td>
+                    <td>{{training.startAt | date:'medium'}}</td>
+                    <td>{{training.endAt | date:'medium'}}</td>
+                    <td>{{training.price}}</td>
+                    <td translate="{{'volleyApp.TrainingState.' + training.state}}">{{training.state}}</td>
+                    <td>{{training.description}}</td>
+                    <td>
+                        <a ui-sref="level-detail({id:training.level.id})">{{training.level.name}}</a>
+                    </td>
+                    <td>
+                        {{training.organizer.login}}
+                    </td>
+                    <td>
+                        <a ui-sref="gym-detail({id:training.gym.id})">{{training.gym.name}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="training-detail({id:training.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="training.edit({id:training.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="training.delete({id:training.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

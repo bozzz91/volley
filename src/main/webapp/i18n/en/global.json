@@ -1,12 +1,16 @@
 {
     "global": {
-        "title": "Volley",
+        "title": "VolleyClub",
         "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "menu": {
             "home": "Home",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entities",
+                "city": "City",
+                "gym": "Gym",
+                "level": "Level",
+                "training": "Training",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -40,6 +44,8 @@
             "newpassword.placeholder": "New password",
             "confirmpassword": "New password confirmation",
             "confirmpassword.placeholder": "Confirm the new password",
+            "phone": "Phone",
+            "phone.placeholder": "+79999999999",
             "email": "E-mail",
             "email.placeholder": "Your e-mail"
         },
