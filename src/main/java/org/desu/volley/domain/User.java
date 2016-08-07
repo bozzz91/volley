@@ -98,7 +98,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "user_training",
+    @JoinTable(name = "training_user",
         joinColumns = @JoinColumn(name="users_id", referencedColumnName="ID"),
         inverseJoinColumns = @JoinColumn(name="trainings_id", referencedColumnName="ID"))
     private Set<Training> trainings = new HashSet<>();

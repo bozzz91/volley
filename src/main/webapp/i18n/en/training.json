@@ -24,7 +24,9 @@
             "user": "User",
             "level": "Level",
             "organizer": "Organizer",
-            "gym": "Gym"
+            "gym": "Gym",
+            "register": "Register",
+            "unregister": "Unregister"
         }
     }
 }

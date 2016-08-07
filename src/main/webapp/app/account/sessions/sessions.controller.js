@@ -15,8 +15,7 @@
         vm.invalidate = invalidate;
         vm.sessions = Sessions.getAll();
         vm.success = null;
-
-
+        
         Principal.identity().then(function(account) {
             vm.account = account;
         });

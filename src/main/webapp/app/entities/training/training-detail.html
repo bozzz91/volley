@@ -1,6 +1,6 @@
 
 <div>
-    <h2><span translate="volleyApp.training.detail.title">Training</span> {{vm.training.id}}</h2>
+    <h2><span translate="volleyApp.training.detail.title">Training</span> №{{vm.training.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
@@ -44,9 +44,31 @@
         </dd>
     </dl>
 
+    <script type="text/ng-template" id="popupTmpl.html">
+        <div class="modal-header">
+            <h3 class="modal-title">You registered!</h3>
+        </div>
+        <div class="modal-body">
+            User: <b>{{ vm.account.login }}</b>
+            <hr/>
+            Number: <b>{{ vm.training.users.length }}</b>
+            <hr/>
+            {{ vm.modalText }}
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="closeThisDialog('Some value')">OK</button>
+        </div>
+    </script>
+
     <button type="submit"
             onclick="window.history.back()"
             class="btn btn-info">
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+    <button ng-if="vm.alreadyRegister()" type="submit" ng-click="vm.unregister()" class="btn btn-warning">
+        <span class="glyphicon glyphicon-log-out"></span>&nbsp;<span translate="volleyApp.training.unregister"> Unregister</span>
+    </button>
+    <button ng-if="!vm.alreadyRegister()" type="submit" ng-click="vm.register()" class="btn btn-success">
+        <span class="glyphicon glyphicon-ok-sign"></span>&nbsp;<span translate="volleyApp.training.register"> Register</span>
     </button>
 </div>
