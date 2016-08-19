@@ -1,15 +1,17 @@
 package org.desu.volley.web.rest.dto;
 
 import org.desu.volley.config.Constants;
-
 import org.desu.volley.domain.Authority;
+import org.desu.volley.domain.City;
 import org.desu.volley.domain.User;
-
 import org.hibernate.validator.constraints.Email;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 /**
  * A DTO representing a user, with his authorities.
  */
@@ -30,6 +32,8 @@ public class UserDTO {
     @Pattern(regexp = Constants.PHONE_REGEX)
     private String phone;
 
+    private City city;
+
     @Email
     @Size(min = 5, max = 100)
     private String email;
@@ -45,14 +49,15 @@ public class UserDTO {
     }
 
     public UserDTO(User user) {
-        this(user.getLogin(), user.getFirstName(), user.getLastName(),
-            user.getEmail(), user.getActivated(), user.getLangKey(), user.getPhone(),
+        this(user.getLogin(), user.getFirstName(), user.getLastName(), user.getEmail(),
+            user.getActivated(), user.getLangKey(), user.getPhone(), user.getCity(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, String phone, Set<String> authorities) {
+                   String email, boolean activated, String langKey, String phone,
+                   City city, Set<String> authorities) {
 
         this.login = login;
         this.firstName = firstName;
@@ -62,6 +67,7 @@ public class UserDTO {
         this.langKey = langKey;
         this.authorities = authorities;
         this.phone = phone;
+        this.city = city;
     }
 
     public String getLogin() {
@@ -100,6 +106,14 @@ public class UserDTO {
         this.phone = phone;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -108,6 +122,7 @@ public class UserDTO {
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
             ", phone='" + phone + '\'' +
+            ", city='" + city + '\'' +
             ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
             ", authorities=" + authorities +

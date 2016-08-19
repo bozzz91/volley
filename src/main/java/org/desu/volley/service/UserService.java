@@ -1,6 +1,7 @@
 package org.desu.volley.service;
 
 import org.desu.volley.domain.Authority;
+import org.desu.volley.domain.City;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.AuthorityRepository;
 import org.desu.volley.repository.PersistentTokenRepository;
@@ -39,7 +40,6 @@ public class UserService {
 
     @Inject
     private UserRepository userRepository;
-
 
     @Inject
     private PersistentTokenRepository persistentTokenRepository;
@@ -89,7 +89,7 @@ public class UserService {
     }
 
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
-        String langKey, String phone) {
+        String langKey, String phone, City city) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -102,6 +102,7 @@ public class UserService {
         newUser.setLastName(lastName);
         newUser.setEmail(email);
         newUser.setPhone(phone);
+        newUser.setCity(city);
         newUser.setLangKey(langKey);
         // new user is not active
         newUser.setActivated(false);
@@ -120,6 +121,8 @@ public class UserService {
         user.setFirstName(managedUserDTO.getFirstName());
         user.setLastName(managedUserDTO.getLastName());
         user.setEmail(managedUserDTO.getEmail());
+        user.setPhone(managedUserDTO.getPhone());
+        user.setCity(managedUserDTO.getCity());
         if (managedUserDTO.getLangKey() == null) {
             user.setLangKey("ru"); // default language
         } else {
@@ -142,12 +145,13 @@ public class UserService {
         return user;
     }
 
-    public void updateUserInformation(String firstName, String lastName, String email, String langKey, String phone) {
-        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+    public void updateUserInformation(String firstName, String lastName, String email, String langKey, String phone, City city) {
+            userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);
             u.setPhone(phone);
+            u.setCity(city);
             u.setLangKey(langKey);
             userRepository.save(u);
             log.debug("Changed Information for User: {}", u);

@@ -36,6 +36,9 @@
             <column name="phone" type="varchar(20)">
                 <constraints unique="true" nullable="true"/>
             </column>
+            <column name="city_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="activated" type="boolean" valueBoolean="false">
                 <constraints nullable="false" />
             </column>

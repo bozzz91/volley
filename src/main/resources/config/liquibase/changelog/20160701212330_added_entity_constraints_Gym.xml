@@ -7,10 +7,16 @@
         Added the constraints for entity Gym.
     -->
     <changeSet id="20160701212330-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="city_id"
                                  baseTableName="gym"
                                  constraintName="fk_gym_city_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="city"/>
+
+        <addForeignKeyConstraint baseColumnNames="city_id"
+                                 baseTableName="jhi_user"
+                                 constraintName="fk_jhi_user_city_id"
                                  referencedColumnNames="id"
                                  referencedTableName="city"/>
 

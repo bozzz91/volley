@@ -74,7 +74,7 @@ public class AccountResource {
                 .orElseGet(() -> {
                     User user = userService.createUserInformation(managedUserDTO.getLogin(), managedUserDTO.getPassword(),
                     managedUserDTO.getFirstName(), managedUserDTO.getLastName(), managedUserDTO.getEmail().toLowerCase(),
-                    managedUserDTO.getLangKey(), managedUserDTO.getPhone());
+                    managedUserDTO.getLangKey(), managedUserDTO.getPhone(), managedUserDTO.getCity());
                     String baseUrl = request.getScheme() + // "http"
                     "://" +                                // "://"
                     request.getServerName() +              // "myhost"
@@ -157,7 +157,8 @@ public class AccountResource {
                     userDTO.getLastName(),
                     userDTO.getEmail(),
                     userDTO.getLangKey(),
-                    userDTO.getPhone());
+                    userDTO.getPhone(),
+                    userDTO.getCity());
                 return new ResponseEntity<String>(HttpStatus.OK);
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));

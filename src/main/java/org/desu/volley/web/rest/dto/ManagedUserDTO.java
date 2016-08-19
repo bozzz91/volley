@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 
 import java.util.Set;
 
+import org.desu.volley.domain.City;
 import org.desu.volley.domain.User;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -41,10 +42,10 @@ public class ManagedUserDTO extends UserDTO {
     }
 
     public ManagedUserDTO(Long id, String login, String password, String firstName, String lastName,
-                          String email, boolean activated, String langKey, String phone,
+                          String email, boolean activated, String langKey, String phone, City city,
                           Set<String> authorities , ZonedDateTime createdDate, String lastModifiedBy,
                           ZonedDateTime lastModifiedDate ) {
-        super(login, firstName, lastName, email, activated, langKey, phone, authorities);
+        super(login, firstName, lastName, email, activated, langKey, phone, city, authorities);
         this.id = id;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;

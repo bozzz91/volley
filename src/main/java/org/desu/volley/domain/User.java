@@ -61,6 +61,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "phone", unique = true, length = 12)
     private String phone;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private City city;
+
     @NotNull
     @Column(nullable = false)
     private boolean activated = false;
@@ -160,6 +163,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.phone = phone;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     public boolean getActivated() {
         return activated;
     }
@@ -254,6 +265,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
+            ", phone='" + phone + '\'' +
+            ", city='" + city + '\'' +
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +

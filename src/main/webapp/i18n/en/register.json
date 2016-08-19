@@ -15,6 +15,9 @@
                 "phone": {
                     "required": "Your phone is required.",
                     "pattern": "Your phone must match number pattern: +7XXXXXXXXXX."
+                },
+                "city": {
+                    "required": "Your city is required"
                 }
             },
             "success": "<strong>Registration saved!</strong> Please check your email for confirmation.",
