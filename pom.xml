@@ -71,7 +71,7 @@
         <spring-social-google.version>1.0.0.RELEASE</spring-social-google.version>
         <spring-social-security.version>1.1.2.RELEASE</spring-social-security.version>
         <spring-social-twitter.version>1.1.2.RELEASE</spring-social-twitter.version>
-        <spring-social-vkontakte.version>1.1.0.BUILD-SNAPSHOT</spring-social-vkontakte.version>
+        <spring-social-vkontakte.version>1.1.2.RELEASE</spring-social-vkontakte.version>
         <springfox.version>2.4.0</springfox.version>
     </properties>
 
