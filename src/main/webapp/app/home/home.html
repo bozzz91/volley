@@ -1,42 +1,54 @@
+<link rel="stylesheet" ng-href="/content/css/home.css"/>
+<div class="dark"></div>
 <div ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
-        </div>
-        <div class="col-md-8">
-            <h1 translate="home.title">Welcome, Java Hipster!</h1>
-            <p class="lead" translate="home.subtitle">This is your homepage</p>
-
-            <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true" translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">
-                    You are logged in as user "{{vm.account.login}}".
+    <div id="one">
+        <div ng-switch="vm.isAuthenticated()">
+            <div class="signin-train" ng-switch-when="true">
+                <p class="zag1">Запись на<br />тренировку</p>
+                <p class="allert" ng-if="vm.allert!=''">{{vm.allert}}</p>
+                <p class="o1">Для записи на тренировку требуется указать свой телефон (не виден остальным пользователям). После записи ваше имя появится в списке записавшихся.</p>
+                <div class="train-list" ng-init="vm.loadTrainings()">
+                    <ul ng-init="">
+                        <li ng-repeat="training in vm.trainings">
+                            <label class="show-more-train">
+                                <input type="checkbox" ng-model="hcontent" />
+                                <span>{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime'}}, {{training.gym.name}}</span>
+                            </label>
+                            <div ng-show="hcontent">
+                                <div ng-if="!vm.alreadyRegister(training.id)">
+                                    <input type="text" ng-model="vm.account.phone" ng-value="vm.account.phone" placeholder="Номер телефона">
+                                    <a class="enroll" ng-click="vm.enroll(training.id)">Записаться</a>
+                                </div>
+                                <div ng-if="vm.alreadyRegister(training.id)">
+                                    <a class="enroll" ng-click="vm.unroll(training.id)">Отписаться</a>
+                                </div>
+                                <ul class="users-list">
+                                    <li ng-repeat="user in training.users">
+                                        <img ng-src="{{user.imageUrl || '/content/images/nouser.png'}}">{{user.firstName}}</img>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="alert alert-warning" ng-switch-when="false" translate="global.messages.info.authenticated" translate-compile>
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false" translate="global.messages.info.register" translate-compile>
-                    You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
+                <div ng-repeat="authority in vm.account.authorities">
+                    <div ng-if="authority == 'ROLE_ADMIN'">
+                        <a href="/#/training" class="is-admin-link">Управление тренировками</a>
+                    </div>
                 </div>
             </div>
 
-            <p translate="home.question">
-                If you have any question:
-            </p>
+            <div class="signup-train" ng-switch-when="false">
+                <p class="zag1">Запись на<br />тренировку</p>
+                <p class="o1">Для записи на тренировку требуется указать свой телефон (не виден остальным пользователям). После записи ваше имя появится в списке записавшихся.</p>
+                <p class="o2">Для записи на тренировку необходимо войти через одну из соц. сетей</p>
 
-            <ul>
-                <!--li><a href="http://jhipster.github.io/" target="_blank" translate="home.link.homepage">JHipster homepage</a></li>
-                <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" translate="home.link.stackoverflow">JHipster on Stack Overflow</a></li>
-                <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" translate="home.link.bugtracker">JHipster bug tracker</a></li>
-                <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" translate="home.link.chat">JHipster public chat room</a></li>
-                <li><a href="https://twitter.com/java_hipster" target="_blank"  translate="home.link.follow">follow @java_hipster on Twitter</a></li-->
-                <li><a href ng-href="{{supportUrl}}" target="_blank" translate="home.link.support.name">Администрация</a></li>
-            </ul>
-
-            <!--p>
-             <span translate="home.like">If you like VolleyClub, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" translate="home.github">Github</a>!
-            </p-->
+                <div id="cf">
+                    <jh-social ng-provider="vkontakte"></jh-social>
+                    <jh-social ng-provider="google"></jh-social>
+                    <jh-social ng-provider="facebook"></jh-social>
+                    <jh-social ng-provider="twitter"></jh-social>
+                </div>
+            </div>
         </div>
     </div>
-</div>

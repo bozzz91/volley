@@ -14,8 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 
 
 import java.time.LocalDate;
@@ -46,6 +50,9 @@ public class UserService {
 
     @Inject
     private AuthorityRepository authorityRepository;
+
+    @Inject
+    private UsersConnectionRepository usersConnectionRepository;
 
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -178,6 +185,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
         return userRepository.findOneByLogin(login).map(u -> {
+            loadImageUrl(u);
             u.getAuthorities().size();
             return u;
         });
@@ -186,6 +194,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public User getUserWithAuthorities(Long id) {
         User user = userRepository.findOne(id);
+        loadImageUrl(user);
         user.getAuthorities().size(); // eagerly load the association
         return user;
     }
@@ -193,6 +202,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        loadImageUrl(user);
         user.getAuthorities().size(); // eagerly load the association
         return user;
     }
@@ -229,5 +239,16 @@ public class UserService {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
         }
+    }
+
+    private void loadImageUrl(User user) {
+        ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(user.getLogin());
+        MultiValueMap<String, Connection<?>> connections = connectionRepository.findAllConnections();
+        connections.entrySet().stream()
+            .filter(e -> !e.getValue().isEmpty())
+            .map(Map.Entry::getValue)
+            .flatMap(Collection::stream)
+            .filter(connection -> connection.getImageUrl() != null)
+            .findAny().ifPresent(connection -> user.setImageUrl(connection.getImageUrl()));
     }
 }

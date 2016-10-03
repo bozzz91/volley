@@ -1,7 +1,7 @@
 package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-
+import org.apache.commons.lang.StringUtils;
 import org.desu.volley.domain.PersistentToken;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.PersistentTokenRepository;
@@ -13,8 +13,6 @@ import org.desu.volley.web.rest.dto.KeyAndPasswordDTO;
 import org.desu.volley.web.rest.dto.ManagedUserDTO;
 import org.desu.volley.web.rest.dto.UserDTO;
 import org.desu.volley.web.rest.util.HeaderUtil;
-
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.
@@ -221,11 +220,12 @@ public class AccountResource {
     @Timed
     public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
         String decodedSeries = URLDecoder.decode(series, "UTF-8");
-        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
-            persistentTokenRepository.findByUser(u).stream()
+        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
+            .ifPresent(u -> persistentTokenRepository.findByUser(u).stream()
                 .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-                .findAny().ifPresent(t -> persistentTokenRepository.delete(decodedSeries));
-        });
+                .findAny()
+                .ifPresent(t -> persistentTokenRepository.delete(decodedSeries))
+            );
     }
 
     /**

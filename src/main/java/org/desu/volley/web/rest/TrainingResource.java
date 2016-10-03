@@ -4,7 +4,8 @@ import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Training;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.TrainingRepository;
-import org.desu.volley.repository.UserRepository;
+import org.desu.volley.service.UserService;
+import org.desu.volley.web.rest.dto.UserDTO;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.desu.volley.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -22,7 +23,9 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +41,7 @@ public class TrainingResource {
     private TrainingRepository trainingRepository;
 
     @Inject
-    private UserRepository userRepository;
+    private UserService userService;
 
     /**
      * POST  /trainings : Create a new training.
@@ -81,12 +84,16 @@ public class TrainingResource {
         if (training.getId() == null) {
             return createTraining(training);
         }
-        Set<User> users = training.getUsers().stream().map(u -> {
-            if (u.getId() == null) {
-                return userRepository.findOneByLogin(u.getLogin()).orElse(null);
-            }
-            return u;
-        }).filter(e -> e != null).collect(Collectors.toSet());
+        Set<User> users = training.getUsers().stream()
+            .map(u -> {
+                if (u.getId() == null) {
+                    return userService.getUserWithAuthoritiesByLogin(u.getLogin());
+                }
+                return Optional.of(u);
+            })
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toSet());
         training.setUsers(users);
         Training result = trainingRepository.save(training);
         return ResponseEntity.ok()
@@ -127,9 +134,15 @@ public class TrainingResource {
         log.debug("REST request to get Training : {}", id);
         Training training = trainingRepository.findOneWithEagerRelationships(id);
         return Optional.ofNullable(training)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
+            .map(result -> {
+                Set<?> users = result.getUsers().stream()
+                    .map(u -> userService.getUserWithAuthorities(u.getId()))
+                    .map(UserDTO::new)
+                    .collect(Collectors.toSet());
+                //hack to get image urls which are transient in User
+                result.setUsers((Set<User>) users);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            })
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

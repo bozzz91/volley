@@ -34,6 +34,8 @@ public class UserDTO {
 
     private City city;
 
+    private String imageUrl;
+
     @Email
     @Size(min = 5, max = 100)
     private String email;
@@ -51,13 +53,13 @@ public class UserDTO {
     public UserDTO(User user) {
         this(user.getLogin(), user.getFirstName(), user.getLastName(), user.getEmail(),
             user.getActivated(), user.getLangKey(), user.getPhone(), user.getCity(),
-            user.getAuthorities().stream().map(Authority::getName)
+            user.getImageUrl(), user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String firstName, String lastName,
                    String email, boolean activated, String langKey, String phone,
-                   City city, Set<String> authorities) {
+                   City city, String imageUrl, Set<String> authorities) {
 
         this.login = login;
         this.firstName = firstName;
@@ -68,6 +70,7 @@ public class UserDTO {
         this.authorities = authorities;
         this.phone = phone;
         this.city = city;
+        this.imageUrl = imageUrl;
     }
 
     public String getLogin() {
@@ -114,6 +117,10 @@ public class UserDTO {
         this.city = city;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -123,6 +130,7 @@ public class UserDTO {
             ", email='" + email + '\'' +
             ", phone='" + phone + '\'' +
             ", city='" + city + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
             ", authorities=" + authorities +

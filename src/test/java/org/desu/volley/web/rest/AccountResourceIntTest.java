@@ -26,7 +26,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyObject;
@@ -158,7 +161,8 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate
+            null,                   // lastModifiedDate
+            null
         );
 
         restMvc.perform(
@@ -188,7 +192,8 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate
+            null,                   // lastModifiedDate
+            null
         );
 
         restUserMockMvc.perform(
@@ -218,7 +223,8 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate
+            null,                   // lastModifiedDate
+            null
         );
 
         restUserMockMvc.perform(
@@ -248,7 +254,8 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate
+            null,                   // lastModifiedDate
+            null
         );
 
         restUserMockMvc.perform(
@@ -279,12 +286,13 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate
+            null,                   // lastModifiedDate
+            null
         );
 
         // Duplicate login, different e-mail
         ManagedUserDTO duplicatedUser = new ManagedUserDTO(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-            "alicejr@example.com", true, validUser.getLangKey(), validUser.getPhone(), validUser.getCity(), validUser.getAuthorities(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate());
+            "alicejr@example.com", true, validUser.getLangKey(), validUser.getPhone(), validUser.getCity(), validUser.getAuthorities(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getImageUrl());
 
         // Good user
         restMvc.perform(
@@ -322,12 +330,27 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null                    // lastModifiedDate
+            null,                   // lastModifiedDate
+            null
         );
 
         // Duplicate e-mail, different login
-        ManagedUserDTO duplicatedUser = new ManagedUserDTO(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-            validUser.getEmail(), true, validUser.getLangKey(), validUser.getPhone(), validUser.getCity(), validUser.getAuthorities(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate());
+        ManagedUserDTO duplicatedUser = new ManagedUserDTO(
+            validUser.getId(),
+            "johnjr",
+            validUser.getPassword(),
+            validUser.getLogin(),
+            validUser.getLastName(),
+            validUser.getEmail(),
+            true,
+            validUser.getLangKey(),
+            validUser.getPhone(),
+            validUser.getCity(),
+            validUser.getAuthorities(),
+            validUser.getCreatedDate(),
+            validUser.getLastModifiedBy(),
+            validUser.getLastModifiedDate(),
+            validUser.getImageUrl());
 
         // Good user
         restMvc.perform(
@@ -364,6 +387,7 @@ public class AccountResourceIntTest {
             new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)),
             null,                   // createdDate
             null,                   // lastModifiedBy
+            null,
             null                    // lastModifiedDate
         );
 
@@ -390,6 +414,7 @@ public class AccountResourceIntTest {
             true,                   // activated
             "ru",               // langKey
             "+71231234567",
+            null,
             null,
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
         );

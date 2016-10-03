@@ -84,6 +84,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date", nullable = true)
     private ZonedDateTime resetDate = null;
 
+    @Transient
+    private String imageUrl;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -201,6 +204,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setResetDate(ZonedDateTime resetDate) {
        this.resetDate = resetDate;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getLangKey() {
