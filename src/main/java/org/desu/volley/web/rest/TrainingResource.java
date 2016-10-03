@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Training;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.TrainingRepository;
+import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.dto.UserDTO;
 import org.desu.volley.web.rest.util.HeaderUtil;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,6 +56,7 @@ public class TrainingResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Training> createTraining(@Valid @RequestBody Training training) throws URISyntaxException {
         log.debug("REST request to save Training : {}", training);
         if (training.getId() != null) {
@@ -156,6 +159,7 @@ public class TrainingResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
         log.debug("REST request to delete Training : {}", id);
         trainingRepository.delete(id);

@@ -3,12 +3,14 @@ package org.desu.volley.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.City;
 import org.desu.volley.repository.CityRepository;
+import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -41,6 +43,7 @@ public class CityResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<City> createCity(@Valid @RequestBody City city) throws URISyntaxException {
         log.debug("REST request to save City : {}", city);
         if (city.getId() != null) {
@@ -65,6 +68,7 @@ public class CityResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<City> updateCity(@Valid @RequestBody City city) throws URISyntaxException {
         log.debug("REST request to update City : {}", city);
         if (city.getId() == null) {
@@ -121,6 +125,7 @@ public class CityResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
         log.debug("REST request to delete City : {}", id);
         cityRepository.delete(id);

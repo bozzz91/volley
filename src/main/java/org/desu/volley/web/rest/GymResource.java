@@ -3,6 +3,7 @@ package org.desu.volley.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Gym;
 import org.desu.volley.repository.GymRepository;
+import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -27,10 +29,10 @@ import java.util.Optional;
 public class GymResource {
 
     private final Logger log = LoggerFactory.getLogger(GymResource.class);
-        
+
     @Inject
     private GymRepository gymRepository;
-    
+
     /**
      * POST  /gyms : Create a new gym.
      *
@@ -42,6 +44,7 @@ public class GymResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Gym> createGym(@Valid @RequestBody Gym gym) throws URISyntaxException {
         log.debug("REST request to save Gym : {}", gym);
         if (gym.getId() != null) {
@@ -66,6 +69,7 @@ public class GymResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Gym> updateGym(@Valid @RequestBody Gym gym) throws URISyntaxException {
         log.debug("REST request to update Gym : {}", gym);
         if (gym.getId() == null) {
@@ -122,6 +126,7 @@ public class GymResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteGym(@PathVariable Long id) {
         log.debug("REST request to delete Gym : {}", id);
         gymRepository.delete(id);
