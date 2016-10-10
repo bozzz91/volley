@@ -118,8 +118,11 @@ nav.navbar {
     text-decoration: none;
 }
 .users-list li img {
-    max-width: 100%;
-    border-radius: 50%;
+	max-width: 70%;
+	border-radius: 50%;
+}
+.users-list li span {
+	display: block;
 }
 .users-list li {
     display: inline-block;
@@ -165,4 +168,14 @@ nav.navbar {
 
 .users-list .red {
 	color: #fb8500;
+}
+
+select {
+	display: block;
+	margin: 10px auto;
+	border: 1px solid;
+	height: 32px;
+	width: 250px;
+	padding: 0 10px;
+	font-size: 12pt;
 }

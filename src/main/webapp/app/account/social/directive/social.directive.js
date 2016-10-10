@@ -27,6 +27,7 @@
             $translate.refresh();
             
             scope.label = $filter('capitalize')(scope.provider);
+            if(scope.label == 'Vkontakte') scope.label = 'ВКонтакте';
             scope.providerSetting = SocialService.getProviderSetting(scope.provider);
             scope.providerURL = SocialService.getProviderURL(scope.provider);
             scope.csrf = SocialService.getCSRF();

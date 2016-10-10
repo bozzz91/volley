@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account', 'City', 'Gym'];
 
-    function HomeController ($scope, Principal, LoginService, ParseLinks, Training, User, Auth, AlertService, $state, SocialService, Account) {
+    function HomeController ($scope, Principal, LoginService, ParseLinks, Training, User, Auth, AlertService, $state, SocialService, Account, City, Gym) {
         var vm = this;
 
         vm.account = null;
@@ -33,12 +33,18 @@
         });
         vm.alreadyRegister = alreadyRegister;
         vm.allert = '';
+        vm.city = [];
+        vm.gym = [];
+        vm.selectedCity = 0;
 
         getAccount();
 
         function getAccount() {
             Principal.identity().then(function(account) {
                 vm.account = account;
+                if(vm.account)
+                    if(vm.account.city)
+                        vm.selectedCity = vm.account.city.id;
                 vm.isAuthenticated = Principal.isAuthenticated;
             });
         }
@@ -48,6 +54,21 @@
         }
 
         function loadTrainings () {
+
+            vm.city = [];
+
+            City.query({
+                page: vm.page,
+                size: 20
+            }, 
+            function (data, headers){
+                for (var i = 0; i < data.length; i++) {
+                    vm.city.push(data[i]);
+                }
+            });
+
+            vm.trainings = [];
+
             Training.query({
                 page: vm.page,
                 size: 20,
@@ -74,6 +95,7 @@
             function onError(error) {
                 AlertService.error(error.data.message);
             }
+            
         }
 
         function loadPage(page) {
@@ -93,6 +115,9 @@
                     if(trainings[i].users === null) {
                         vm.trainings[i].users = [];
                     }
+                    for(var j = 0; j<vm.city.length; j++)
+                        if(vm.selectedCity == vm.city[j].id)
+                            vm.account.city = vm.city[j];
                     Auth.updateAccount(vm.account);
                     vm.trainings[i].users.push(vm.account);
                     Training.update(vm.trainings[i], onSaveSuccess, onSaveError);

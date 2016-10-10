@@ -7,28 +7,34 @@
                 <p class="zag1">Запись на<br />тренировку</p>
                 <p class="allert" ng-if="vm.allert!=''">{{vm.allert}}</p>
                 <p class="o1">Для СМС-оповещений требуется указать свой телефон (не виден остальным пользователям).</p>
+                <div ng-if="vm.selectedCity == 0">
+                <p class="o1">Укажите ваш город для выбора тренировки</p>
+                <select ng-model="vm.selectedCity" name="city" ng-change="" ng-options="i.id as i.name for i in vm.city"></select>
+                </div>
                 <div class="train-list" ng-init="vm.loadTrainings()">
                     <ul ng-init="">
                         <li ng-repeat="training in vm.trainings | orderBy: 'startAt'">
-                            <label class="show-more-train">
-                                <input type="checkbox" ng-model="hcontent" />
-                                <span>{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':'+0500'}}, {{training.gym.name}}</span>
-                            </label>
-                            <div ng-show="hcontent">
-                                <div ng-if="!vm.alreadyRegister(training.id)">
-                                    <input type="text" ng-model="vm.account.phone" ng-value="vm.account.phone" placeholder="Номер телефона">
-                                    <a class="enroll" ng-click="vm.enroll(training.id)">Записаться</a>
+                            <div ng-if="training.gym.city.id==vm.selectedCity">
+                                <label class="show-more-train">
+                                    <input type="checkbox" ng-model="hcontent" />
+                                    <span>{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':'+0500'}}, {{training.gym.name}}</span>
+                                </label>
+                                <div ng-show="hcontent">
+                                    <div ng-if="!vm.alreadyRegister(training.id)">
+                                        <input type="text" ng-model="vm.account.phone" ng-value="vm.account.phone" placeholder="Номер телефона">
+                                        <a class="enroll" ng-click="vm.enroll(training.id)">Записаться</a>
+                                    </div>
+                                    <div ng-if="vm.alreadyRegister(training.id)">
+                                        <a class="enroll" ng-click="vm.unroll(training.id)">Отписаться</a>
+                                    </div>
+                                    <ul class="users-list">
+                                        <li ng-repeat="user in training.users">
+                                            <img ng-src="{{user.imageUrl || '/content/images/nouser.png'}}">
+                                                <span class="red" ng-if="$index > 13">{{$index+1}}. {{user.firstName}}</span>
+                                                <span ng-if="$index < 14">{{$index+1}}. {{user.firstName}}</span>
+                                        </li>
+                                    </ol>
                                 </div>
-                                <div ng-if="vm.alreadyRegister(training.id)">
-                                    <a class="enroll" ng-click="vm.unroll(training.id)">Отписаться</a>
-                                </div>
-                                <ul class="users-list">
-                                    <li ng-repeat="user in training.users">
-                                        <img ng-src="{{user.imageUrl || '/content/images/nouser.png'}}">
-                                            <span class="red" ng-if="$index > 13">{{$index+1}}. {{user.firstName}}</span>
-                                            <span ng-if="$index < 14">{{$index+1}}. {{user.firstName}}</span>
-                                    </li>
-                                </ol>
                             </div>
                         </li>
                     </ul>
@@ -45,7 +51,7 @@
                 <p class="o2">Для записи на тренировку необходимо войти через одну из соц. сетей</p>
 
                 <div id="cf">
-                    <jh-social ng-provider="vkontakte"></jh-social>
+                    <jh-social ng-provider="vkontakte" label="ВК"></jh-social>
                     <jh-social ng-provider="google"></jh-social>
                     <jh-social ng-provider="facebook"></jh-social>
                 </div>
