@@ -1,3 +1,12 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=cyrillic';
+body {
+    margin: 0;
+    height: 100%;
+    font: normal 12px 'Open Sans', sans-serif;
+    color: #292929;
+    background: #ffffff;
+    background-size: cover;
+}
 #one {
     position: relative;
     width: 300px;
@@ -7,18 +16,17 @@
 
 .zag1 {
     text-align: center;
-    font: normal 32px Tahoma, sans-serif;
-    color: #fff;
+    font-size: 32px;
+    color: #ffa500;
     padding: 0;
     margin: 0 auto 30px;
-    text-transform: uppercase;
     line-height: 120%;
 }
 
 .o1 {
     text-align: center;
-    font: normal 16px Tahoma, sans-serif;
-    color: #fff;
+    font-size: 16px;
+    color: #333333;
     padding: 0;
     margin: 0 auto 30px;
     line-height: 140%;
@@ -26,16 +34,16 @@
 
 .o2 {
     text-align: center;
-    font: normal 16px Tahoma, sans-serif;
-    color: #fff;
+    font-size: 16px;
+    color: #292929;
     padding: 0;
     margin: 0 auto 20px;
     line-height: 140%;
 }
 
 .o2 a {
-    font: normal 16px Tahoma, sans-serif;
-    color: #fff;
+    font-size: 16px;
+    color: #292929;
     padding: 0;
     margin: 0;
     text-decoration: underline;
@@ -53,14 +61,7 @@ nav.navbar {
     display: none;
 }
 
-body {
-    margin: 0;
-    height: 100%;
-    font: normal 12px Tahoma, sans-serif;
-    color: #000;
-    background: url(/content/images/bg.jpg) no-repeat center center fixed;
-    background-size: cover;
-}
+
 .well {
     background: transparent;
     border: none;
@@ -79,12 +80,15 @@ body {
     padding: 0;
     margin: 0;
 }
+.train-list ol {
+    padding: 0;
+    margin: 0;
+}
 .hcontent {
     display: none;
 }
 .show-more-train span {
     font-size: 120%;
-    color: #fff;
     border-bottom: 1px dashed;
     cursor: pointer;
 }
@@ -115,19 +119,19 @@ body {
 }
 .users-list li img {
     max-width: 100%;
+    border-radius: 50%;
 }
 .users-list li {
     display: inline-block;
     width: 40%;
     margin: 20px 5%;
     text-align: center;
-    font-size: 14pt;
-    color: #fff;
+    font-size: 12pt;
     line-height: 2;
     vertical-align: top;
 }
 .dark {
-    background: rgba(0,0,0,0.5);
+    background: rgba(255,255,255,1);
     position: fixed;
     top: 0;
     left: 0;
@@ -151,10 +155,14 @@ body {
     border-radius: 4px;
 }
 .is-admin-link {
-    color: #fff;
+    color: #292929;
     font-size: 14pt;
 }
 .is-admin-link:hover {
-    color: #fff;
+    color: #292929;
     text-decoration: underline;
+}
+
+.users-list .red {
+	color: #fb8500;
 }

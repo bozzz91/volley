@@ -6,13 +6,13 @@
             <div class="signin-train" ng-switch-when="true">
                 <p class="zag1">Запись на<br />тренировку</p>
                 <p class="allert" ng-if="vm.allert!=''">{{vm.allert}}</p>
-                <p class="o1">Для записи на тренировку требуется указать свой телефон (не виден остальным пользователям). После записи ваше имя появится в списке записавшихся.</p>
+                <p class="o1">Для СМС-оповещений требуется указать свой телефон (не виден остальным пользователям).</p>
                 <div class="train-list" ng-init="vm.loadTrainings()">
                     <ul ng-init="">
-                        <li ng-repeat="training in vm.trainings">
+                        <li ng-repeat="training in vm.trainings | orderBy: 'startAt'">
                             <label class="show-more-train">
                                 <input type="checkbox" ng-model="hcontent" />
-                                <span>{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime'}}, {{training.gym.name}}</span>
+                                <span>{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':'+0500'}}, {{training.gym.name}}</span>
                             </label>
                             <div ng-show="hcontent">
                                 <div ng-if="!vm.alreadyRegister(training.id)">
@@ -24,30 +24,30 @@
                                 </div>
                                 <ul class="users-list">
                                     <li ng-repeat="user in training.users">
-                                        <img ng-src="{{user.imageUrl || '/content/images/nouser.png'}}">{{user.firstName}}</img>
+                                        <img ng-src="{{user.imageUrl || '/content/images/nouser.png'}}">
+                                            <span class="red" ng-if="$index > 13">{{$index+1}}. {{user.firstName}}</span>
+                                            <span ng-if="$index < 14">{{$index+1}}. {{user.firstName}}</span>
                                     </li>
-                                </ul>
+                                </ol>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div ng-repeat="authority in vm.account.authorities">
                     <div ng-if="authority == 'ROLE_ADMIN'">
-                        <a href="/#/training" class="is-admin-link">Управление тренировками</a>
+                        <a href="/#/training" class="is-admin-link">Администрирование</a>
                     </div>
                 </div>
             </div>
 
             <div class="signup-train" ng-switch-when="false">
-                <p class="zag1">Запись на<br />тренировку</p>
-                <p class="o1">Для записи на тренировку требуется указать свой телефон (не виден остальным пользователям). После записи ваше имя появится в списке записавшихся.</p>
+                <p class="zag1">Добро пожаловать!<br />Cнова.</p>
                 <p class="o2">Для записи на тренировку необходимо войти через одну из соц. сетей</p>
 
                 <div id="cf">
                     <jh-social ng-provider="vkontakte"></jh-social>
                     <jh-social ng-provider="google"></jh-social>
                     <jh-social ng-provider="facebook"></jh-social>
-                    <jh-social ng-provider="twitter"></jh-social>
                 </div>
             </div>
         </div>
