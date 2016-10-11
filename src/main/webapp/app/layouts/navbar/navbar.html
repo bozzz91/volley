@@ -1,5 +1,5 @@
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container">
+<nav has-authority="ROLE_ADMIN" class="navbar navbar-default" role="navigation">
+    <div  class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" ng-click="vm.toggleNavbar()">
                 <span class="sr-only">Toggle navigation</span>
@@ -9,7 +9,7 @@
             </button>
             <a class="navbar-brand logo" href="#/" ng-click="vm.collapseNavbar()">
                 <img class="logo-img" src="content/images/logo-jhipster.png"/>
-                <span translate="global.title">Volley</span> <span class="navbar-version">v{{VERSION}}</span>
+                <span translate="global.title">Lightline Club</span> <span class="navbar-version">v{{VERSION}}</span>
             </a>
         </div>
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">

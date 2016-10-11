@@ -1,4 +1,3 @@
-<link rel="stylesheet" ng-href="/content/css/home.css"/>
 <div class="dark"></div>
 <div ng-cloak>
     <div id="one">
@@ -8,8 +7,8 @@
                 <p class="allert" ng-if="vm.allert!=''">{{vm.allert}}</p>
                 <p class="o1">Для СМС-оповещений требуется указать свой телефон (не виден остальным пользователям).</p>
                 <div ng-if="vm.selectedCity == 0">
-                <p class="o1">Укажите ваш город для выбора тренировки</p>
-                <select ng-model="vm.selectedCity" name="city" ng-change="" ng-options="i.id as i.name for i in vm.city"></select>
+                    <p class="o1">Укажите ваш город для выбора тренировки</p>
+                    <select id="home_city" ng-model="vm.selectedCity" name="city" ng-change="" ng-options="i.id as i.name for i in vm.city"></select>
                 </div>
                 <div class="train-list" ng-init="vm.loadTrainings()">
                     <ul ng-init="">
@@ -38,11 +37,6 @@
                             </div>
                         </li>
                     </ul>
-                </div>
-                <div ng-repeat="authority in vm.account.authorities">
-                    <div ng-if="authority == 'ROLE_ADMIN'">
-                        <a href="/#/training" class="is-admin-link">Администрирование</a>
-                    </div>
                 </div>
             </div>
 

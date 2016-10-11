@@ -1,6 +1,6 @@
 {
     "global": {
-        "title": "Volley",
+        "title": "Lightline Club",
         "browsehappy": "Ваш браузер <strong>устарел</strong>. Пожалуйста <a href=\"http://browsehappy.com/?locale=ru\">обновите ваш браузер</a>.",
         "menu": {
             "home": "Главная",
@@ -51,7 +51,7 @@
         },
         "messages": {
             "info": {
-                "authenticated": "Если вы хотите <a class=\"alert-link\" href=\"\" ng-click=\"vm.login()\">авторизироваться</a>, вы можете попробовать аккаунты по умолчанию:<br/>- Администратор (логин=\"admin\" и пароль=\"admin\") <br/>- Пользователь (логин=\"user\" и пароль=\"user\").",
+                "authenticated": "Уже зарегистрированы? Тогда <a class=\"alert-link\" href=\"\" ng-click=\"vm.login()\">авторизуйтесь здесь!</a>",
                 "register": "У вас нет аккаунта? <a class=\"alert-link\" href=\"\" ng-click=\"vm.register()\">Создать новый аккаунт</a>"
             },
             "error": {
@@ -65,7 +65,7 @@
                     "strength": "Сложность пароля:"
                 },
                 "confirmpassword": {
-                    "required": "подтверждение пароля должно быть указано.",
+                    "required": "Подтверждение пароля должно быть указано.",
                     "minlength": "Длина подтверждения пароля должна быть хотя-бы 5 символов",
                     "maxlength": "Подтверждение пароля не может быть больше чем 50 символов"
                 },

@@ -186,7 +186,7 @@ public class UserService {
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
         return userRepository.findOneByLogin(login).map(u -> {
             loadImageUrl(u);
-            u.getAuthorities().size();
+            eagerlyLoad(u);
             return u;
         });
     }
@@ -195,7 +195,7 @@ public class UserService {
     public User getUserWithAuthorities(Long id) {
         User user = userRepository.findOne(id);
         loadImageUrl(user);
-        user.getAuthorities().size(); // eagerly load the association
+        eagerlyLoad(user);
         return user;
     }
 
@@ -203,7 +203,7 @@ public class UserService {
     public User getUserWithAuthorities() {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         loadImageUrl(user);
-        user.getAuthorities().size(); // eagerly load the association
+        eagerlyLoad(user);
         return user;
     }
 
@@ -238,6 +238,14 @@ public class UserService {
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
+        }
+    }
+
+    private void eagerlyLoad(User user) {
+        user.getAuthorities().size(); // eagerly load the association
+        City city = user.getCity(); //eagerly load city
+        if (city != null) {
+            city.getName();
         }
     }
 
