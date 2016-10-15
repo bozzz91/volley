@@ -96,11 +96,19 @@ Main page styles
     }
 }
 
-.hipster {
+.hipster-access-denied {
     display: inline-block;
     width: 347px;
-    height: 497px;
-    background: url("../images/hipster.png") no-repeat center top;
+    height: 225px;
+    background: url("../images/access-denied.png") no-repeat center top;
+    background-size: contain;
+}
+
+.hipster-error {
+    display: inline-block;
+    width: 347px;
+    height: 278px;
+    background: url("../images/error.png") no-repeat center top;
     background-size: contain;
 }
 
@@ -112,8 +120,21 @@ only screen and (     -o-min-device-pixel-ratio: 2/1),
 only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
-    .hipster {
-        background: url("../images/hipster2x.png") no-repeat center top;
+    .hipster-access-denied {
+        background: url("../images/access-denied.png") no-repeat center top;
+        background-size: contain;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) {
+    .hipster-error {
+        background: url("../images/error2x.png") no-repeat center top;
         background-size: contain;
     }
 }

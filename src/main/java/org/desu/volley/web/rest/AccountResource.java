@@ -6,6 +6,7 @@ import org.desu.volley.domain.PersistentToken;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.PersistentTokenRepository;
 import org.desu.volley.repository.UserRepository;
+import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.security.SecurityUtils;
 import org.desu.volley.service.MailService;
 import org.desu.volley.service.UserService;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -61,6 +63,7 @@ public class AccountResource {
                     method = RequestMethod.POST,
                     produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<?> registerAccount(@Valid @RequestBody ManagedUserDTO managedUserDTO, HttpServletRequest request) {
 
         HttpHeaders textPlainHeaders = new HttpHeaders();

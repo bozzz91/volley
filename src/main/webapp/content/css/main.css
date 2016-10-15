@@ -65,8 +65,10 @@ Logo styles
 .navbar-brand.logo {
   padding: 5px 15px; }
   .navbar-brand.logo .logo-img {
-    height: 45px;
-    display: inline-block; }
+      height: 100%;
+      border-radius: 8px;
+      display: inline-block;
+  }
 
 /* ==========================================================================
 Main page styles
@@ -85,18 +87,30 @@ Main page styles
     line-height: 1;
     letter-spacing: -1px; }
 
-.hipster {
-  display: inline-block;
-  width: 347px;
-  height: 497px;
-  background: url("../images/hipster.png") no-repeat center top;
-  background-size: contain; }
+.hipster-access-denied {
+    display: inline-block;
+    width: 347px;
+    height: 225px;
+    background: url("../images/access-denied.png") no-repeat center top;
+    background-size: contain; }
+
+.hipster-error {
+    display: inline-block;
+    width: 347px;
+    height: 278px;
+    background: url("../images/error.png") no-repeat center top;
+    background-size: contain; }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  .hipster {
-    background: url("../images/hipster2x.png") no-repeat center top;
-    background-size: contain; } }
+    .hipster-access-denied {
+        background: url("../images/access-denied.png") no-repeat center top;
+        background-size: contain; } }
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .hipster-error {
+        background: url("../images/error2x.png") no-repeat center top;
+        background-size: contain; } }
 
 /* ==========================================================================
 Generic styles
