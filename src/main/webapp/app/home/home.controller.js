@@ -43,8 +43,17 @@
             Principal.identity().then(function(account) {
                 vm.account = account;
                 if(vm.account)
+                {
                     if(vm.account.city)
                         vm.selectedCity = vm.account.city.id;
+                    User.query({ size: 2000 }, 
+                    function (data, headers){
+                        for (var i = 0; i < data.length; i++) {
+                            if(data[i]['login'] == vm.account['login'])
+                                vm.account['id'] = data[i]['id'];
+                        }
+                    });
+                }
                 vm.isAuthenticated = Principal.isAuthenticated;
             });
         }

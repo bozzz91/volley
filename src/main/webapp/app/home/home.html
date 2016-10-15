@@ -5,9 +5,9 @@
             <div class="signin-train" ng-switch-when="true">
                 <p class="zag1">Запись на<br />тренировку</p>
                 <p class="allert" ng-if="vm.allert!=''">{{vm.allert}}</p>
-                <p class="o1">Для СМС-оповещений требуется указать свой телефон (не виден остальным пользователям).</p>
+                <p class="o1">Для СМС-оповещений требуется хотя бы один раз указать свой телефон.</p>
                 <div ng-if="vm.selectedCity == 0">
-                    <p class="o1">Укажите ваш город для выбора тренировки</p>
+                    <p class="o1">Для просмотра тренировок необходимо выбрать город:</p>
                     <select id="home_city" ng-model="vm.selectedCity" name="city" ng-change="" ng-options="i.id as i.name for i in vm.city"></select>
                 </div>
                 <div class="train-list" ng-init="vm.loadTrainings()">
