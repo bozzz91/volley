@@ -35,25 +35,13 @@
         vm.allert = '';
         vm.city = [];
         vm.gym = [];
-        vm.selectedCity = 0;
+        vm.saveCity = saveCity;
 
         getAccount();
 
         function getAccount() {
             Principal.identity().then(function(account) {
                 vm.account = account;
-                if(vm.account)
-                {
-                    if(vm.account.city)
-                        vm.selectedCity = vm.account.city.id;
-                    User.query({ size: 2000 }, 
-                    function (data, headers){
-                        for (var i = 0; i < data.length; i++) {
-                            if(data[i]['login'] == vm.account['login'])
-                                vm.account['id'] = data[i]['id'];
-                        }
-                    });
-                }
                 vm.isAuthenticated = Principal.isAuthenticated;
             });
         }
@@ -69,7 +57,7 @@
             City.query({
                 page: vm.page,
                 size: 20
-            }, 
+            },
             function (data, headers){
                 for (var i = 0; i < data.length; i++) {
                     vm.city.push(data[i]);
@@ -104,7 +92,7 @@
             function onError(error) {
                 AlertService.error(error.data.message);
             }
-            
+
         }
 
         function loadPage(page) {
@@ -117,6 +105,10 @@
             vm.trainings = [];
         }
 
+        function saveCity() {
+            Auth.updateAccount(vm.account);
+        }
+
         function enroll(id) {
             var trainings = vm.trainings;
             for(var i = 0; i<trainings.length; i++) {
@@ -124,9 +116,6 @@
                     if(trainings[i].users === null) {
                         vm.trainings[i].users = [];
                     }
-                    for(var j = 0; j<vm.city.length; j++)
-                        if(vm.selectedCity == vm.city[j].id)
-                            vm.account.city = vm.city[j];
                     Auth.updateAccount(vm.account);
                     vm.trainings[i].users.push(vm.account);
                     Training.update(vm.trainings[i], onSaveSuccess, onSaveError);

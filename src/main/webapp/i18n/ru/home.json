@@ -5,6 +5,9 @@
         "logged": {
             "message": "Вы вошли как пользователь \"{{username}}\"."
         },
+        "form" : {
+            "phone.placeholder" : "Номер телефона"
+        },
         "question": "Если у Вас возникли вопросы:",
         "link": {
             "homepage": "JHipster домашняя страница",
@@ -14,6 +17,13 @@
             "follow": "пользователь @java_hipster в Twitter",
             "support": {
                 "name": "Администрация"
+            }
+        },
+        "messages": {
+            "validate": {
+                "phone": {
+                    "pattern": "Телефон должен иметь вид: +7XXXXXXXXXX"
+                }
             }
         },
         "like": "Если вам нравится VolleyClub, не забудьте дать нам звёздочку на",
