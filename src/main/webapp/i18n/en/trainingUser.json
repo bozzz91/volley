@@ -1,0 +1,24 @@
+{
+    "volleyApp": {
+        "trainingUser" : {
+            "home": {
+                "title": "Training Users",
+                "createLabel": "Create a new Training User",
+                "createOrEditLabel": "Create or edit a Training User",
+                "search": "Search for Training User"
+            },
+            "created": "A new Training User is created with identifier {{ param }}",
+            "updated": "A Training User is updated with identifier {{ param }}",
+            "deleted": "A Training User is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Training User {{ id }}?"
+            },
+            "detail": {
+                "title": "Training User"
+            },
+            "registerDate": "Register Date",
+            "training": "Training",
+            "user": "User"
+        }
+    }
+}

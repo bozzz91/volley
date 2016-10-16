@@ -74,6 +74,26 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label" translate="volleyApp.training.limit" for="field_limit">Limit</label>
+            <input type="number" class="form-control" name="limit" id="field_limit"
+                   ng-model="vm.training.limit"
+                   required min="0" />
+            <div ng-show="editForm.limit.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.limit.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.limit.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.limit.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label" translate="volleyApp.training.state" for="field_state">State</label>
             <select class="form-control" name="state" ng-model="vm.training.state" id="field_state" required>
                 <option value="REGISTRATION" translate="volleyApp.TrainingState.REGISTRATION" selected>REGISTRATION</option>
@@ -95,26 +115,40 @@
         </div>
 
         <div class="form-group">
-            <label translate="volleyApp.training.user" for="field_user">User</label>
-            <select class="form-control" id="field_user" multiple name="user" ng-model="vm.training.users" ng-options="user as user.login for user in vm.users track by user.id"></select>
-        </div>
-        <div class="form-group">
             <label translate="volleyApp.training.level" for="field_level">Level</label>
             <select class="form-control" id="field_level" name="level" ng-model="vm.training.level" ng-options="level as level.name for level in vm.levels track by level.id">
                 <option value=""></option>
             </select>
+            <div ng-show="editForm.state.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.state.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label translate="volleyApp.training.organizer" for="field_organizer">Organizer</label>
             <select class="form-control" id="field_organizer" name="organizer" ng-model="vm.training.organizer" ng-options="user as user.login for user in vm.users track by user.id">
                 <option value=""></option>
             </select>
+            <div ng-show="editForm.state.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.state.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label translate="volleyApp.training.gym" for="field_gym">Gym</label>
             <select class="form-control" id="field_gym" name="gym" ng-model="vm.training.gym" ng-options="gym as gym.name for gym in vm.gyms track by gym.id">
                 <option value=""></option>
             </select>
+            <div ng-show="editForm.state.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.state.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
     </div>
     <div class="modal-footer">

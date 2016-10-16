@@ -9,139 +9,124 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-        .state('training', {
+        .state('training-user', {
             parent: 'entity',
-            url: '/training',
+            url: '/training-user',
             data: {
                 authorities: ['ROLE_ADMIN'],
-                pageTitle: 'volleyApp.training.home.title'
+                pageTitle: 'volleyApp.trainingUser.home.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/training/trainings.html',
-                    controller: 'TrainingController',
+                    templateUrl: 'app/entities/training-user/training-users.html',
+                    controller: 'TrainingUserController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('training');
-                    $translatePartialLoader.addPart('trainingState');
+                    $translatePartialLoader.addPart('trainingUser');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
             }
         })
-        .state('training-detail', {
+        .state('training-user-detail', {
             parent: 'entity',
-            url: '/training/{id}',
+            url: '/training-user/{id}',
             data: {
-                authorities: ['ROLE_USER'],
-                pageTitle: 'volleyApp.training.detail.title'
+                authorities: ['ROLE_ADMIN'],
+                pageTitle: 'volleyApp.trainingUser.detail.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/training/training-detail.html',
-                    controller: 'TrainingDetailController',
+                    templateUrl: 'app/entities/training-user/training-user-detail.html',
+                    controller: 'TrainingUserDetailController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('training');
-                    $translatePartialLoader.addPart('trainingState');
+                    $translatePartialLoader.addPart('trainingUser');
                     return $translate.refresh();
                 }],
-                entity: ['$stateParams', 'Training', function($stateParams, Training) {
-                    return Training.get({id : $stateParams.id}).$promise;
+                entity: ['$stateParams', 'TrainingUser', function($stateParams, TrainingUser) {
+                    return TrainingUser.get({id : $stateParams.id}).$promise;
                 }]
             }
         })
-        .state('training.new', {
-            parent: 'training',
+        .state('training-user.new', {
+            parent: 'training-user',
             url: '/new',
             data: {
                 authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/training/training-dialog.html',
-                    controller: 'TrainingDialogController',
+                    templateUrl: 'app/entities/training-user/training-user-dialog.html',
+                    controller: 'TrainingUserDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
                         entity: function () {
-                            var now = new Date();
-                            now.setHours(20);
-                            now.setMinutes(0);
-                            now.setSeconds(0);
-                            now.setMilliseconds(0);
-                            var start = new Date(now);
-                            now.setHours(22);
-                            var end = new Date(now);
                             return {
-                                startAt: start,
-                                endAt: end,
-                                price: 150,
-                                state: 'REGISTRATION',
-                                limit: 18,
-                                description: null,
+                                registerDate: null,
                                 id: null
                             };
                         }
                     }
                 }).result.then(function() {
-                    $state.go('training', null, { reload: true });
+                    $state.go('training-user', null, { reload: true });
                 }, function() {
-                    $state.go('training');
+                    $state.go('training-user');
                 });
             }]
         })
-        .state('training.edit', {
-            parent: 'training',
+        .state('training-user.edit', {
+            parent: 'training-user',
             url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/training/training-dialog.html',
-                    controller: 'TrainingDialogController',
+                    templateUrl: 'app/entities/training-user/training-user-dialog.html',
+                    controller: 'TrainingUserDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Training', function(Training) {
-                            return Training.get({id : $stateParams.id}).$promise;
+                        entity: ['TrainingUser', function(TrainingUser) {
+                            return TrainingUser.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('training', null, { reload: true });
+                    $state.go('training-user', null, { reload: true });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
-        .state('training.delete', {
-            parent: 'training',
+        .state('training-user.delete', {
+            parent: 'training-user',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/training/training-delete-dialog.html',
-                    controller: 'TrainingDeleteController',
+                    templateUrl: 'app/entities/training-user/training-user-delete-dialog.html',
+                    controller: 'TrainingUserDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Training', function(Training) {
-                            return Training.get({id : $stateParams.id}).$promise;
+                        entity: ['TrainingUser', function(TrainingUser) {
+                            return TrainingUser.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('training', null, { reload: true });
+                    $state.go('training-user', null, { reload: true });
                 }, function() {
                     $state.go('^');
                 });

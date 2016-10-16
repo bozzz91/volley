@@ -5,17 +5,15 @@
         .module('volleyApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account', 'City', 'Gym'];
+    HomeController.$inject = ['$scope', 'TrainingUser', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account', 'City', 'Gym'];
 
-    function HomeController ($scope, Principal, LoginService, ParseLinks, Training, User, Auth, AlertService, $state, SocialService, Account, City, Gym) {
+    function HomeController ($scope, TrainingUser, Principal, LoginService, ParseLinks, Training, User, Auth, AlertService, $state, SocialService, Account, City, Gym) {
         var vm = this;
 
         vm.account = null;
-        vm.isAuthenticated = null;
+        vm.isAuthenticated = Principal.isAuthenticated;
         vm.loadTrainings = loadTrainings;
         vm.login = LoginService.open;
-        vm.social = Account.service;
-        vm.register = register;
         vm.enroll = enroll;
         vm.unroll = unroll;
         vm.trainings = [];
@@ -33,8 +31,7 @@
         });
         vm.alreadyRegister = alreadyRegister;
         vm.allert = '';
-        vm.city = [];
-        vm.gym = [];
+        vm.cities = [];
         vm.saveCity = saveCity;
 
         getAccount();
@@ -42,17 +39,11 @@
         function getAccount() {
             Principal.identity().then(function(account) {
                 vm.account = account;
-                vm.isAuthenticated = Principal.isAuthenticated;
             });
         }
 
-        function register () {
-            $state.go('register');
-        }
-
         function loadTrainings () {
-
-            vm.city = [];
+            vm.cities = [];
 
             City.query({
                 page: vm.page,
@@ -60,7 +51,7 @@
             },
             function (data, headers){
                 for (var i = 0; i < data.length; i++) {
-                    vm.city.push(data[i]);
+                    vm.cities.push(data[i]);
                 }
             });
 
@@ -113,13 +104,25 @@
             var trainings = vm.trainings;
             for(var i = 0; i<trainings.length; i++) {
                 if(trainings[i].id == id) {
-                    if(trainings[i].users === null) {
-                        vm.trainings[i].users = [];
+                    var training = trainings[i];
+                    if (training.trainingUsers === null) {
+                        training.trainingUsers = [];
                     }
+                    //update phone
                     Auth.updateAccount(vm.account);
-                    vm.trainings[i].users.push(vm.account);
-                    Training.update(vm.trainings[i], onSaveSuccess, onSaveError);
-                    vm.allert = 'Вы успешно зарегистрированы!';
+
+                    var reg = {
+                        'user': vm.account,
+                        'training': training
+                    };
+
+                    TrainingUser.save(reg, function(savedReg) {
+                        training.trainingUsers.push(savedReg);
+                        vm.allert = 'Вы успешно зарегистрированы!';
+                    }, function (error) {
+                        vm.allert = error.data.message;
+                        AlertService.error(error.data.message);
+                    });
                 }
             }
             return false;
@@ -129,13 +132,18 @@
             var trainings = vm.trainings;
             for(var i = 0; i<trainings.length; i++) {
                 if(trainings[i].id == id) {
-                    var users = vm.trainings[i].users;
-                    var index = findUserInTraining(users, vm.account);
+                    var trainingUsers = trainings[i].trainingUsers;
+                    var index = findUserInTraining(trainingUsers, vm.account);
+                    var regId = trainingUsers[index].id;
                     if (index > -1) {
-                        users.splice(index, 1);
+                        TrainingUser.delete({id: regId}, function () {
+                            trainingUsers.splice(index, 1);
+                            vm.allert = 'Вы изменили свое решение, но мы ждем Вас на одну из ближайших тренировок.';
+                        }, function (error) {
+                            vm.allert = error.data.message;
+                            AlertService.error(error.data.message);
+                        });
                     }
-                    Training.update(vm.trainings[i], onSaveSuccess, onSaveError);
-                    vm.allert = 'Вы изменили свое решение, но мы ждем вас на одну из ближайших тренировок.';
                 }
             }
             return false;
@@ -146,7 +154,7 @@
                 return -1;
             }
             for (var i=0; i<trainingUsers.length; i++) {
-                if (trainingUsers[i].login == user.login) {
+                if (trainingUsers[i].user.login == user.login) {
                     return i;
                 }
             }
@@ -157,7 +165,7 @@
             var trainings = vm.trainings;
             for(var j = 0; j<trainings.length; j++) {
                 if(trainings[j].id == id) {
-                    var index = findUserInTraining(trainings[j].users, vm.account);
+                    var index = findUserInTraining(trainings[j].trainingUsers, vm.account);
                     if (index > -1) {
                         return true;
                     }
@@ -165,22 +173,5 @@
             }
             return false;
         }
-
-        function onSaveSuccessAccount(result) {
-            $scope.$emit('volleyApp:userUpdate', result);
-        }
-
-        function onSaveSuccess (result) {
-            $scope.$emit('volleyApp:trainingUpdate', result);
-        }
-
-        function onSaveError () {
-            //vm.training.users.pop();
-        }
-
-        function onSaveErrorAccount () {
-            //vm.training.users.pop();
-        }
-
     }
 })();

@@ -11,6 +11,7 @@
                 "gym": "Зал",
                 "level": "Уровень игры",
                 "training": "Тренировка",
+                "trainingUser": "Записанные игроки",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

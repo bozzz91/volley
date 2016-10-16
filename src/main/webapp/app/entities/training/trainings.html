@@ -22,6 +22,7 @@
                     <th jh-sort-by="startAt"><span translate="volleyApp.training.startAt">Start At</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="endAt"><span translate="volleyApp.training.endAt">End At</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="price"><span translate="volleyApp.training.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="limit"><span translate="volleyApp.training.limit">Limit</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="state"><span translate="volleyApp.training.state">State</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="description"><span translate="volleyApp.training.description">Description</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="level.name"><span translate="volleyApp.training.level">Level</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -36,6 +37,7 @@
                     <td>{{training.startAt | date:'medium'}}</td>
                     <td>{{training.endAt | date:'medium'}}</td>
                     <td>{{training.price}}</td>
+                    <td>{{training.limit}}</td>
                     <td translate="{{'volleyApp.TrainingState.' + training.state}}">{{training.state}}</td>
                     <td>{{training.description}}</td>
                     <td>

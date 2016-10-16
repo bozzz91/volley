@@ -2,7 +2,6 @@ package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Training;
-import org.desu.volley.domain.User;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.service.UserService;
@@ -87,17 +86,6 @@ public class TrainingResource {
         if (training.getId() == null) {
             return createTraining(training);
         }
-        Set<User> users = training.getUsers().stream()
-            .map(u -> {
-                if (u.getId() == null) {
-                    return userService.getUserWithAuthoritiesByLogin(u.getLogin());
-                }
-                return Optional.of(u);
-            })
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .collect(Collectors.toSet());
-        training.setUsers(users);
         Training result = trainingRepository.save(training);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("training", training.getId().toString()))
@@ -143,7 +131,7 @@ public class TrainingResource {
                     .map(UserDTO::new)
                     .collect(Collectors.toSet());
                 //hack to get image urls which are transient in User
-                result.setUsers((Set<User>) users);
+                //result.setUsers((Set<User>) users);
                 return new ResponseEntity<>(result, HttpStatus.OK);
             })
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

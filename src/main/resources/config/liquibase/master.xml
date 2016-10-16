@@ -9,8 +9,10 @@
     <include file="classpath:config/liquibase/changelog/20160701212330_added_entity_Gym.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160701212332_added_entity_Level.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160701212331_added_entity_Training.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161016132510_added_entity_TrainingUser.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20160701212330_added_entity_constraints_Gym.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160701212331_added_entity_constraints_Training.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161016132510_added_entity_constraints_TrainingUser.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

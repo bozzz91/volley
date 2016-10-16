@@ -58,10 +58,10 @@
         }
 
         function alreadyRegister() {
-            var users = vm.training.users;
+            var trainingUsers = vm.training.trainingUsers;
             var curUser = vm.account.login;
-            for (var i=0; i<users.length; i++) {
-                if (users[i].login == curUser) {
+            for (var i=0; i<trainingUsers.length; i++) {
+                if (trainingUsers[i].user.login == curUser) {
                     return true;
                 }
             }

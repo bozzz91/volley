@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
  */
 public class UserDTO {
 
+    private Long id;
+
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 100)
@@ -53,13 +55,13 @@ public class UserDTO {
     public UserDTO(User user) {
         this(user.getLogin(), user.getFirstName(), user.getLastName(), user.getEmail(),
             user.getActivated(), user.getLangKey(), user.getPhone(), user.getCity(),
-            user.getImageUrl(), user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+            user.getImageUrl(), user.getId(),
+            user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String firstName, String lastName,
                    String email, boolean activated, String langKey, String phone,
-                   City city, String imageUrl, Set<String> authorities) {
+                   City city, String imageUrl, Long id, Set<String> authorities) {
 
         this.login = login;
         this.firstName = firstName;
@@ -71,6 +73,7 @@ public class UserDTO {
         this.phone = phone;
         this.city = city;
         this.imageUrl = imageUrl;
+        this.id = id;
     }
 
     public String getLogin() {
@@ -124,7 +127,8 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-            "login='" + login + '\'' +
+            "id='" + id + '\'' +
+            ", login='" + login + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
@@ -135,5 +139,13 @@ public class UserDTO {
             ", langKey='" + langKey + '\'' +
             ", authorities=" + authorities +
             "}";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

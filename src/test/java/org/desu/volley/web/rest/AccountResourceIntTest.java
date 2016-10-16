@@ -45,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @see UserService
  */
+@SuppressWarnings("SpringJavaAutowiringInspection")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = VolleyApp.class)
 @WebAppConfiguration
@@ -416,6 +417,7 @@ public class AccountResourceIntTest {
             "+71231234567",
             null,
             null,
+            1L,
             new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
         );
 

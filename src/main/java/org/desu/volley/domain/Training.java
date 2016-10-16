@@ -1,17 +1,20 @@
 package org.desu.volley.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.desu.volley.domain.enumeration.TrainingState;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.Objects;
-
-import org.desu.volley.domain.enumeration.TrainingState;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A Training.
@@ -38,30 +41,34 @@ public class Training implements Serializable {
     @NotNull
     @Min(value = 0)
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Integer price = 150;
+
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "user_limit", nullable = false)
+    private Integer limit = 18;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
-    private TrainingState state;
+    private TrainingState state = TrainingState.REGISTRATION;
 
     @Column(name = "description")
     private String description;
 
-    @ManyToMany
+    @JsonManagedReference("training")
+    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "training_user",
-               joinColumns = @JoinColumn(name="trainings_id", referencedColumnName="ID"),
-               inverseJoinColumns = @JoinColumn(name="users_id", referencedColumnName="ID"))
-    private Set<User> users = new HashSet<>();
+//    @NotFound(action = NotFoundAction.IGNORE)
+    private Set<TrainingUser> trainingUsers = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Level level;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User organizer;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Gym gym;
 
     public Long getId() {
@@ -112,12 +119,17 @@ public class Training implements Serializable {
         this.description = description;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    @Transient
+    public List<User> getUsers() {
+        return trainingUsers.stream().sorted().map(TrainingUser::getUser).collect(Collectors.toList());
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public Set<TrainingUser> getTrainingUsers() {
+        return trainingUsers;
+    }
+
+    public void setTrainingUsers(Set<TrainingUser> users) {
+        this.trainingUsers = users;
     }
 
     public Level getLevel() {
@@ -142,6 +154,14 @@ public class Training implements Serializable {
 
     public void setGym(Gym gym) {
         this.gym = gym;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 
     @Override

@@ -11,6 +11,7 @@
                 "gym": "Gym",
                 "level": "Level",
                 "training": "Training",
+                "trainingUser": "Training User",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

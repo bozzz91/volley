@@ -17,8 +17,6 @@ public class ManagedUserDTO extends UserDTO {
     public static final int PASSWORD_MIN_LENGTH = 4;
     public static final int PASSWORD_MAX_LENGTH = 100;
 
-    private Long id;
-
     private ZonedDateTime createdDate;
 
     private String lastModifiedBy;
@@ -34,7 +32,6 @@ public class ManagedUserDTO extends UserDTO {
 
     public ManagedUserDTO(User user) {
         super(user);
-        this.id = user.getId();
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
@@ -45,20 +42,11 @@ public class ManagedUserDTO extends UserDTO {
                           String email, boolean activated, String langKey, String phone, City city,
                           Set<String> authorities , ZonedDateTime createdDate, String lastModifiedBy,
                           ZonedDateTime lastModifiedDate, String imageUrl) {
-        super(login, firstName, lastName, email, activated, langKey, phone, city, imageUrl, authorities);
-        this.id = id;
+        super(login, firstName, lastName, email, activated, langKey, phone, city, imageUrl, id, authorities);
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public ZonedDateTime getCreatedDate() {
@@ -92,7 +80,6 @@ public class ManagedUserDTO extends UserDTO {
     @Override
     public String toString() {
         return "ManagedUserDTO{" +
-            "id=" + id +
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +

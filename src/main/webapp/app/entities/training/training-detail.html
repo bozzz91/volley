@@ -14,7 +14,11 @@
         </dd>
         <dt><span translate="volleyApp.training.price">Price</span></dt>
         <dd>
-            <span>{{vm.training.price}}</span>
+            <span>{{vm.training.price}} руб.</span>
+        </dd>
+        <dt><span translate="volleyApp.training.limit">Limit</span></dt>
+        <dd>
+            <span>{{vm.training.limit}}</span>
         </dd>
         <dt><span translate="volleyApp.training.state">State</span></dt>
         <dd>
@@ -24,10 +28,11 @@
         <dd>
             <span>{{vm.training.description}}</span>
         </dd>
-        <dt><span translate="volleyApp.training.user">User</span></dt>
+        <dt><span translate="volleyApp.training.trainingUsers">User</span></dt>
         <dd>
-            <span ng-repeat="user in vm.training.users">
-                {{user.login}}{{$last ? '' : ', '}}
+            <span ng-repeat="trainingUser in vm.training.trainingUsers | orderBy:'registerDate'">
+                <a ui-sref="training-user-detail({id:trainingUser.id})">{{$index+1}}. {{trainingUser.user.login}}</a>
+                <br ng-if="$last == false"/>
             </span>
         </dd>
         <dt><span translate="volleyApp.training.level">Level</span></dt>
@@ -36,7 +41,7 @@
         </dd>
         <dt><span translate="volleyApp.training.organizer">Organizer</span></dt>
         <dd>
-            {{vm.training.organizer.login}}
+            <a ui-sref="user-management-detail({login:vm.training.organizer.login})">{{vm.training.organizer.login}}</a>
         </dd>
         <dt><span translate="volleyApp.training.gym">Gym</span></dt>
         <dd>

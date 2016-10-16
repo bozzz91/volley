@@ -1,0 +1,64 @@
+<div>
+    <h2 translate="volleyApp.trainingUser.home.title">Training Users</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="training-user.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  translate="volleyApp.trainingUser.home.createLabel">
+                        Create new Training User
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span translate="global.field.id">ID</span></th>
+                    <th><span translate="volleyApp.trainingUser.registerDate">Register Date</span></th>
+                    <th><span translate="volleyApp.trainingUser.training">Training</span></th>
+                    <th><span translate="volleyApp.trainingUser.user">User</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="trainingUser in vm.trainingUsers track by trainingUser.id">
+                    <td><a ui-sref="training-user-detail({id:trainingUser.id})">{{trainingUser.id}}</a></td>
+                    <td>{{trainingUser.registerDate | date:'medium'}}</td>
+                    <td>
+                        <a ui-sref="training-detail({id:trainingUser.training.id})">{{trainingUser.training.id}}</a>
+                    </td>
+                    <td>
+                        {{trainingUser.user.login}}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="training-user-detail({id:trainingUser.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="training-user.edit({id:trainingUser.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="training-user.delete({id:trainingUser.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

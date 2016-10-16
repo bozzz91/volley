@@ -18,6 +18,8 @@
         "firstName": "First name",
         "lastName": "Last name",
         "email": "Email",
+        "phone": "Phone",
+        "city": "City",
         "activated": "Activated",
         "deactivated": "Deactivated",
         "profiles": "Profiles",

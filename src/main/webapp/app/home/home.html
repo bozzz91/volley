@@ -8,7 +8,7 @@
                 <p class="o1">Для СМС-оповещений требуется хотя бы один раз указать свой телефон.</p>
                 <div ng-if="vm.account.city == null">
                     <p class="o1">Для просмотра тренировок необходимо выбрать город:</p>
-                    <select id="home_city" ng-model="vm.account.city" name="city" ng-change="vm.saveCity()" ng-options="i as i.name for i in vm.city"></select>
+                    <select id="home_city" ng-model="vm.account.city" name="city" ng-change="vm.saveCity()" ng-options="i as i.name for i in vm.cities"></select>
                 </div>
                 <div class="train-list" ng-init="vm.loadTrainings()">
                     <ul ng-init="">
@@ -36,10 +36,11 @@
                                         <a class="enroll" ng-click="vm.unroll(training.id)">Отписаться</a>
                                     </div>
                                     <ul class="users-list">
-                                        <li ng-repeat="user in training.users">
-                                            <img ng-src="{{user.imageUrl || '/content/images/nouser.png'}}">
-                                                <span class="red" ng-if="$index > 13">{{$index+1}}. {{user.firstName}}</span>
-                                                <span ng-if="$index < 14">{{$index+1}}. {{user.firstName}}</span>
+                                        <li ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'">
+                                            <img ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}">
+                                                <span ng-class="$index >= training.limit ? 'red' : ''">
+                                                    {{$index+1}}. {{trainingUser.user.firstName}}
+                                                </span>
                                         </li>
                                     </ul>
                                 </div>

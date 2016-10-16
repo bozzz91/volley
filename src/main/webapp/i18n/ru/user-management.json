@@ -19,6 +19,7 @@
         "lastName": "Фамилия",
         "email": "Email",
         "phone": "Телефон",
+        "city": "Город",
         "activated": "Активен",
         "deactivated": "Неактивен",
         "profiles": "Профили",

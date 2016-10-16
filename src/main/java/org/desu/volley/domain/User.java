@@ -1,8 +1,7 @@
 package org.desu.volley.domain;
 
-import org.desu.volley.config.Constants;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.desu.volley.config.Constants;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
@@ -12,10 +11,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.time.ZonedDateTime;
 
 /**
  * A user.
@@ -102,12 +101,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Set<PersistentToken> persistentTokens = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany
+    @OneToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "training_user",
-        joinColumns = @JoinColumn(name="users_id", referencedColumnName="ID"),
-        inverseJoinColumns = @JoinColumn(name="trainings_id", referencedColumnName="ID"))
-    private Set<Training> trainings = new HashSet<>();
+    private Set<TrainingUser> trainings = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -238,11 +234,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.persistentTokens = persistentTokens;
     }
 
-    public Set<Training> getTrainings() {
+    public Set<TrainingUser> getTrainings() {
         return trainings;
     }
 
-    public void setTrainings(Set<Training> trainings) {
+    public void setTrainings(Set<TrainingUser> trainings) {
         this.trainings = trainings;
     }
 

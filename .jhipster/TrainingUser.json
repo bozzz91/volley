@@ -1,0 +1,27 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "training",
+            "otherEntityName": "training",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "registerDate",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20161016132510",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "training_user",
+    "pagination": "no"
+}
