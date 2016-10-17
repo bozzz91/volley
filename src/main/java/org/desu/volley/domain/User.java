@@ -1,6 +1,7 @@
 package org.desu.volley.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.desu.volley.config.Constants;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -84,6 +85,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private ZonedDateTime resetDate = null;
 
     @Transient
+    @JsonSerialize
     private String imageUrl;
 
     @JsonIgnore
@@ -253,11 +255,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
         User user = (User) o;
 
-        if (!login.equals(user.login)) {
-            return false;
-        }
-
-        return true;
+        return login.equals(user.login);
     }
 
     @Override
