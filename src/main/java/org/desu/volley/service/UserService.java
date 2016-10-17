@@ -249,7 +249,7 @@ public class UserService {
         }
     }
 
-    private void loadImageUrl(User user) {
+    public void loadImageUrl(User user) {
         ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(user.getLogin());
         MultiValueMap<String, Connection<?>> connections = connectionRepository.findAllConnections();
         connections.entrySet().stream()

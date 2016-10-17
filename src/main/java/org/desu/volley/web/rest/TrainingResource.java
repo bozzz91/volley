@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Training;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.security.AuthoritiesConstants;
+import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.desu.volley.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -36,6 +37,9 @@ public class TrainingResource {
 
     @Inject
     private TrainingRepository trainingRepository;
+
+    @Inject
+    private UserService userService;
 
     /**
      * POST  /trainings : Create a new training.
@@ -118,7 +122,10 @@ public class TrainingResource {
         log.debug("REST request to get Training : {}", id);
         Training training = trainingRepository.findOneWithEagerRelationships(id);
         return Optional.ofNullable(training)
-            .map(result -> new ResponseEntity<>(result, HttpStatus.OK))
+            .map(result -> {
+                result.getTrainingUsers().forEach(tu -> userService.loadImageUrl(tu.getUser()));
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            })
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
