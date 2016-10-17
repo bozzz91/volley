@@ -5,17 +5,17 @@
         .module('volleyApp')
         .controller('TrainingDialogController', TrainingDialogController);
 
-    TrainingDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Training', 'User', 'Level', 'Gym'];
+    TrainingDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Training', 'Principal', 'Level', 'Gym'];
 
-    function TrainingDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Training, User, Level, Gym) {
+    function TrainingDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Training, Principal, Level, Gym) {
         var vm = this;
 
         vm.training = entity;
+        vm.account = null;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.users = User.query();
         vm.levels = Level.query();
         vm.gyms = Gym.query();
 
@@ -26,6 +26,10 @@
         function clear () {
             $uibModalInstance.dismiss('cancel');
         }
+
+        Principal.identity().then(function(account) {
+            vm.account = account;
+        });
 
         function save () {
             vm.isSaving = true;

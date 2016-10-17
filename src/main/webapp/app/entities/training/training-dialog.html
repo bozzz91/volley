@@ -129,9 +129,10 @@
         </div>
         <div class="form-group">
             <label translate="volleyApp.training.organizer" for="field_organizer">Organizer</label>
-            <select class="form-control" id="field_organizer" name="organizer" ng-model="vm.training.organizer"
-                    ng-options="user as user.login for user in vm.users track by user.id" required>
-                <option value=""></option>
+            <select class="form-control"  id="field_organizer" name="organizer" required>
+                <option selected ng-value="vm.account" ng-init="vm.training.organizer = vm.account" ng-model="vm.training.organizer">
+                    {{vm.account.login + ' (' + vm.account.firstName + ' ' + vm.account.lastName + ')'}}
+                </option>
             </select>
             <div ng-show="editForm.organizer.$invalid">
                 <p class="help-block"
