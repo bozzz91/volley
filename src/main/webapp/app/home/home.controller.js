@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'TrainingUser', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account', 'City', 'Gym'];
+    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account', 'City', 'Gym'];
 
-    function HomeController ($scope, TrainingUser, Principal, LoginService, ParseLinks, Training, User, Auth, AlertService, $state, SocialService, Account, City, Gym) {
+    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, User, Auth, AlertService, $state, SocialService, Account, City, Gym) {
         var vm = this;
 
         vm.account = null;
@@ -33,6 +33,15 @@
         vm.allert = '';
         vm.cities = [];
         vm.saveCity = saveCity;
+
+        vm.popupOpen = function(text) {
+            vm.modalText = text;
+            ngDialog.open({
+                template: 'popupTmpl.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            });
+        };
 
         getAccount();
 

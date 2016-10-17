@@ -11,7 +11,7 @@
                     <select id="home_city" ng-model="vm.account.city" name="city" ng-change="vm.saveCity()" ng-options="i as i.name for i in vm.cities"></select>
                 </div>
                 <div class="train-list" ng-init="vm.loadTrainings()">
-                    <ul ng-init="">
+                    <ul>
                         <li ng-repeat="training in vm.trainings | orderBy: 'startAt'">
                             <div ng-if="training.gym.city.id==vm.account.city.id">
                                 <label class="show-more-train">
@@ -49,6 +49,22 @@
                     </ul>
                 </div>
             </div>
+
+            <script type="text/ng-template" id="popupTmpl.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">You registered!</h3>
+                </div>
+                <div class="modal-body">
+                    User: <b>{{ vm.account.login }}</b>
+                    <hr/>
+                    Number: <b>{{ vm.training.id }}</b>
+                    <hr/>
+                    {{ vm.modalText }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="closeThisDialog('Some value')">OK</button>
+                </div>
+            </script>
 
             <div class="signup-train" ng-switch-when="false">
                 <p class="zag1">Добро пожаловать!<br />Cнова.</p>

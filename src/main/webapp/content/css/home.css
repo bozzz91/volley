@@ -156,20 +156,12 @@ body {
     font-size: 12pt;
     border-radius: 4px;
 }
-.is-admin-link {
-    color: #292929;
-    font-size: 14pt;
-}
-.is-admin-link:hover {
-    color: #292929;
-    text-decoration: underline;
-}
 
 .users-list .red {
 	color: #fb8500;
 }
 
-select#home_city {
+#home_city {
 	display: block;
 	margin: 10px auto;
 	border: 1px solid;
