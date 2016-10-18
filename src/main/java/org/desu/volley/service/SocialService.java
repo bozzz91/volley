@@ -55,6 +55,7 @@ public class SocialService {
             throw new IllegalArgumentException("Connection cannot be null");
         }
         UserProfile userProfile = connection.fetchUserProfile();
+        log.info("userProfile: email {}, username {}, name {}", userProfile.getEmail(), userProfile.getUsername(), userProfile.getName());
         String providerId = connection.getKey().getProviderId();
         User user = createUserIfNotExist(userProfile, langKey, providerId);
         createSocialConnection(user.getLogin(), connection);
