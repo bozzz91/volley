@@ -1,6 +1,7 @@
 package org.desu.volley.repository;
 
 import org.desu.volley.domain.Training;
+import org.desu.volley.domain.enumeration.TrainingState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,5 @@ public interface TrainingRepository extends JpaRepository<Training,Long> {
     @Query("select training from Training training left join fetch training.trainingUsers where training.id =:id")
     Training findOneWithEagerRelationships(@Param("id") Long id);
 
+    List<Training> findByState(TrainingState state);
 }

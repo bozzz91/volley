@@ -98,7 +98,7 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 for (var i = 0; i < data.length; i++) {
-                    if(Date.now() < Date.parse(data[i].startAt)) {
+                    if (data[i]['state'] == 'REGISTRATION' ) {
                         Training.get({id: data[i]['id']}, function(result) {
                             vm.trainings.push(result);
                         });
