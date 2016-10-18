@@ -30,7 +30,7 @@ public class TrainingService {
             .filter(training -> training.getStartAt().isBefore(now))
             .peek(training -> training.setState(TrainingState.PROCESS))
             .collect(Collectors.toList()));
-        log.info("Updated {} trainings to {}", saved.size(), TrainingState.DONE);
+        log.info("Updated {} trainings to {}", saved.size(), TrainingState.PROCESS);
 
         saved = trainingRepository.save(trainings.stream()
             .filter(training -> training.getEndAt().isBefore(now))

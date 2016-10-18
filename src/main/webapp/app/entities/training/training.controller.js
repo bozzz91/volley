@@ -9,16 +9,16 @@
 
     function TrainingController ($scope, $state, Training, ParseLinks, AlertService) {
         var vm = this;
-        
+
         vm.trainings = [];
         vm.loadPage = loadPage;
         vm.page = 0;
         vm.links = {
             last: 0
         };
-        vm.predicate = 'id';
+        vm.predicate = 'startAt';
         vm.reset = reset;
-        vm.reverse = true;
+        vm.reverse = false;
 
         loadAll();
 
