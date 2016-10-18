@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainingService {
@@ -21,32 +20,22 @@ public class TrainingService {
     @Inject
     private TrainingRepository trainingRepository;
 
-    @Scheduled(cron = "0 5/20/35/50 * * * ?")
+    @Scheduled(cron = "0 5/15 * * * ?")
     public void updateTrainingState() {
-        log.info("updateTrainingState.start; Start training state update");
-        List<Training> trainings = trainingRepository.findByState(TrainingState.REGISTRATION);
-        log.info("Found {} trainings in state: {}", trainings.size(), TrainingState.REGISTRATION);
+        List<Training> trainings = trainingRepository.findByStateNot(TrainingState.DONE);
+        log.info("Found {} not finished trainings", trainings.size());
         ZonedDateTime now = ZonedDateTime.now();
-        Collection<Training> toSave = new ArrayList<>();
-        trainings.stream()
-            .filter(training -> training.getStartAt().isAfter(now))
-            .forEach(training -> {
-                training.setState(TrainingState.PROCESS);
-                toSave.add(training);
-            });
-        trainingRepository.save(toSave);
-        log.info("Updated {} trainings to state {}", toSave.size(), TrainingState.PROCESS);
-        toSave.clear();
 
-        trainings = trainingRepository.findByState(TrainingState.PROCESS);
-        log.info("Found {} trainings in state: {}", trainings.size(), TrainingState.PROCESS);
-        trainings.stream()
-            .filter(training -> training.getEndAt().isAfter(now))
-            .forEach(training -> {
-                training.setState(TrainingState.DONE);
-                toSave.add(training);
-            });
-        trainingRepository.save(toSave);
-        log.info("updateTrainingState.end; Updated {} trainings to state {}", toSave.size(), TrainingState.DONE);
+        List<Training> saved = trainingRepository.save(trainings.stream()
+            .filter(training -> training.getStartAt().isBefore(now))
+            .peek(training -> training.setState(TrainingState.PROCESS))
+            .collect(Collectors.toList()));
+        log.info("Updated {} trainings to {}", saved.size(), TrainingState.DONE);
+
+        saved = trainingRepository.save(trainings.stream()
+            .filter(training -> training.getEndAt().isBefore(now))
+            .peek(training -> training.setState(TrainingState.DONE))
+            .collect(Collectors.toList()));
+        log.info("Updated {} trainings to {}", saved.size(), TrainingState.DONE);
     }
 }

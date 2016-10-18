@@ -1,7 +1,9 @@
 package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.desu.volley.domain.City;
 import org.desu.volley.domain.Training;
+import org.desu.volley.domain.enumeration.TrainingState;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.service.UserService;
@@ -100,10 +102,22 @@ public class TrainingResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Training>> getAllTrainings(Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<Training>> getAllTrainings(
+        Pageable pageable,
+        @RequestParam(required = false, value = "city") Long cityId,
+        @RequestParam(required = false, value = "state") String stateId
+    ) throws URISyntaxException {
+
         log.debug("REST request to get a page of Trainings");
-        Page<Training> page = trainingRepository.findAll(pageable);
+        Page<Training> page;
+        if (cityId != null && stateId != null) {
+            City city = new City();
+            city.setId(cityId);
+            TrainingState state = TrainingState.valueOf(stateId);
+            page = trainingRepository.findByCityAndState(city, state, pageable);
+        } else {
+            page = trainingRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/trainings");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

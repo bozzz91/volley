@@ -49,6 +49,7 @@
         vm.allert = '';
         vm.cities = [];
         vm.saveCity = saveCity;
+        vm.loadCities = loadCities;
 
         vm.popupOpen = function(text) {
             vm.modalText = text;
@@ -67,22 +68,26 @@
             });
         }
 
-        function loadTrainings () {
+        function loadCities() {
             vm.cities = [];
-
             City.query({
-                page: vm.page,
-                size: 20
-            },
-            function (data, headers){
-                for (var i = 0; i < data.length; i++) {
-                    vm.cities.push(data[i]);
+                    page: vm.page,
+                    size: 20
+                },
+                function (data, headers){
+                    for (var i = 0; i < data.length; i++) {
+                        vm.cities.push(data[i]);
+                    }
                 }
-            });
+            );
+        }
 
+        function loadTrainings () {
             vm.trainings = [];
 
             Training.query({
+                city: vm.account.city.id,
+                state: 'REGISTRATION',
                 page: vm.page,
                 size: 20,
                 sort: sort()
@@ -98,11 +103,9 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i]['state'] == 'REGISTRATION' ) {
-                        Training.get({id: data[i]['id']}, function(result) {
-                            vm.trainings.push(result);
-                        });
-                    }
+                    Training.get({id: data[i]['id']}, function(result) {
+                        vm.trainings.push(result);
+                    });
                 }
             }
             function onError(error) {
