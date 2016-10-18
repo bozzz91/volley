@@ -35,6 +35,10 @@ public class City implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
+    @Column(name = "tz", nullable = false)
+    private String tz;
+
     @OneToMany(mappedBy = "city")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -90,5 +94,13 @@ public class City implements Serializable {
             "id=" + id +
             ", name='" + name + "'" +
             '}';
+    }
+
+    public String getTz() {
+        return tz;
+    }
+
+    public void setTz(String tz) {
+        this.tz = tz;
     }
 }

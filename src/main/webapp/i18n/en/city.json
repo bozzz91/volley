@@ -17,7 +17,15 @@
                 "title": "City"
             },
             "name": "Name",
-            "gym": "Gym"
+            "tz": "Time zone",
+            "gym": "Gym",
+            "messages": {
+                "validate": {
+                    "tz": {
+                        "pattern": "Time zone must only contains plus symbol and 4 digits"
+                    }
+                }
+            }
         }
     }
 }

@@ -20,6 +20,7 @@
                 <tr>
                     <th><span translate="global.field.id">ID</span></th>
                     <th><span translate="volleyApp.city.name">Name</span></th>
+                    <th><span translate="volleyApp.city.tz">TZ</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                 <tr ng-repeat="city in vm.cities track by city.id">
                     <td><a ui-sref="city-detail({id:city.id})">{{city.id}}</a></td>
                     <td>{{city.name}}</td>
+                    <td>{{city.tz}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
