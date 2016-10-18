@@ -12,6 +12,7 @@
                 </div>
                 <div class="train-list" ng-if="vm.account.city" ng-init="vm.loadTrainings()">
                     <ul>
+                        <li class="allert" ng-show="!vm.trainings.length">Тренировок пока нет.</li>
                         <li ng-repeat="training in vm.trainings | orderBy:'startAt'">
                             <label class="show-more-train">
                                 <input type="checkbox" ng-model="hcontent" />
