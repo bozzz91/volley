@@ -38,9 +38,9 @@
                                     <ul class="users-list">
                                         <li ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'">
                                             <img ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}">
-                                                <span ng-class="$index >= training.limit ? 'red' : ''">
-                                                    {{$index+1}}. {{trainingUser.user.firstName}}
-                                                </span>
+                                            <span ng-class="$index >= training.limit ? 'red' : ''">
+                                                {{$index+1}}. {{trainingUser.user.firstName}}
+                                            </span>
                                         </li>
                                     </ul>
                                 </div>
@@ -62,7 +62,7 @@
                     {{ vm.modalText }}
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" ng-click="closeThisDialog('Some value')">OK</button>
+                    <button close-dialog="2" class="btn btn-primary">OK</button>
                 </div>
             </script>
 

@@ -3,7 +3,23 @@
 
     angular
         .module('volleyApp')
-        .controller('HomeController', HomeController);
+        .controller('HomeController', HomeController)
+        .directive('closeDialog', CloseDialog);
+
+    CloseDialog.$inject = ['$timeout', 'ngDialog'];
+
+    function CloseDialog($timeout, ngDialog) {
+        return {
+            link: function(scope, element, attrs) {
+                if(attrs.closeDialog) {
+                    $timeout(function(){ngDialog.close()}, attrs.closeDialog * 1000);
+                }
+                element.bind('click', function(element) {
+                    ngDialog.close();
+                })
+            }
+        }
+    }
 
     HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account', 'City', 'Gym'];
 
