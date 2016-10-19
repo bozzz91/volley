@@ -96,9 +96,10 @@
         <div class="form-group">
             <label class="control-label" translate="volleyApp.training.state" for="field_state">State</label>
             <select class="form-control" name="state" ng-model="vm.training.state" id="field_state" required>
-                <option value="REGISTRATION" translate="volleyApp.TrainingState.REGISTRATION" selected>REGISTRATION</option>
-                <option value="PROCESS" translate="volleyApp.TrainingState.PROCESS">PROCESS</option>
-                <option value="DONE" translate="volleyApp.TrainingState.DONE">DONE</option>
+                <option value="REGISTRATION" translate="volleyApp.TrainingState.REGISTRATION" selected>Registration</option>
+                <option value="PROCESS" translate="volleyApp.TrainingState.PROCESS">In process</option>
+                <option value="DONE" translate="volleyApp.TrainingState.DONE">Done</option>
+                <option value="CANCELLED" translate="volleyApp.TrainingState.CANCELLED">Cancelled</option>
             </select>
             <div ng-show="editForm.state.$invalid">
                 <p class="help-block"
