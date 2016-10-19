@@ -5,6 +5,7 @@ import org.desu.volley.domain.City;
 import org.desu.volley.domain.Training;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.desu.volley.repository.TrainingRepository;
+import org.desu.volley.repository.TrainingUserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
@@ -39,6 +40,9 @@ public class TrainingResource {
 
     @Inject
     private TrainingRepository trainingRepository;
+
+    @Inject
+    private TrainingUserRepository trainingUserRepository;
 
     @Inject
     private UserService userService;
@@ -156,6 +160,8 @@ public class TrainingResource {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
         log.debug("REST request to delete Training : {}", id);
+        Training training = trainingRepository.findOneWithEagerRelationships(id);
+        trainingUserRepository.delete(training.getTrainingUsers());
         trainingRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("training", id.toString())).build();
     }

@@ -59,7 +59,7 @@ public class Training implements Serializable {
     private String description;
 
     @JsonManagedReference("training")
-    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @NotFound(action = NotFoundAction.IGNORE)
     private Set<TrainingUser> trainingUsers = new HashSet<>();
