@@ -18,7 +18,8 @@
             },
             "registerDate": "Register Date",
             "training": "Training",
-            "user": "User"
+            "user": "User",
+            "sendSms": "Send SMS"
         }
     }
 }

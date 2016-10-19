@@ -8,6 +8,7 @@ import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.repository.TrainingUserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.service.SmsService;
+import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,9 @@ public class TrainingUserResource {
 
     @Inject
     private SmsService smsService;
+
+    @Inject
+    private UserService userService;
 
     /**
      * POST  /training-users : Create a new trainingUser.
@@ -107,13 +111,16 @@ public class TrainingUserResource {
     @Secured(AuthoritiesConstants.ADMIN)
     public List<TrainingUser> getAllTrainingUsers(Sort sort, @RequestParam(required = false, value = "trainingId") Long trainingId) {
         log.debug("REST request to get all TrainingUsers");
+        List<TrainingUser> userList;
         if (trainingId == null) {
-            return trainingUserRepository.findAll(sort);
+            userList = trainingUserRepository.findAll(sort);
         } else {
             Training t = new Training();
             t.setId(trainingId);
-            return trainingUserRepository.findByTraining(t, sort);
+            userList = trainingUserRepository.findByTraining(t, sort);
         }
+        userList.forEach(tu -> userService.loadImageUrl(tu.getUser()));
+        return userList;
     }
 
     /**

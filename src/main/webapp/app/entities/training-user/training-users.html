@@ -20,7 +20,9 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
                     <th><span translate="global.field.id">ID</span></th>
                     <th jh-sort-by="registerDate"><span translate="volleyApp.trainingUser.registerDate">Register Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
                     <th><span translate="volleyApp.trainingUser.user">User</span></th>
+                    <th><span translate="userManagement.phone">Phone</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -28,9 +30,13 @@
                 <tr ng-repeat="trainingUser in vm.trainingUsers track by trainingUser.id ">
                     <td><a ui-sref="training-user-detail({id:trainingUser.id})">{{trainingUser.id}}</a></td>
                     <td>{{trainingUser.registerDate | date:'medium'}}</td>
+                    <td><img height="50px" width="50px" ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}"></td>
                     <td>
-                        <a ui-sref="user-management-detail({login:trainingUser.user.login})">{{trainingUser.user.login}}</a>
+                        <a ui-sref="user-management-detail({login:trainingUser.user.login})">
+                            {{trainingUser.user.firstName}} {{trainingUser.user.lastName}} [e-mail: {{trainingUser.user.login}}]
+                        </a>
                     </td>
+                    <td>{{trainingUser.user.phone}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <!--<button type="submit" ui-sref="training-user-detail({id:trainingUser.id})" class="btn btn-info btn-sm">-->
@@ -53,5 +59,8 @@
     </div>
     <button type="submit" onclick="window.history.back()" class="btn btn-info">
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+    <button type="submit" ng-click="vm.sendSms()" class="btn btn-success">
+        <span class="glyphicon glyphicon-ok-sign"></span>&nbsp;<span translate="volleyApp.trainingUser.sendSms"> Send SMS</span>
     </button>
 </div>

@@ -15,6 +15,7 @@
         vm.predicate = 'registerDate';
         vm.reverse = false;
         vm.reset = reset;
+        vm.sendSms = sendSms;
 
         loadAll();
 
@@ -37,6 +38,19 @@
         function reset () {
             vm.trainingUsers = [];
             loadAll();
+        }
+
+        function sendSms() {
+            var phones = [];
+            for (var i=0; i<vm.trainingUsers.length; i++) {
+                var phone = vm.trainingUsers[i].user.phone;
+                if (phone) {
+                    phones.push(phone);
+                }
+            }
+            if (phones.length > 0) {
+                console.log('Sends SMS to: ' + phones);
+            }
         }
     }
 })();

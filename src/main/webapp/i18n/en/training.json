@@ -27,8 +27,7 @@
             "level": "Level",
             "organizer": "Organizer",
             "gym": "Gym",
-            "cancel": "Cancel training",
-            "sendSms": "Send SMS"
+            "cancel": "Cancel training"
         }
     }
 }
