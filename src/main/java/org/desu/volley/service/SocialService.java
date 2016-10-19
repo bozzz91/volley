@@ -65,12 +65,19 @@ public class SocialService {
     private User createUserIfNotExist(UserProfile userProfile, String langKey, String providerId) {
         String email = userProfile.getEmail();
         String userName = userProfile.getUsername();
+        String name = userProfile.getName();
         if (!StringUtils.isBlank(userName)) {
             userName = userName.toLowerCase(Locale.ENGLISH);
         }
-        if (StringUtils.isBlank(email) && StringUtils.isBlank(userName)) {
-            log.error("Cannot create social user because email and login are null");
-            throw new IllegalArgumentException("Email and login cannot be null");
+        if (!StringUtils.isBlank(name)) {
+            name = name.toLowerCase(Locale.ENGLISH).replace(" ", "_");
+        }
+        if (StringUtils.isBlank(email) && StringUtils.isBlank(userName)&& StringUtils.isBlank(name)) {
+            log.error("Cannot create social user because email and login and name are null");
+            throw new IllegalArgumentException("Email and login and name cannot be null");
+        }
+        if (StringUtils.isBlank(userName)) {
+            userName = name;
         }
         if (StringUtils.isBlank(email) && userRepository.findOneByLogin(userName).isPresent()) {
             log.error("Cannot create social user because email is null and login already exist, login -> {}", userName);
@@ -109,14 +116,22 @@ public class SocialService {
     private String getLoginDependingOnProviderId(UserProfile userProfile, String providerId) {
         switch (providerId) {
             case "twitter":
-                return userProfile.getUsername().toLowerCase();
+                return "tw"+userProfile.getUsername().toLowerCase();
             default:
-                return userProfile.getEmail() != null
-                    ? userProfile.getEmail()
-                    : userProfile.getUsername() != null
-                    ? userProfile.getUsername()
-                    : userProfile.getId();
+                return extractLoginForProvider(userProfile, providerId);
         }
+    }
+
+    private String extractLoginForProvider(UserProfile userProfile, String provider) {
+        return userProfile.getEmail() != null
+            ? userProfile.getEmail()
+            : userProfile.getUsername() != null
+            ? (provider + userProfile.getUsername())
+            : userProfile.getName() != null
+            ? (provider + userProfile.getName()).toLowerCase(Locale.US).replace(" ", "_")
+            : userProfile.getId() != null
+            ? (provider + userProfile.getId())
+            : null;
     }
 
     private void createSocialConnection(String login, Connection<?> connection) {
