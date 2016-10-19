@@ -18,7 +18,7 @@
                                 <input type="checkbox" ng-model="hcontent" />
                                 <span>{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}}р, {{training.gym.name}} (лимит {{training.limit}} человек)</span>
                             </label>
-                            <div ng-show="hcontent">
+                            <div ng-show="hcontent && training.state == 'REGISTRATION'">
                                 <div ng-if="!vm.alreadyRegister(training.id)">
                                     <form name="form" role="form" novalidate ng-submit="vm.enroll(training.id)" show-validation>
                                         <input type="text" class="form-control" placeholder="{{'home.form.phone.placeholder' | translate}}" name="phone" id="phone"
@@ -43,6 +43,9 @@
                                         </span>
                                     </li>
                                 </ul>
+                            </div>
+                            <div class="allert" ng-if="hcontent && training.state == 'CANCELLED'">
+                                Тренировка отменена.
                             </div>
                         </li>
                     </ul>

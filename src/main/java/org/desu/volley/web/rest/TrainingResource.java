@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,16 +110,19 @@ public class TrainingResource {
     public ResponseEntity<List<Training>> getAllTrainings(
         Pageable pageable,
         @RequestParam(required = false, value = "city") Long cityId,
-        @RequestParam(required = false, value = "state") String stateId
+        @RequestParam(required = false, value = "state") String stateNames
     ) throws URISyntaxException {
 
         log.debug("REST request to get a page of Trainings");
         Page<Training> page;
-        if (cityId != null && stateId != null) {
+        if (cityId != null && stateNames != null) {
             City city = new City();
             city.setId(cityId);
-            TrainingState state = TrainingState.valueOf(stateId);
-            page = trainingRepository.findByCityAndState(city, state, pageable);
+            List<TrainingState> states = new ArrayList<>();
+            for (String stateName : stateNames.split(",")) {
+                states.add(TrainingState.valueOf(stateName));
+            }
+            page = trainingRepository.findByCityAndStates(city, states, pageable);
         } else {
             page = trainingRepository.findAll(pageable);
         }

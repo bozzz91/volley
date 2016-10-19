@@ -87,7 +87,7 @@
 
             Training.query({
                 city: vm.account.city.id,
-                state: 'REGISTRATION',
+                state: 'REGISTRATION,CANCELLED',
                 page: vm.page,
                 size: 20,
                 sort: sort()
@@ -145,6 +145,7 @@
                     };
 
                     TrainingUser.save(reg, function(savedReg) {
+                        savedReg.user = vm.account;
                         training.trainingUsers.push(savedReg);
                         vm.allert = 'Вы успешно зарегистрированы!';
                     }, function (error) {
