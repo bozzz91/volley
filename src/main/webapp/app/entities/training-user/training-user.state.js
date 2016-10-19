@@ -11,7 +11,7 @@
         $stateProvider
         .state('training-user', {
             parent: 'entity',
-            url: '/training-user',
+            url: '/training-user?trainingId',
             data: {
                 authorities: ['ROLE_ADMIN'],
                 pageTitle: 'volleyApp.trainingUser.home.title'
@@ -28,6 +28,9 @@
                     $translatePartialLoader.addPart('trainingUser');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
+                }],
+                training: ['$stateParams', 'Training', function($stateParams, Training) {
+                    return Training.get({id : $stateParams.trainingId}).$promise;
                 }]
             }
         })

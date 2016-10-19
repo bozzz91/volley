@@ -17,41 +17,31 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
                     <th><span translate="global.field.id">ID</span></th>
-                    <th><span translate="volleyApp.trainingUser.registerDate">Register Date</span></th>
-                    <th><span translate="volleyApp.trainingUser.training">Training</span></th>
+                    <th jh-sort-by="registerDate"><span translate="volleyApp.trainingUser.registerDate">Register Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th><span translate="volleyApp.trainingUser.user">User</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="trainingUser in vm.trainingUsers track by trainingUser.id">
+                <tr ng-repeat="trainingUser in vm.trainingUsers track by trainingUser.id ">
                     <td><a ui-sref="training-user-detail({id:trainingUser.id})">{{trainingUser.id}}</a></td>
                     <td>{{trainingUser.registerDate | date:'medium'}}</td>
                     <td>
-                        <a ui-sref="training-detail({id:trainingUser.training.id})">{{trainingUser.training.id}}</a>
-                    </td>
-                    <td>
-                        {{trainingUser.user.login}}
+                        <a ui-sref="user-management-detail({login:trainingUser.user.login})">{{trainingUser.user.login}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="training-user-detail({id:trainingUser.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="training-user.edit({id:trainingUser.id})"
-                                    class="btn btn-primary btn-sm">
+                            <!--<button type="submit" ui-sref="training-user-detail({id:trainingUser.id})" class="btn btn-info btn-sm">-->
+                                <!--<span class="glyphicon glyphicon-eye-open"></span>-->
+                                <!--<span class="hidden-xs hidden-sm" translate="entity.action.view"></span>-->
+                            <!--</button>-->
+                            <button type="submit" ui-sref="training-user.edit({id:trainingUser.id})" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
                             </button>
-                            <button type="submit"
-                                    ui-sref="training-user.delete({id:trainingUser.id})"
-                                    class="btn btn-danger btn-sm">
+                            <button type="submit" ui-sref="training-user.delete({id:trainingUser.id})" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
                             </button>
@@ -61,4 +51,7 @@
             </tbody>
         </table>
     </div>
+    <button type="submit" onclick="window.history.back()" class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
 </div>

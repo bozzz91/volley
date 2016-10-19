@@ -24,7 +24,6 @@
                     <th jh-sort-by="price"><span translate="volleyApp.training.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="limit"><span translate="volleyApp.training.limit">Limit</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="state"><span translate="volleyApp.training.state">State</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="description"><span translate="volleyApp.training.description">Description</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="level.name"><span translate="volleyApp.training.level">Level</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="organizer.login"><span translate="volleyApp.training.organizer">Organizer</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="gym.name"><span translate="volleyApp.training.gym">Gym</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -39,7 +38,6 @@
                     <td>{{training.price}}</td>
                     <td>{{training.limit}}</td>
                     <td translate="{{'volleyApp.TrainingState.' + training.state}}">{{training.state}}</td>
-                    <td>{{training.description}}</td>
                     <td>
                         <a ui-sref="level-detail({id:training.level.id})">{{training.level.name}}</a>
                     </td>
@@ -51,6 +49,12 @@
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="training-user({trainingId:training.id})"
+                                    class="btn btn-warning btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="volleyApp.training.showPlayers"></span>
+                            </button>
                             <button type="submit"
                                     ui-sref="training-detail({id:training.id})"
                                     class="btn btn-info btn-sm">
@@ -75,4 +79,7 @@
             </tbody>
         </table>
     </div>
+    <button type="submit" onclick="window.history.back()" class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
 </div>

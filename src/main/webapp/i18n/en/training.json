@@ -13,6 +13,7 @@
             "delete": {
                 "question": "Are you sure you want to delete training {{ id }}?"
             },
+            "showPlayers": "Users",
             "detail": {
                 "title": "Training"
             },

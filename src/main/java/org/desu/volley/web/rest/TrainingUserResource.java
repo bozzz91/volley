@@ -11,6 +11,7 @@ import org.desu.volley.service.SmsService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -104,10 +105,15 @@ public class TrainingUserResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
-    public List<TrainingUser> getAllTrainingUsers() {
+    public List<TrainingUser> getAllTrainingUsers(Sort sort, @RequestParam(required = false, value = "trainingId") Long trainingId) {
         log.debug("REST request to get all TrainingUsers");
-        List<TrainingUser> trainingUsers = trainingUserRepository.findAll();
-        return trainingUsers;
+        if (trainingId == null) {
+            return trainingUserRepository.findAll(sort);
+        } else {
+            Training t = new Training();
+            t.setId(trainingId);
+            return trainingUserRepository.findByTraining(t, sort);
+        }
     }
 
     /**
