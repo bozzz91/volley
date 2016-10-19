@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('UserManagementDialogController',UserManagementDialogController);
 
-    UserManagementDialogController.$inject = ['$stateParams', '$uibModalInstance', 'entity', 'User', 'JhiLanguageService'];
+    UserManagementDialogController.$inject = ['$stateParams', '$uibModalInstance', 'entity', 'User', 'JhiLanguageService', 'City'];
 
-    function UserManagementDialogController ($stateParams, $uibModalInstance, entity, User, JhiLanguageService) {
+    function UserManagementDialogController ($stateParams, $uibModalInstance, entity, User, JhiLanguageService, City) {
         var vm = this;
 
         vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
@@ -15,7 +15,7 @@
         vm.languages = null;
         vm.save = save;
         vm.user = entity;
-
+        vm.cities = City.query();
 
         JhiLanguageService.getAll().then(function (languages) {
             vm.languages = languages;

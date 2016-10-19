@@ -150,6 +150,7 @@ public class UserResource {
                 user.setLastName(managedUserDTO.getLastName());
                 user.setEmail(managedUserDTO.getEmail());
                 user.setPhone(managedUserDTO.getPhone());
+                user.setCity(managedUserDTO.getCity());
                 user.setActivated(managedUserDTO.isActivated());
                 user.setLangKey(managedUserDTO.getLangKey());
                 Set<Authority> authorities = user.getAuthorities();
