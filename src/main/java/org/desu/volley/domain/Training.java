@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -57,9 +59,9 @@ public class Training implements Serializable {
     private String description;
 
     @JsonManagedReference("training")
-    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-//    @NotFound(action = NotFoundAction.IGNORE)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<TrainingUser> trainingUsers = new HashSet<>();
 
     @ManyToOne(optional = false)
