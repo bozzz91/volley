@@ -2,9 +2,10 @@
     "volleyApp": {
         "TrainingState" : {
             "null": "",
-            "REGISTRATION": "REGISTRATION",
-            "PROCESS": "PROCESS",
-            "DONE": "DONE"
+            "REGISTRATION": "Registration",
+            "PROCESS": "In process",
+            "DONE": "Finished",
+            "CANCELLED": "Cancelled"
         }
     }
 }

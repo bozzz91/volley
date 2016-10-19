@@ -11,7 +11,7 @@
             "updated": "A Training is updated with identifier {{ param }}",
             "deleted": "A Training is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Training {{ id }}?"
+                "question": "Are you sure you want to delete training {{ id }}?"
             },
             "detail": {
                 "title": "Training"
@@ -26,8 +26,8 @@
             "level": "Level",
             "organizer": "Organizer",
             "gym": "Gym",
-            "register": "Register",
-            "unregister": "Unregister"
+            "cancel": "Cancel training",
+            "sendSms": "Send SMS"
         }
     }
 }
