@@ -147,7 +147,12 @@ public class AccountResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> saveAccount(@Valid @RequestBody UserDTO userDTO) {
-        Optional<User> existingUser = userRepository.findOneByEmail(userDTO.getEmail());
+        Optional<User> existingUser;
+        if (!StringUtils.isBlank(userDTO.getEmail())) {
+            existingUser = userRepository.findOneByEmail(userDTO.getEmail());
+        } else {
+            existingUser = userRepository.findOneByLogin(userDTO.getLogin());
+        }
         if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userDTO.getLogin()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
         }
