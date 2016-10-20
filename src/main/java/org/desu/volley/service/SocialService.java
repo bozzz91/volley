@@ -21,6 +21,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 @Service
 public class SocialService {
     private final Logger log = LoggerFactory.getLogger(SocialService.class);
@@ -55,7 +57,7 @@ public class SocialService {
             throw new IllegalArgumentException("Connection cannot be null");
         }
         UserProfile userProfile = connection.fetchUserProfile();
-        log.info("userProfile: email {}, username {}, name {}", userProfile.getEmail(), userProfile.getUsername(), userProfile.getName());
+        log.info("userProfile: email {}, id {}, username {}", userProfile.getEmail(), userProfile.getId(), userProfile.getUsername());
         String providerId = connection.getKey().getProviderId();
         User user = createUserIfNotExist(userProfile, langKey, providerId);
         createSocialConnection(user.getLogin(), connection);
@@ -65,25 +67,17 @@ public class SocialService {
     private User createUserIfNotExist(UserProfile userProfile, String langKey, String providerId) {
         String email = userProfile.getEmail();
         String userName = userProfile.getUsername();
-        String name = userProfile.getName();
-        if (!StringUtils.isBlank(userName)) {
+        String userId = userProfile.getId();
+        if (!isBlank(userName)) {
             userName = userName.toLowerCase(Locale.ENGLISH);
+        } else if (!isBlank(userId)) {
+            userName = userId.toLowerCase(Locale.ENGLISH);
         }
-        if (!StringUtils.isBlank(name)) {
-            name = name.toLowerCase(Locale.ENGLISH).replace(" ", "_");
+        if (isBlank(email) && isBlank(userName)) {
+            log.error("Cannot create social user because email and login are null");
+            throw new IllegalArgumentException("Email and login cannot be null");
         }
-        if (StringUtils.isBlank(email) && StringUtils.isBlank(userName)&& StringUtils.isBlank(name)) {
-            log.error("Cannot create social user because email and login and name are null");
-            throw new IllegalArgumentException("Email and login and name cannot be null");
-        }
-        if (StringUtils.isBlank(userName)) {
-            userName = name;
-        }
-        if (StringUtils.isBlank(email) && userRepository.findOneByLogin(userName).isPresent()) {
-            log.error("Cannot create social user because email is null and login already exist, login -> {}", userName);
-            throw new IllegalArgumentException("Email cannot be null with an existing login");
-        }
-        if (!StringUtils.isBlank(email)) {
+        if (!isBlank(email)) {
             Optional<User> user = userRepository.findOneByEmail(email);
             if (user.isPresent()) {
                 log.info("User already exist associate the connection to this account");
@@ -92,6 +86,11 @@ public class SocialService {
         }
 
         String login = getLoginDependingOnProviderId(userProfile, providerId);
+        if (isBlank(email) && userRepository.findOneByLogin(userName).isPresent()) {
+            log.error("Cannot create social user because email is null and login already exist, login -> {}", userName);
+            throw new IllegalArgumentException("Email cannot be null with an existing login");
+        }
+
         String encryptedPassword = passwordEncoder.encode(RandomStringUtils.random(10));
         Set<Authority> authorities = new HashSet<>(1);
         authorities.add(authorityRepository.findOne("ROLE_USER"));
@@ -114,23 +113,12 @@ public class SocialService {
      *         Because provider like Google or Facebook didn't provide login or login like "12099388847393"
      */
     private String getLoginDependingOnProviderId(UserProfile userProfile, String providerId) {
-        switch (providerId) {
-            case "twitter":
-                return "tw"+userProfile.getUsername().toLowerCase();
-            default:
-                return extractLoginForProvider(userProfile, providerId);
-        }
-    }
-
-    private String extractLoginForProvider(UserProfile userProfile, String provider) {
         return userProfile.getEmail() != null
             ? userProfile.getEmail()
             : userProfile.getUsername() != null
-            ? (provider + userProfile.getUsername())
-            : userProfile.getName() != null
-            ? (provider + userProfile.getName()).toLowerCase(Locale.US).replace(" ", "_")
+            ? (providerId + "-" + userProfile.getUsername())
             : userProfile.getId() != null
-            ? (provider + userProfile.getId())
+            ? (providerId + "-" + userProfile.getId())
             : null;
     }
 
