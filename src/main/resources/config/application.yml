@@ -40,22 +40,18 @@ spring:
     social:
         # see https://developers.google.com/+/web/signin/server-side-flow#step_1_create_a_client_id_and_client_secret
         google:
-            clientId: 802768695728-g1qp16336evugr3m1fpvh3dec9skffcn.apps.googleusercontent.com
-            clientSecret: Lzw9ojNBrx3OuPpVv5l93o7d
+            # login/pass in env props
 
         # see https://developers.facebook.com/docs/facebook-login/v2.2
         facebook:
-            clientId: 1348330751858069
-            clientSecret: a97ca1b32b1948af3e2563b4613a960b
+            # login/pass in env props
 
         # see https://apps.twitter.com/app/
         twitter:
-            clientId: xxx
-            clientSecret: xxx
+            # login/pass in env props
 
         vk:
-            clientId: 5524080
-            clientSecret: 0ROtfgh4EzpKOXtAg06E
+            # login/pass in env props
 
         # jhipster-needle-add-social-configuration
 

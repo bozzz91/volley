@@ -88,8 +88,7 @@ public class SocialConfiguration implements SocialConfigurer {
             log.error("Cannot configure TwitterConnectionFactory id or secret null");
         }
 
-        //VK configuration
-        // Twitter configuration
+        // VK configuration
         String vkClientId = environment.getProperty("spring.social.vk.clientId");
         String vkClientSecret = environment.getProperty("spring.social.vk.clientSecret");
         if (vkClientId != null && vkClientSecret != null) {
