@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
-
+import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import javax.inject.Inject;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -258,5 +258,18 @@ public class UserService {
             .flatMap(Collection::stream)
             .filter(connection -> connection.getImageUrl() != null)
             .findAny().ifPresent(connection -> user.setImageUrl(connection.getImageUrl()));
+    }
+
+    public List<String> getSocialProfiles(User user) {
+        ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(user.getLogin());
+        MultiValueMap<String, Connection<?>> connections = connectionRepository.findAllConnections();
+        List<String> urls = new ArrayList<>();
+        connections.forEach((provider, connection) -> {
+            urls.addAll(connection.stream()
+                .map(Connection::getProfileUrl)
+                .collect(Collectors.toList())
+            );
+        });
+        return urls;
     }
 }

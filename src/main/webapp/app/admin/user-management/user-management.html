@@ -17,7 +17,7 @@
                 <th jh-sort-by="email"><span translate="userManagement.email">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="phone"><span translate="userManagement.phone">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
-                <th  jh-sort-by="langKey"> <span translate="userManagement.langKey">Lang Key</span> <span class="glyphicon glyphicon-sort"></span></th>                <th><span translate="userManagement.profiles">Profiles</span></th>                <th jh-sort-by="createdDate"><span translate="userManagement.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th><span translate="userManagement.profiles">Profiles</span></th>                <th jh-sort-by="createdDate"><span translate="userManagement.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="lastModifiedBy"><span translate="userManagement.lastModifiedBy">Last Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="lastModifiedDate"><span translate="userManagement.lastModifiedDate">Last Modified Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
@@ -26,7 +26,14 @@
             <tbody>
             <tr ng-repeat="user in vm.users track by user.id">
                 <td><a ui-sref="user-management-detail({login:user.login})">{{user.id}}</a></td>
-                <td>{{user.login}}</td>
+                <td>
+                    {{user.login}}
+                    <br/>{{user.firstName}} {{user.lastName}}
+                    <br/>
+                    <a ng-repeat="social in user.socials" ng-href="{{social}}" target="_blank">
+                        &nbsp;&nbsp;{{($index+1) + '. ' + social}}
+                    </a>
+                </td>
                 <td>{{user.email}}</td>
                 <td>{{user.phone}}</td>
                 <td>
@@ -35,7 +42,6 @@
                     <span class="label label-success" ng-click="vm.setActive(user, false)" ng-show="user.activated"
                           translate="userManagement.activated" style="cursor: pointer;">Activated</span>
                 </td>
-                <td>{{user.langKey}}</td>
                 <td>
                     <div ng-repeat="authority in user.authorities">
                         <span class="label label-info">{{ authority }}</span>

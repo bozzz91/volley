@@ -183,7 +183,11 @@ public class UserResource {
         throws URISyntaxException {
         Page<User> page = userRepository.findAll(pageable);
         List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
-            .map(ManagedUserDTO::new)
+            .map(u -> {
+                ManagedUserDTO dto = new ManagedUserDTO(u);
+                dto.setSocials(userService.getSocialProfiles(u));
+                return dto;
+            })
             .collect(Collectors.toList());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(managedUserDTOs, headers, HttpStatus.OK);
