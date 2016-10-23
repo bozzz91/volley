@@ -71,7 +71,8 @@ Logo styles
     &.logo {
         padding: 5px 15px;
         .logo-img {
-            height: 45px;
+            height: 100%;
+            border-radius: 8px;
             display: inline-block;
         }
     }
