@@ -394,16 +394,14 @@ Social button
     color: #fff;
 }
 
-.jh-btn-twitter {
-    background-color: #55acee;
-    border-color: rgba(0, 0, 0, 0.2);
+.jh-btn-vkontakte {
+    background: #507299;
     color: #fff;
+    border-color: rgba(0, 0, 0, 0.2);
 }
-
-.jh-btn-twitter:hover, .jh-btn-twitter:focus, .jh-btn-twitter:active, .jh-btn-twitter.active, .open > .dropdown-toggle.jh-btn-twitter {
-    background-color: #2795e9;
-    border-color: rgba(0, 0, 0, 0.2);
+.jh-btn-vkontakte:hover, .jh-btn-vkontakte:focus, .jh-btn-vkontakte:active, .jh-btn-vkontakte.active, .open > .dropdown-toggle.jh-btn-vkontakte {
     color: #fff;
+    background: #435D7B;
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
