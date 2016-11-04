@@ -20,8 +20,8 @@ spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/volley
         name:
-        username: volley
-        password: volley
+        username: # login in env props
+        password: # pass in env props
     jpa:
         database-platform: org.desu.volley.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
