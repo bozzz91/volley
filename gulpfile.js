@@ -55,7 +55,17 @@ gulp.task('copy', function () {
             merge: true
         }))
         .pipe(gulp.dest(config.dist)),
-        gulp.src([config.app + 'robots.txt', config.app + 'favicon.ico', config.app + '.htaccess'], { dot: true })
+        gulp.src([
+            config.app + 'robots.txt',
+            config.app + 'favicon.ico',
+            config.app + 'favicon-16x16.png',
+            config.app + 'favicon-32x32.png',
+            config.app + 'android-chrome-192x192.png',
+            config.app + 'android-chrome-512x512.png',
+            config.app + 'apple-touch-icon.png',
+            config.app + 'mstile-150x150.png',
+            config.app + '.htaccess'
+        ], { dot: true })
         .pipe(plumber({errorHandler: handleErrors}))
         .pipe(changed(config.dist))
         .pipe(gulp.dest(config.dist))
