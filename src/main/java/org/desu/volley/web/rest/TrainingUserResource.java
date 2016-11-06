@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -169,16 +170,17 @@ public class TrainingUserResource {
         if (removedIndex < limit && users.size() > limit) {
             User lastUser = users.get(limit);
             if (lastUser.getPhone() != null) {
-                String msg = createSmsMessage(training);
+                String msg = createSmsMessage(training, lastUser);
                 smsService.sendSms(lastUser.getPhone(), msg);
             }
         }
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("trainingUser", id.toString())).build();
     }
 
-    private String createSmsMessage(Training training) {
+    private String createSmsMessage(Training training, User lastUser) {
+        String tz = lastUser.getCity().getTz();
         String msg = "Освободилось место на тренировку: "
-            + training.getStartAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+            + training.getStartAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").withZone(ZoneId.of(tz)))
             + ", "
             + training.getGym().getLocation();
         return msg;
