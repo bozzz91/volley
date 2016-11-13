@@ -18,7 +18,7 @@ import java.util.List;
 public interface TrainingRepository extends JpaRepository<Training,Long> {
 
     @Query("select training from Training training where training.organizer.login = ?#{principal.username}")
-    List<Training> findByOrganizerIsCurrentUser();
+    Page<Training> findByOrganizerIsCurrentUser(Pageable pageable);
 
     @Query("select distinct training from Training training left join fetch training.trainingUsers")
     List<Training> findAllWithEagerRelationships();

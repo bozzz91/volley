@@ -18,13 +18,16 @@
         };
         vm.predicate = 'startAt';
         vm.reset = reset;
+        vm.setSearch = setSearch;
         vm.reverse = false;
+        vm.search = 'mine';
 
         loadAll();
 
         function loadAll () {
             Training.query({
                 page: vm.page,
+                search: vm.search,
                 size: 20,
                 sort: sort()
             }, onSuccess, onError);
@@ -47,10 +50,18 @@
             }
         }
 
-        function reset () {
+        function reset() {
             vm.page = 0;
             vm.trainings = [];
             loadAll();
+        }
+
+        function setSearch(search) {
+            if (vm.search == search) {
+                return;
+            }
+            vm.search = search;
+            reset();
         }
 
         function loadPage(page) {

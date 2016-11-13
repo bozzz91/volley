@@ -110,7 +110,8 @@ public class TrainingResource {
     public ResponseEntity<List<Training>> getAllTrainings(
         Pageable pageable,
         @RequestParam(required = false, value = "city") Long cityId,
-        @RequestParam(required = false, value = "state") String stateNames
+        @RequestParam(required = false, value = "state") String stateNames,
+        @RequestParam(required = false, value = "search") String search
     ) throws URISyntaxException {
 
         log.debug("REST request to get a page of Trainings");
@@ -123,6 +124,12 @@ public class TrainingResource {
                 states.add(TrainingState.valueOf(stateName));
             }
             page = trainingRepository.findByCityAndStates(city, states, pageable);
+        } else if (search != null) {
+            switch (search) {
+                case "all": page = trainingRepository.findAll(pageable); break;
+                case "mine": page = trainingRepository.findByOrganizerIsCurrentUser(pageable); break;
+                default: throw new IllegalArgumentException("Wrong search type: " + search);
+            }
         } else {
             page = trainingRepository.findAll(pageable);
         }

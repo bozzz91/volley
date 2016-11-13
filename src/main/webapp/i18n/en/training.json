@@ -5,7 +5,11 @@
                 "title": "Trainings",
                 "createLabel": "Create a new Training",
                 "createOrEditLabel": "Create or edit a Training",
-                "search": "Search for Training"
+                "search": {
+                    "all": "All",
+                    "mine": "Only mine",
+                    "city": "By city"
+                }
             },
             "created": "A new Training is created with identifier {{ param }}",
             "updated": "A Training is updated with identifier {{ param }}",

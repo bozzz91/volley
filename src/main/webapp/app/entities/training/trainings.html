@@ -3,12 +3,24 @@
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4 no-padding-left">
+            <div class="btn-group no-padding-left">
                 <button class="btn btn-primary" ui-sref="training.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span  translate="volleyApp.training.home.createLabel">
                         Create new Training
                     </span>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn" ng-class="vm.search == 'all' ? 'btn-info' : 'btn-default'"
+                        ng-click="vm.setSearch('all')">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    <span class="hidden-xs hidden-sm" translate="volleyApp.training.home.search.all"></span>
+                </button>
+                <button type="submit" class="btn" ng-class="vm.search == 'mine' ? 'btn-info' : 'btn-default'"
+                        ng-click="vm.setSearch('mine')">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    <span class="hidden-xs hidden-sm" translate="volleyApp.training.home.search.mine"></span>
                 </button>
             </div>
         </div>
