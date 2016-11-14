@@ -36,6 +36,7 @@
             if (vm.training.id !== null) {
                 Training.update(vm.training, onSaveSuccess, onSaveError);
             } else {
+                vm.training.organizer = vm.account;
                 Training.save(vm.training, onSaveSuccess, onSaveError);
             }
         }
