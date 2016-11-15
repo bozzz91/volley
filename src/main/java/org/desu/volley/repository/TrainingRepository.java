@@ -31,4 +31,6 @@ public interface TrainingRepository extends JpaRepository<Training,Long> {
     @Query("select training from Training training where training.gym.city =:city and training.state in :states")
     Page<Training> findByCityAndStates(@Param("city") City city, @Param("states") List<TrainingState> states, Pageable pageable);
 
+    @Query("select training from Training training where training.gym.city =:city")
+    Page<Training> findByCity(@Param("city") City city, Pageable pageable);
 }

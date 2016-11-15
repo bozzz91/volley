@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('TrainingController', TrainingController);
 
-    TrainingController.$inject = ['$scope', '$state', 'Training', 'ParseLinks', 'AlertService'];
+    TrainingController.$inject = ['$scope', '$state', 'Training', 'ParseLinks', 'AlertService', 'City'];
 
-    function TrainingController ($scope, $state, Training, ParseLinks, AlertService) {
+    function TrainingController ($scope, $state, Training, ParseLinks, AlertService, City) {
         var vm = this;
 
         vm.trainings = [];
@@ -21,8 +21,10 @@
         vm.setSearch = setSearch;
         vm.reverse = false;
         vm.search = 'mine';
+        vm.cities = [];
 
         loadAll();
+        loadCities();
 
         function loadAll () {
             Training.query({
@@ -48,6 +50,20 @@
             function onError(error) {
                 AlertService.error(error.data.message);
             }
+        }
+
+        function loadCities() {
+            vm.cities = [];
+            City.query({
+                    page: vm.page,
+                    size: 20
+                },
+                function (data, headers){
+                    for (var i = 0; i < data.length; i++) {
+                        vm.cities.push(data[i]);
+                    }
+                }
+            );
         }
 
         function reset() {

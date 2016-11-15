@@ -125,9 +125,15 @@ public class TrainingResource {
             }
             page = trainingRepository.findByCityAndStates(city, states, pageable);
         } else if (search != null) {
-            switch (search) {
+            String[] searchArgs = search.split(":");
+            switch (searchArgs[0]) {
                 case "all": page = trainingRepository.findAll(pageable); break;
                 case "mine": page = trainingRepository.findByOrganizerIsCurrentUser(pageable); break;
+                case "city":
+                    City city = new City();
+                    city.setId(Long.valueOf(searchArgs[1]));
+                    page = trainingRepository.findByCity(city, pageable);
+                    break;
                 default: throw new IllegalArgumentException("Wrong search type: " + search);
             }
         } else {

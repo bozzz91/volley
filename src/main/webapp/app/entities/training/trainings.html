@@ -13,15 +13,23 @@
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn" ng-class="vm.search == 'all' ? 'btn-info' : 'btn-default'"
-                        ng-click="vm.setSearch('all')">
+                        ng-click="vm.setSearch('all'); searchCity = null">
                     <span class="glyphicon glyphicon-eye-open"></span>
                     <span class="hidden-xs hidden-sm" translate="volleyApp.training.home.search.all"></span>
                 </button>
                 <button type="submit" class="btn" ng-class="vm.search == 'mine' ? 'btn-info' : 'btn-default'"
-                        ng-click="vm.setSearch('mine')">
+                        ng-click="vm.setSearch('mine'); searchCity = null">
                     <span class="glyphicon glyphicon-eye-open"></span>
                     <span class="hidden-xs hidden-sm" translate="volleyApp.training.home.search.mine"></span>
                 </button>
+                <div class="btn" style="border-color: #0088bb; padding: 0;">
+                    <select style="border-width: 0; height: 31px;"
+                            id="searchCity" ng-model="searchCity" name="searchCity"
+                            ng-change="vm.setSearch('city:' + searchCity.id)"
+                            ng-options="i as i.name for i in vm.cities | orderBy:'name'" >
+                    <option value="" disabled selected>По городу</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
