@@ -28,7 +28,6 @@ public class CustomSignInAdapter implements SignInAdapter {
     @Inject
     private JHipsterProperties jHipsterProperties;
 
-
     @Override
     public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
         UserDetails user = userDetailsService.loadUserByUsername(userId);
@@ -37,6 +36,10 @@ public class CustomSignInAdapter implements SignInAdapter {
             null,
             user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
-        return jHipsterProperties.getSocial().getRedirectAfterSignIn();
+        String hideMenu = request.getParameter("hideMenu");
+        if (hideMenu == null) {
+            return jHipsterProperties.getSocial().getRedirectAfterSignIn();
+        }
+        return jHipsterProperties.getSocial().getRedirectAfterSignIn() + "?hideMenu=true";
     }
 }
