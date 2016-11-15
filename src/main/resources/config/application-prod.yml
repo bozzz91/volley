@@ -44,6 +44,7 @@ liquibase:
 
 server:
     port: 80
+    sessionTimeout: 1440 # in mins (24 hour here)
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json

@@ -46,6 +46,7 @@ liquibase:
 
 server:
     port: 80
+    sessionTimeout: 30 # in mins
 
 # ===================================================================
 # JHipster specific properties
