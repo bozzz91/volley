@@ -11,7 +11,7 @@
 
     <groupId>org.desu.volley</groupId>
     <artifactId>volley</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>war</packaging>
     <name>Volley</name>
 
