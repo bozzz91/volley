@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.RequestAttributes;
 
 import javax.inject.Inject;
 
@@ -36,10 +37,11 @@ public class CustomSignInAdapter implements SignInAdapter {
             null,
             user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
-        String hideMenu = request.getParameter("hideMenu");
-        if (hideMenu == null) {
-            return jHipsterProperties.getSocial().getRedirectAfterSignIn();
+        boolean hideMenu = (boolean) request.getAttribute("hideMenu", RequestAttributes.SCOPE_SESSION);
+        String redirectAfterSignIn = jHipsterProperties.getSocial().getRedirectAfterSignIn();
+        if (hideMenu) {
+            return redirectAfterSignIn + "?hideMenu=true";
         }
-        return jHipsterProperties.getSocial().getRedirectAfterSignIn() + "?hideMenu=true";
+        return redirectAfterSignIn;
     }
 }

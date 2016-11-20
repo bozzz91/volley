@@ -88,7 +88,7 @@ jhipster:
         license:
         licenseUrl:
     social:
-        redirectAfterSignIn: "/#/home"
+        redirectAfterSignIn: "/#/"
     ribbon:
         # comma seperated list of profiles to show a ribbon on the GUI
         displayOnActiveProfiles: dev

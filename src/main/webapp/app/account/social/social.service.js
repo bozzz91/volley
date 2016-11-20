@@ -5,7 +5,9 @@
         .module('volleyApp')
         .factory('SocialService', SocialService);
 
-    function SocialService () {
+    SocialService.$inject = ['$location']
+
+    function SocialService ($location) {
         var socialService = {
             getProviderSetting: getProviderSetting,
             getProviderURL: getProviderURL,
@@ -26,7 +28,12 @@
         }
 
         function getProviderURL (provider) {
-            return 'signin/' + provider;
+            var hideMenu = $location.search().hideMenu;
+            var providerUrl = 'signin/' + provider;
+            if (hideMenu == 'true') {
+                providerUrl += '?hideMenu=true';
+            }
+            return providerUrl;
         }
 
         function getCSRF () {

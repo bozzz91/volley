@@ -482,7 +482,7 @@ public class JHipsterProperties {
     }
     public static class Social {
 
-        private String redirectAfterSignIn = "/#/home";
+        private String redirectAfterSignIn = "/#/";
 
         public String getRedirectAfterSignIn() {
             return redirectAfterSignIn;
@@ -499,10 +499,10 @@ public class JHipsterProperties {
         public String[] getDisplayOnActiveProfiles() {
             return displayOnActiveProfiles;
         }
-        
+
         public void setDisplayOnActiveProfiles(String[] displayOnActiveProfiles) {
             this.displayOnActiveProfiles = displayOnActiveProfiles;
         }
-    }  
+    }
 
 }

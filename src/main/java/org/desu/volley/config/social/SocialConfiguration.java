@@ -1,9 +1,8 @@
 package org.desu.volley.config.social;
 
-import org.desu.volley.repository.SocialUserConnectionRepository;
 import org.desu.volley.repository.CustomSocialUsersConnectionRepository;
+import org.desu.volley.repository.SocialUserConnectionRepository;
 import org.desu.volley.security.social.CustomSignInAdapter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -13,19 +12,30 @@ import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurer;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInController;
+import org.springframework.social.connect.web.ProviderSignInInterceptor;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.connect.web.SignInAdapter;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.google.api.Google;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
+import org.springframework.social.vkontakte.api.VKontakte;
 import org.springframework.social.vkontakte.connect.VKontakteConnectionFactory;
-// jhipster-needle-add-social-connection-factory-import-package
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.inject.Inject;
+import java.util.function.BiConsumer;
+
+// jhipster-needle-add-social-connection-factory-import-package
 
 /**
  * Basic Spring Social configuration.
@@ -125,6 +135,46 @@ public class SocialConfiguration implements SocialConfigurer {
     public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, SignInAdapter signInAdapter) throws Exception {
         ProviderSignInController providerSignInController = new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
         providerSignInController.setSignUpUrl("/social/signup");
+
+        BiConsumer<WebRequest, ConnectionFactory<?>> biConsumer = (request, connectionFactory) -> {
+            String hideMenu = request.getParameter("hideMenu");
+            request.setAttribute("hideMenu", Boolean.TRUE.toString().equals(hideMenu), RequestAttributes.SCOPE_SESSION);
+        };
+
+        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptor<VKontakte>() {
+            @Override
+            public void preSignIn(ConnectionFactory<VKontakte> connectionFactory, MultiValueMap<String, String> parameters, WebRequest request) {
+                biConsumer.accept(request, connectionFactory);
+            }
+
+            @Override
+            public void postSignIn(Connection<VKontakte> connection, WebRequest request) {
+
+            }
+        });
+        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptor<Google>() {
+            @Override
+            public void preSignIn(ConnectionFactory<Google> connectionFactory, MultiValueMap<String, String> parameters, WebRequest request) {
+                biConsumer.accept(request, connectionFactory);
+            }
+
+            @Override
+            public void postSignIn(Connection<Google> connection, WebRequest request) {
+
+            }
+        });
+        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptor<Facebook>() {
+            @Override
+            public void preSignIn(ConnectionFactory<Facebook> connectionFactory, MultiValueMap<String, String> parameters, WebRequest request) {
+                biConsumer.accept(request, connectionFactory);
+            }
+
+            @Override
+            public void postSignIn(Connection<Facebook> connection, WebRequest request) {
+
+            }
+        });
+
         return providerSignInController;
     }
 
