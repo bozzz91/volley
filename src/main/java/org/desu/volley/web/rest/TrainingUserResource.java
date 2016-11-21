@@ -63,13 +63,20 @@ public class TrainingUserResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Secured(AuthoritiesConstants.USER)
+    @Transactional
     public ResponseEntity<TrainingUser> createTrainingUser(@RequestBody TrainingUser trainingUser) throws URISyntaxException {
         log.debug("REST request to save TrainingUser : {}", trainingUser);
         if (trainingUser.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("trainingUser", "idexists", "A new trainingUser cannot already have an ID")).body(null);
         }
         trainingUser.setRegisterDate(ZonedDateTime.now());
-        TrainingUser result = trainingUserRepository.save(trainingUser);
+        List<TrainingUser> existed = trainingUserRepository.findByTrainingAndUser(trainingUser.getTraining(), trainingUser.getUser());
+        TrainingUser result;
+        if (existed.isEmpty()) {
+            result = trainingUserRepository.save(trainingUser);
+        } else {
+            result = existed.get(0);
+        }
         return ResponseEntity.created(new URI("/api/training-users/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("trainingUser", result.getId().toString()))
             .body(result);
