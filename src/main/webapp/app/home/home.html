@@ -18,6 +18,8 @@
                                 <input type="checkbox" ng-model="hcontent" />
                                 <span>{{training.description ? (training.description + ', ') : ''}}{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}}р, {{training.gym.name}} (лимит {{training.limit}} человек)</span>
                             </label>
+                            <a href="#" ng-show="hcontent" ng-click="vm.loadTrainings()"
+                               class="refresh glyphicon glyphicon-refresh">&nbsp;Обновить</a>
                             <div ng-show="hcontent && training.state == 'REGISTRATION'">
                                 <div ng-if="!vm.alreadyRegister(training.id)">
                                     <form name="form" role="form" novalidate ng-submit="vm.enroll(training.id)" show-validation>
@@ -50,6 +52,7 @@
                         </li>
                     </ul>
                 </div>
+                <a href="#" ng-click="vm.loadTrainings()" class="refresh glyphicon glyphicon-refresh">&nbsp;Обновить</a>
             </div>
 
             <script type="text/ng-template" id="popupTmpl.html">

@@ -89,7 +89,7 @@
                 city: vm.account.city.id,
                 state: 'REGISTRATION,CANCELLED',
                 page: vm.page,
-                size: 20,
+                size: 40,
                 sort: sort()
             }, onSuccess, onError);
             function sort() {

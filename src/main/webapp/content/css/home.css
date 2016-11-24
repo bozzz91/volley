@@ -170,3 +170,9 @@ body {
 	padding: 0 10px;
 	font-size: 12pt;
 }
+
+.refresh {
+    font-size: 120%;
+    width: 100%;
+    text-align: center;
+}
