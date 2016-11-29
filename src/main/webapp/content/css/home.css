@@ -93,7 +93,7 @@ body {
 .show-more-train > input {
     display: none;
 }
-.enroll {
+.enroll, .unroll {
     background: #fff;
     color: #3065d1;
     display: block;
@@ -106,13 +106,16 @@ body {
     margin: 0 auto;
     border: 1px solid #3065d1;
 }
-.enroll:hover {
+.unroll {
+    margin-top: 8px;
+}
+.enroll:hover, .unroll:hover {
     color: #fff;
     background: #3065d1;
     border: 1px solid #3065d1;
     text-decoration: none;
 }
-.enroll:disabled {
+.enroll:disabled, .unroll:disabled {
     color: #fff;
     background: #cdd2cc;
     border: 1px solid #c8ced1;

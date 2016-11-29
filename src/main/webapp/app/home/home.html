@@ -35,7 +35,7 @@
                                     </form>
                                 </div>
                                 <div ng-if="vm.alreadyRegister(training.id)">
-                                    <a class="enroll" ng-click="vm.unroll(training.id)">Отписаться</a>
+                                    <a class="unroll" ng-click="vm.unroll(training.id)">Отписаться</a>
                                 </div>
                                 <ul class="users-list">
                                     <li ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'">
