@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity Sms.
+    -->
+    <changeSet id="20161129204209-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="sender_id"
+                                 baseTableName="sms"
+                                 constraintName="fk_sms_sender_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="sms_id"
+                                 baseTableName="sms_recipients"
+                                 constraintName="fk_sms_recipients_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sms"/>
+        <addForeignKeyConstraint baseColumnNames="recipients_id"
+                                 baseTableName="sms_recipients"
+                                 constraintName="fk_sms_recipients_sms_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+</databaseChangeLog>

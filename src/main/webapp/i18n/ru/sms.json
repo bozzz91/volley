@@ -1,0 +1,25 @@
+{
+    "volleyApp": {
+        "sms" : {
+            "home": {
+                "title": "Sms",
+                "createLabel": "Создать новый Sms",
+                "createOrEditLabel": "Создать или отредактировать Sms",
+                "search": "Найти Sms"
+            },
+            "created": "Новый Sms создан с идентификатором {{ param }}",
+            "updated": "Sms обновлен с идентификатором {{ param }}",
+            "deleted": "Sms удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Sms {{ id }}?"
+            },
+            "detail": {
+                "title": "Sms"
+            },
+            "text": "Text",
+            "sendDate": "Send Date",
+            "sender": "Sender",
+            "recipients": "Recipients"
+        }
+    }
+}

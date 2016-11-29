@@ -12,6 +12,7 @@
                 "level": "Уровень игры",
                 "training": "Тренировка",
                 "trainingUser": "Записанные игроки",
+                "sms": "Sms",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

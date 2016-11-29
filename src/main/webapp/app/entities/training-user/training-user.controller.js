@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('TrainingUserController', TrainingUserController);
 
-    TrainingUserController.$inject = ['$scope', '$state', 'TrainingUser', '$stateParams', 'training'];
+    TrainingUserController.$inject = ['$scope', '$state', 'TrainingUser', '$stateParams', 'training', 'ngDialog'];
 
-    function TrainingUserController ($scope, $state, TrainingUser, $stateParams, training) {
+    function TrainingUserController ($scope, $state, TrainingUser, $stateParams, training, ngDialog) {
         var vm = this;
         vm.training = training;
 
@@ -16,6 +16,13 @@
         vm.reverse = false;
         vm.reset = reset;
         vm.sendSms = sendSms;
+        vm.popupOpen = function() {
+            ngDialog.open({
+                template: 'popupTmpl.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            });
+        };
 
         loadAll();
 
@@ -40,7 +47,8 @@
             loadAll();
         }
 
-        function sendSms() {
+        function sendSms(text) {
+            console.log("SMS text: " + text);
             var phones = [];
             for (var i=0; i<vm.trainingUsers.length; i++) {
                 var phone = vm.trainingUsers[i].user.phone;
@@ -50,6 +58,7 @@
             }
             if (phones.length > 0) {
                 console.log('Sends SMS to: ' + phones);
+                //todo
             }
         }
     }

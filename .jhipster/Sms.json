@@ -1,0 +1,42 @@
+{
+    "relationships": [
+        {
+            "relationshipName": "sender",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipName": "recipients",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-many",
+            "ownerSide": "sms"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "text",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "sendDate",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20161129204209",
+    "dto": "no",
+    "service": "serviceClass",
+    "entityTableName": "sms",
+    "pagination": "pager"
+}

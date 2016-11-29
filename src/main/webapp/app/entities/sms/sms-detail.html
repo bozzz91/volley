@@ -1,0 +1,26 @@
+
+<div>
+    <h2><span translate="volleyApp.sms.detail.title">Sms</span> {{vm.sms.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span translate="volleyApp.sms.text">Text</span></dt>
+        <dd>
+            <span>{{vm.sms.text}}</span>
+        </dd>
+        <dt><span translate="volleyApp.sms.sendDate">Send Date</span></dt>
+        <dd>
+            <span>{{vm.sms.sendDate | date:'medium'}}</span>
+        </dd>
+        <dt><span translate="volleyApp.sms.sender">Sender</span></dt>
+        <dd>
+            {{vm.sms.sender.login}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

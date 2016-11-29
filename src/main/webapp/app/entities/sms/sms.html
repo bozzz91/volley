@@ -1,0 +1,66 @@
+<div>
+    <h2 translate="volleyApp.sms.home.title">Sms</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="sms.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  translate="volleyApp.sms.home.createLabel">
+                        Create new Sms
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="text"><span translate="volleyApp.sms.text">Text</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="sendDate"><span translate="volleyApp.sms.sendDate">Send Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="sender.login"><span translate="volleyApp.sms.sender">Sender</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="sms in vm.sms track by sms.id">
+                    <td><a ui-sref="sms-detail({id:sms.id})">{{sms.id}}</a></td>
+                    <td>{{sms.text}}</td>
+                    <td>{{sms.sendDate | date:'medium'}}</td>
+                    <td>
+                        {{sms.sender.login}}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="sms-detail({id:sms.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="sms.edit({id:sms.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="sms.delete({id:sms.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+    </div>
+    <uib-pager total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pager>
+</div>
