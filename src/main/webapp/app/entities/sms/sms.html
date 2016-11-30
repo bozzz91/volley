@@ -31,7 +31,7 @@
                     <td>{{sms.text}}</td>
                     <td>{{sms.sendDate | date:'medium'}}</td>
                     <td>
-                        {{sms.sender.login}}
+                        <a ui-sref="user-management-detail({login:sms.sender.login})">{{sms.sender.login}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
