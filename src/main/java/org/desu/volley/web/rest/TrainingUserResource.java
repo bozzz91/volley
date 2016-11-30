@@ -1,6 +1,7 @@
 package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.desu.volley.domain.Sms;
 import org.desu.volley.domain.Training;
 import org.desu.volley.domain.TrainingUser;
 import org.desu.volley.domain.User;
@@ -27,6 +28,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -178,7 +180,12 @@ public class TrainingUserResource {
             User lastUser = users.get(limit);
             if (lastUser.getPhone() != null) {
                 String msg = createSmsMessage(training, lastUser);
-                smsService.sendSms(lastUser.getPhone(), msg);
+                Sms sms = new Sms();
+                sms.setText(msg);
+                sms.setSender(userService.getUserWithAuthorities());
+                sms.setSendDate(ZonedDateTime.now());
+                sms.setRecipients(Collections.singleton(lastUser));
+                smsService.save(sms, true);
             }
         }
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("trainingUser", id.toString())).build();

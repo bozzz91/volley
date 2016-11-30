@@ -12,7 +12,7 @@
                 "level": "Level",
                 "training": "Training",
                 "trainingUser": "Training User",
-                "sms": "Sms",
+                "sms": "SMS",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -5,11 +5,12 @@
         .module('volleyApp')
         .controller('TrainingUserController', TrainingUserController);
 
-    TrainingUserController.$inject = ['$scope', '$state', 'TrainingUser', '$stateParams', 'training', 'ngDialog'];
+    TrainingUserController.$inject = ['$scope', '$state', 'TrainingUser', '$stateParams', 'training', 'ngDialog', 'Sms', 'Principal'];
 
-    function TrainingUserController ($scope, $state, TrainingUser, $stateParams, training, ngDialog) {
+    function TrainingUserController ($scope, $state, TrainingUser, $stateParams, training, ngDialog, Sms, Principal) {
         var vm = this;
         vm.training = training;
+        vm.account = null;
 
         vm.trainingUsers = [];
         vm.predicate = 'registerDate';
@@ -23,6 +24,10 @@
                 scope: $scope
             });
         };
+
+        Principal.identity().then(function(account) {
+            vm.account = account;
+        });
 
         loadAll();
 
@@ -48,17 +53,22 @@
         }
 
         function sendSms(text) {
-            console.log("SMS text: " + text);
-            var phones = [];
+            var sms = {};
+            sms.text = text;
+            sms.sendDate = new Date();
+            sms.sender = vm.account;
+            var recipients = [];
             for (var i=0; i<vm.trainingUsers.length; i++) {
-                var phone = vm.trainingUsers[i].user.phone;
-                if (phone) {
-                    phones.push(phone);
-                }
+                var user = vm.trainingUsers[i].user;
+                recipients.push(user);
             }
-            if (phones.length > 0) {
-                console.log('Sends SMS to: ' + phones);
-                //todo
+            if (recipients.length > 0) {
+                sms.recipients = recipients;
+                Sms.save(sms, function onSaveSuccess (result) {
+                    console.log('Sms saved. Sms id: ' + result.id);
+                }, function onSaveError () {
+                    console.log('Failed to save Sms')
+                });
             }
         }
     }

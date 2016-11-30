@@ -50,7 +50,7 @@ public class SmsResource {
         if (sms.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("sms", "idexists", "A new sms cannot already have an ID")).body(null);
         }
-        Sms result = smsService.save(sms);
+        Sms result = smsService.save(sms, true);
         return ResponseEntity.created(new URI("/api/sms/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("sms", result.getId().toString()))
             .body(result);
@@ -74,7 +74,7 @@ public class SmsResource {
         if (sms.getId() == null) {
             return createSms(sms);
         }
-        Sms result = smsService.save(sms);
+        Sms result = smsService.save(sms, false);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("sms", sms.getId().toString()))
             .body(result);

@@ -66,13 +66,16 @@
 
     <script type="text/ng-template" id="popupTmpl.html">
         <div class="modal-header">
-            <h3 class="modal-title">Send SMS</h3>
+            <h3 class="modal-title">Отправить SMS участникам игры</h3>
         </div>
         <div class="modal-body">
-            <textarea ng-model="smsText" aria-multiline="true"/>
+            <span>Текст сообщения (максимум 100 символов)</span>
+            <textarea ng-model="smsText" aria-multiline="true" aria-required="true" style="width: 100%; height: 100px" maxlength="100"/>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="vm.sendSms(smsText)">Send</button>
+            <button class="btn btn-primary" ng-click="vm.sendSms(smsText); closeThisDialog()">
+                <span translate="volleyApp.trainingUser.sendSms"> Send SMS</span>
+            </button>
         </div>
     </script>
 </div>

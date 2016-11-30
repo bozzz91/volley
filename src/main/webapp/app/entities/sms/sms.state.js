@@ -29,7 +29,7 @@
                     squash: true
                 },
                 sort: {
-                    value: 'id,asc',
+                    value: 'sendDate,desc',
                     squash: true
                 },
                 search: null

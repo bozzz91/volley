@@ -39,7 +39,9 @@ public class Sms implements Serializable {
     private User sender;
 
     @ManyToMany
-    @JoinTable(name = "sms_user")
+    @JoinTable(name = "sms_user",
+        joinColumns = @JoinColumn(name="sms_id", referencedColumnName="id"),
+        inverseJoinColumns = @JoinColumn(name="user_id", referencedColumnName="id"))
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User> recipients = new HashSet<>();
 

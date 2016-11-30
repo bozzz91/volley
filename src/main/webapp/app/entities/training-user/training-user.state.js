@@ -26,6 +26,7 @@
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('trainingUser');
+                    $translatePartialLoader.addPart('sms');
                     $translatePartialLoader.addPart('user-management');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();

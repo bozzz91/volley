@@ -1,17 +1,19 @@
 package org.desu.volley.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.desu.volley.domain.Sms;
+import org.desu.volley.domain.User;
 import org.desu.volley.repository.SmsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Sms.
@@ -24,14 +26,21 @@ public class SmsService {
 
     @Inject
     private SmsRepository smsRepository;
+    @Inject
+    private Executor executor;
 
-    private Smsc sms = new Smsc();
+    private Smsc smsc = new Smsc();
 
-    @Async
-    public void sendSms(String to, String text) {
-        log.info("sendSms.enter; to {}", to);
-        String[] ret = sms.send_sms(to, text, 0, "", "1", 0, "", "");
-        log.info("sendSms.exit; sms send to {} with message {}, returning {}", to, text, ret);
+    private void sendSms(Sms sms) {
+        executor.execute(() -> {
+            log.info("sendSms.enter; to {}", sms.getRecipients());
+            String phones = sms.getRecipients().stream()
+                .filter(u -> StringUtils.isNotBlank(u.getPhone()))
+                .map(User::getPhone)
+                .collect(Collectors.joining());
+            String[] ret = smsc.send_sms(phones, sms.getText(), 0, "", "1", 0, "", "");
+            log.info("sendSms.exit; sms send to {} with message {}, returning {}", phones, sms.getText(), ret);
+        });
     }
 
     /**
@@ -40,9 +49,12 @@ public class SmsService {
      * @param sms the entity to save
      * @return the persisted entity
      */
-    public Sms save(Sms sms) {
+    public Sms save(Sms sms, boolean send) {
         log.debug("Request to save Sms : {}", sms);
         Sms result = smsRepository.save(sms);
+        if (send) {
+            sendSms(sms);
+        }
         return result;
     }
 
@@ -69,6 +81,7 @@ public class SmsService {
     public Sms findOne(Long id) {
         log.debug("Request to get Sms : {}", id);
         Sms sms = smsRepository.findOneWithEagerRelationships(id);
+        sms.getRecipients().size();
         return sms;
     }
 

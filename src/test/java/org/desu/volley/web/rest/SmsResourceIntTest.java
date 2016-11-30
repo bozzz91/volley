@@ -186,7 +186,7 @@ public class SmsResourceIntTest {
     @Transactional
     public void updateSms() throws Exception {
         // Initialize the database
-        smsService.save(sms);
+        smsService.save(sms, false);
 
         int databaseSizeBeforeUpdate = smsRepository.findAll().size();
 
@@ -213,7 +213,7 @@ public class SmsResourceIntTest {
     @Transactional
     public void deleteSms() throws Exception {
         // Initialize the database
-        smsService.save(sms);
+        smsService.save(sms, false);
 
         int databaseSizeBeforeDelete = smsRepository.findAll().size();
 

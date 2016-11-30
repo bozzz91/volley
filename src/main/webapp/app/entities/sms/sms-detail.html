@@ -14,7 +14,14 @@
         </dd>
         <dt><span translate="volleyApp.sms.sender">Sender</span></dt>
         <dd>
-            {{vm.sms.sender.login}}
+            <a ui-sref="user-management-detail({login:vm.sms.sender.login})">{{vm.sms.sender.login}}</a>
+        </dd>
+        <dt><span translate="volleyApp.sms.recipients">Recipients</span></dt>
+        <dd>
+            <span ng-repeat="recipient in vm.sms.recipients">
+                <a ui-sref="user-management-detail({login:recipient.login})">{{$index+1}}. {{recipient.login}}</a>
+                <br ng-if="$last == false"/>
+            </span>
         </dd>
     </dl>
 
