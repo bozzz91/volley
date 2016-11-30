@@ -137,8 +137,11 @@ public class UserService {
         }
         if (managedUserDTO.getAuthorities() != null) {
             Set<Authority> authorities = new HashSet<>();
-            managedUserDTO.getAuthorities().stream().forEach(
-                authority -> authorities.add(authorityRepository.findOne(authority))
+            boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
+            managedUserDTO.getAuthorities().forEach(authority -> {
+                if (!AuthoritiesConstants.ADMIN_ROLES.contains(authority) || isSuperAdmin)
+                    authorities.add(authorityRepository.findOne(authority));
+                }
             );
             user.setAuthorities(authorities);
         }
@@ -260,16 +263,13 @@ public class UserService {
             .findAny().ifPresent(connection -> user.setImageUrl(connection.getImageUrl()));
     }
 
-    public List<String> getSocialProfiles(User user) {
+    public Map<String, List<String>> getSocialProfiles(User user) {
         ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(user.getLogin());
         MultiValueMap<String, Connection<?>> connections = connectionRepository.findAllConnections();
-        List<String> urls = new ArrayList<>();
-        connections.forEach((provider, connection) -> {
-            urls.addAll(connection.stream()
-                .map(Connection::getProfileUrl)
-                .collect(Collectors.toList())
-            );
-        });
+        Map<String, List<String>> urls = new HashMap<>();
+        connections.forEach((provider, connection) ->
+            urls.put(provider, connection.stream().map(Connection::getProfileUrl).collect(Collectors.toList())
+        ));
         return urls;
     }
 }

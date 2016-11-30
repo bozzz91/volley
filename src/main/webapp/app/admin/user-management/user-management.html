@@ -30,9 +30,12 @@
                     {{user.login}}
                     <br/>{{user.firstName}} {{user.lastName}}
                     <br/>
-                    <a ng-repeat="social in user.socials" ng-href="{{social}}" target="_blank">
-                        &nbsp;&nbsp;{{($index+1) + '. ' + social}}
-                    </a>
+                    <span ng-if="user.socials" ng-repeat="(key, value) in user.socials">
+                        <a ng-if="value" ng-repeat="social in value" ng-href="{{social}}" target="_blank">
+                            &nbsp;&nbsp;{{key}}
+                        </a>
+                        <br ng-if="value && value.length > 0 && $last == false"/>
+                    </span>
                 </td>
                 <td>{{user.email}}</td>
                 <td>{{user.phone}}</td>

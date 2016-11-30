@@ -3,6 +3,7 @@ package org.desu.volley.web.rest.dto;
 import java.time.ZonedDateTime;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.desu.volley.domain.City;
@@ -22,7 +23,7 @@ public class ManagedUserDTO extends UserDTO {
 
     private String lastModifiedBy;
 
-    private List<String> socials;
+    private Map<String, List<String>> socials;
 
     private ZonedDateTime lastModifiedDate;
 
@@ -89,11 +90,11 @@ public class ManagedUserDTO extends UserDTO {
             "} " + super.toString();
     }
 
-    public List<String> getSocials() {
+    public Map<String, List<String>> getSocials() {
         return socials;
     }
 
-    public void setSocials(List<String> socials) {
+    public void setSocials(Map<String, List<String>> socials) {
         this.socials = socials;
     }
 }

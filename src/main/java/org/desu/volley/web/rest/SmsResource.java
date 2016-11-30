@@ -2,6 +2,7 @@ package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Sms;
+import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.service.SmsService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.desu.volley.web.rest.util.PaginationUtil;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -129,6 +131,7 @@ public class SmsResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.SUPER_ADMIN)
     public ResponseEntity<Void> deleteSms(@PathVariable Long id) {
         log.debug("REST request to delete Sms : {}", id);
         smsService.delete(id);

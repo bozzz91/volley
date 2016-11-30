@@ -7,6 +7,7 @@ import org.desu.volley.domain.User;
 import org.desu.volley.repository.AuthorityRepository;
 import org.desu.volley.repository.UserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
+import org.desu.volley.security.SecurityUtils;
 import org.desu.volley.service.MailService;
 import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.dto.ManagedUserDTO;
@@ -154,10 +155,13 @@ public class UserResource {
                 user.setActivated(managedUserDTO.isActivated());
                 user.setLangKey(managedUserDTO.getLangKey());
                 Set<Authority> authorities = user.getAuthorities();
-                authorities.clear();
-                managedUserDTO.getAuthorities().stream().forEach(
-                    authority -> authorities.add(authorityRepository.findOne(authority))
-                );
+                boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
+                if (isSuperAdmin) {
+                    authorities.clear();
+                    managedUserDTO.getAuthorities().forEach(authority ->
+                        authorities.add(authorityRepository.findOne(authority))
+                    );
+                }
                 return ResponseEntity.ok()
                     .headers(HeaderUtil.createAlert("userManagement.updated", managedUserDTO.getLogin()))
                     .body(new ManagedUserDTO(userRepository
