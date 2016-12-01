@@ -38,6 +38,9 @@ public class Sms implements Serializable {
     @NotNull
     private User sender;
 
+    @Column
+    private String state;
+
     @ManyToMany
     @JoinTable(name = "sms_user",
         joinColumns = @JoinColumn(name="sms_id", referencedColumnName="id"),
@@ -83,6 +86,14 @@ public class Sms implements Serializable {
 
     public void setRecipients(Set<User> users) {
         this.recipients = users;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     @Override

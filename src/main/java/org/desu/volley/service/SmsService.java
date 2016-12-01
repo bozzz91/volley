@@ -33,13 +33,27 @@ public class SmsService {
 
     private void sendSms(Sms sms) {
         executor.execute(() -> {
-            log.info("sendSms.enter; to {}", sms.getRecipients());
-            String phones = sms.getRecipients().stream()
-                .filter(u -> StringUtils.isNotBlank(u.getPhone()))
-                .map(User::getPhone)
-                .collect(Collectors.joining(","));
-            String[] ret = smsc.send_sms(phones, sms.getText(), 0, "", "1", 0, "", "");
-            log.info("sendSms.exit; sms send to {} with message {}, returning {}", phones, sms.getText(), ret);
+            log.info("sendSms.enter; to {} people", sms.getRecipients().size());
+            try {
+                Thread.sleep(1000L);
+                String phones = sms.getRecipients().stream()
+                    .map(User::getPhone)
+                    .filter(StringUtils::isNotBlank)
+                    .collect(Collectors.joining(","));
+                String[] result = smsc.send_sms(phones, sms.getText(), 0, "", "1", 0, "", "");
+                if (result.length == 2) {
+                    //send failed
+                    log.warn("sendSms; sms send to {} with text {} failed, result {}", phones, sms.getText(), result);
+                    sms.setState(result[1]);
+                } else {
+                    sms.setState("0");
+                    log.info("sendSms; sms send to {} with text {} success, result {}", phones, sms.getText(), result);
+                }
+            } catch (Exception e) {
+                sms.setState("-1");
+                log.error("Error while send", e);
+            }
+            save(sms, false);
         });
     }
 
@@ -53,7 +67,7 @@ public class SmsService {
         log.debug("Request to save Sms : {}", sms);
         Sms result = smsRepository.save(sms);
         if (send) {
-            sendSms(sms);
+            sendSms(result);
         }
         return result;
     }

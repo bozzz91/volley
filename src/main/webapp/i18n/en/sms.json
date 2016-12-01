@@ -17,6 +17,7 @@
                 "title": "Sms"
             },
             "text": "Text",
+            "state": "State",
             "sendDate": "Send Date",
             "sender": "Sender",
             "recipients": "Recipients"
