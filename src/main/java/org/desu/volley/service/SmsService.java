@@ -37,7 +37,7 @@ public class SmsService {
             String phones = sms.getRecipients().stream()
                 .filter(u -> StringUtils.isNotBlank(u.getPhone()))
                 .map(User::getPhone)
-                .collect(Collectors.joining());
+                .collect(Collectors.joining(","));
             String[] ret = smsc.send_sms(phones, sms.getText(), 0, "", "1", 0, "", "");
             log.info("sendSms.exit; sms send to {} with message {}, returning {}", phones, sms.getText(), ret);
         });
