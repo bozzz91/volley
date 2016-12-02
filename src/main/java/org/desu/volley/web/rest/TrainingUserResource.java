@@ -182,7 +182,7 @@ public class TrainingUserResource {
                 String msg = createSmsMessage(training, lastUser);
                 Sms sms = new Sms();
                 sms.setText(msg);
-                sms.setSender(userService.getUserWithAuthorities());
+                sms.setSender(trainingUser.getUser());
                 sms.setSendDate(ZonedDateTime.now());
                 sms.setRecipients(Collections.singleton(lastUser));
                 smsService.save(sms, true);
