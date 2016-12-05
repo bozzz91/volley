@@ -18,9 +18,15 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
-                    <th><span translate="global.field.id">ID</span></th>
-                    <th jh-sort-by="registerDate"><span translate="volleyApp.trainingUser.registerDate">Register Date</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
+                    <th style="width: 20px"><span translate="global.field.id">ID</span></th>
+                    <th style="width: 180px" jh-sort-by="registerDate">
+                        <span translate="volleyApp.trainingUser.registerDate">Register Date</span>
+                        <span class="glyphicon glyphicon-sort"></span>
+                    </th>
+                    <th style="width: 30px">
+                        <span>№</span>
+                    </th>
+                    <th style="width: 50px"></th>
                     <th><span translate="volleyApp.trainingUser.user">User</span></th>
                     <th><span translate="userManagement.phone">Phone</span></th>
                     <th></th>
@@ -30,6 +36,7 @@
                 <tr ng-repeat="trainingUser in vm.trainingUsers track by trainingUser.id ">
                     <td><a ui-sref="training-user-detail({id:trainingUser.id})">{{trainingUser.id}}</a></td>
                     <td>{{trainingUser.registerDate | date:'medium'}}</td>
+                    <td>{{vm.trainingUsers.length - $index}}</td>
                     <td><img height="50px" width="50px" ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}"></td>
                     <td>
                         <a ui-sref="user-management-detail({login:trainingUser.user.login})">
