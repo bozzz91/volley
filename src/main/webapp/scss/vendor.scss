@@ -3,6 +3,15 @@ $icon-font-path: "../fonts/";
 /* Sass bower components will be injected here */
 /* bower:scss */
 @import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+.container > .navbar-header,
+.container > .navbar-collapse,
+.container-fluid > .navbar-header,
+.container-fluid > .navbar-collapse {
+    margin-right: 0;
+    margin-left: 0;
+}
+
 /* endinject */
 /* bower:sass */
 /* endinject */
