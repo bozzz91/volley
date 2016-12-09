@@ -2,12 +2,14 @@ package org.desu.volley.security.social;
 
 import org.desu.volley.config.JHipsterProperties;
 
+import org.desu.volley.security.AuthoritiesConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,7 +41,8 @@ public class CustomSignInAdapter implements SignInAdapter {
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         boolean hideMenu = (boolean) request.getAttribute("hideMenu", RequestAttributes.SCOPE_SESSION);
         String redirectAfterSignIn = jHipsterProperties.getSocial().getRedirectAfterSignIn();
-        if (hideMenu) {
+        boolean isAdmin = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(AuthoritiesConstants.ADMIN::equals);
+        if (hideMenu && !isAdmin) {
             return redirectAfterSignIn + "?hideMenu=true";
         }
         return redirectAfterSignIn;
