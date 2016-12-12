@@ -40,7 +40,7 @@ public class SmsService {
                     .map(User::getPhone)
                     .filter(StringUtils::isNotBlank)
                     .collect(Collectors.joining(","));
-                String[] result = smsc.send_sms(phones, sms.getText(), 0, "", "1", 0, "", "");
+                String[] result = smsc.send_sms(phones, sms.getText(), 0, "", sms.getId()+"", 0, "LightLine", "");
                 if (result.length == 2) {
                     //send failed
                     log.warn("sendSms; sms send to {} with text {} failed, result {}", phones, sms.getText(), result);
