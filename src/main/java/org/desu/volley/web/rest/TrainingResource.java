@@ -3,10 +3,12 @@ package org.desu.volley.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.City;
 import org.desu.volley.domain.Training;
+import org.desu.volley.domain.User;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.repository.TrainingUserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
+import org.desu.volley.security.SecurityUtils;
 import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.desu.volley.web.rest.util.PaginationUtil;
@@ -85,15 +87,23 @@ public class TrainingResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Training> updateTraining(@Valid @RequestBody Training training) throws URISyntaxException {
         log.debug("REST request to update Training : {}", training);
         if (training.getId() == null) {
             return createTraining(training);
         }
-        Training result = trainingRepository.save(training);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("training", training.getId().toString()))
-            .body(result);
+        User currentUser = userService.getUserWithAuthorities();
+        boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
+        if (currentUser.getCity().equals(training.getGym().getCity()) || isSuperAdmin) {
+            Training result = trainingRepository.save(training);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("training", training.getId().toString()))
+                .body(result);
+        }
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.createFailureAlert("training", "accessdenied", "Access denied"))
+            .body(null);
     }
 
     /**
@@ -178,9 +188,16 @@ public class TrainingResource {
     public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
         log.debug("REST request to delete Training : {}", id);
         Training training = trainingRepository.findOneWithEagerRelationships(id);
-        trainingUserRepository.delete(training.getTrainingUsers());
-        trainingRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("training", id.toString())).build();
+        User currentUser = userService.getUserWithAuthorities();
+        boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
+        if (training.getOrganizer().equals(currentUser) || isSuperAdmin) {
+            trainingUserRepository.delete(training.getTrainingUsers());
+            trainingRepository.delete(id);
+            return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("training", id.toString())).build();
+        }
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.createFailureAlert("training", "accessdenied", "Access denied"))
+            .build();
     }
 
 }

@@ -1,17 +1,21 @@
 package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.desu.volley.domain.City;
 import org.desu.volley.domain.Gym;
+import org.desu.volley.domain.User;
 import org.desu.volley.repository.GymRepository;
 import org.desu.volley.security.AuthoritiesConstants;
+import org.desu.volley.security.SecurityUtils;
+import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -32,6 +36,8 @@ public class GymResource {
 
     @Inject
     private GymRepository gymRepository;
+    @Inject
+    private UserService userService;
 
     /**
      * POST  /gyms : Create a new gym.
@@ -126,11 +132,21 @@ public class GymResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Transactional
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteGym(@PathVariable Long id) {
         log.debug("REST request to delete Gym : {}", id);
-        gymRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("gym", id.toString())).build();
+        Gym gym = gymRepository.findOne(id);
+        City gymCity = gym.getCity();
+        User user = userService.getUserWithAuthorities();
+        boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
+        if (gymCity.equals(user.getCity()) || isSuperAdmin) {
+            gymRepository.delete(id);
+            return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("gym", id.toString())).build();
+        }
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.createFailureAlert("gym", "accessdenied", "Access denied"))
+            .build();
     }
 
 }

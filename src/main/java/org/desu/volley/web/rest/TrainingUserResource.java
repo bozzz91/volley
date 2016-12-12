@@ -8,6 +8,7 @@ import org.desu.volley.domain.User;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.repository.TrainingUserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
+import org.desu.volley.security.SecurityUtils;
 import org.desu.volley.service.SmsService;
 import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
@@ -71,6 +72,13 @@ public class TrainingUserResource {
         if (trainingUser.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("trainingUser", "idexists", "A new trainingUser cannot already have an ID")).body(null);
         }
+        User currentUser = userService.getUserWithAuthorities();
+        boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+        if (!currentUser.equals(trainingUser.getUser()) && !isAdmin) {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("trainingUser", "accessdenied", "Access denied"))
+                .body(null);
+        }
         trainingUser.setRegisterDate(ZonedDateTime.now());
         List<TrainingUser> existed = trainingUserRepository.findByTrainingAndUser(trainingUser.getTraining(), trainingUser.getUser());
         TrainingUser result;
@@ -97,6 +105,7 @@ public class TrainingUserResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<TrainingUser> updateTrainingUser(@RequestBody TrainingUser trainingUser) throws URISyntaxException {
         log.debug("REST request to update TrainingUser : {}", trainingUser);
         if (trainingUser.getId() == null) {
@@ -169,6 +178,15 @@ public class TrainingUserResource {
     public ResponseEntity<Void> deleteTrainingUser(@PathVariable Long id) {
         log.debug("REST request to delete TrainingUser : {}", id);
         TrainingUser trainingUser = trainingUserRepository.findOne(id);
+        User currentUser = userService.getUserWithAuthorities();
+
+        boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+
+        if (!trainingUser.getUser().equals(currentUser) && !isAdmin) {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("trainingUser", "accessdenied", "Access denied"))
+                .build();
+        }
         Training training = trainingRepository.findOneWithEagerRelationships(trainingUser.getTraining().getId());
         int limit = training.getLimit();
         List<User> users = new ArrayList<>(training.getUsers());

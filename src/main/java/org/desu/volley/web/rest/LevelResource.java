@@ -126,7 +126,7 @@ public class LevelResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured(AuthoritiesConstants.SUPER_ADMIN)
     public ResponseEntity<Void> deleteLevel(@PathVariable Long id) {
         log.debug("REST request to delete Level : {}", id);
         levelRepository.delete(id);

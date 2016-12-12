@@ -29,6 +29,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Secured(AuthoritiesConstants.USER)
 public class SmsResource {
 
     private final Logger log = LoggerFactory.getLogger(SmsResource.class);

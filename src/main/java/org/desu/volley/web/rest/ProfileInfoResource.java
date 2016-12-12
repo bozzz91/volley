@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfileInfoResource {
 
     @Inject
-    Environment env;
+    private Environment env;
 
     @Inject
     private JHipsterProperties jHipsterProperties;
