@@ -25,6 +25,7 @@
         vm.reverse = pagingParams.ascending;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.transition = transition;
+        vm.isUserInRole = isUserInRole;
 
         vm.loadAll();
 
@@ -41,6 +42,10 @@
                 vm.loadAll();
                 vm.clear();
             });
+        }
+
+        function isUserInRole(user, role) {
+            return user.authorities.indexOf(role) > 0;
         }
 
         function loadAll () {

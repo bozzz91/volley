@@ -41,8 +41,10 @@
                 <td>{{user.phone}}</td>
                 <td>
                     <span class="label label-danger" ng-click="vm.setActive(user, true)" ng-show="!user.activated"
+                          ng-if="!vm.isUserInRole(user, 'ROLE_ADMIN') || vm.isUserInRole(vm.currentAccount, 'ROLE_SUPERADMIN')"
                           translate="userManagement.deactivated" style="cursor: pointer;">Deactivated</span>
                     <span class="label label-success" ng-click="vm.setActive(user, false)" ng-show="user.activated"
+                          ng-if="!vm.isUserInRole(user, 'ROLE_ADMIN') || vm.isUserInRole(vm.currentAccount, 'ROLE_SUPERADMIN')"
                           translate="userManagement.activated" style="cursor: pointer;">Activated</span>
                 </td>
                 <td>

@@ -1,7 +1,7 @@
 package org.desu.volley.web.rest;
 
-import org.desu.volley.config.Constants;
 import com.codahale.metrics.annotation.Timed;
+import org.desu.volley.config.Constants;
 import org.desu.volley.domain.Authority;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.AuthorityRepository;
@@ -26,10 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -152,7 +154,6 @@ public class UserResource {
                 user.setEmail(managedUserDTO.getEmail());
                 user.setPhone(managedUserDTO.getPhone());
                 user.setCity(managedUserDTO.getCity());
-                user.setActivated(managedUserDTO.isActivated());
                 user.setLangKey(managedUserDTO.getLangKey());
                 Set<Authority> authorities = user.getAuthorities();
                 boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
@@ -161,6 +162,13 @@ public class UserResource {
                     managedUserDTO.getAuthorities().forEach(authority ->
                         authorities.add(authorityRepository.findOne(authority))
                     );
+                    user.setActivated(managedUserDTO.isActivated());
+                } else {
+                    //just ADMIN can't disable another ADMIN or SUPERADMIN
+                    boolean isAdminChanging = authorities.stream().map(Authority::getName).anyMatch(AuthoritiesConstants.ADMIN::equals);
+                    if (!isAdminChanging) {
+                        user.setActivated(managedUserDTO.isActivated());
+                    }
                 }
                 return ResponseEntity.ok()
                     .headers(HeaderUtil.createAlert("userManagement.updated", managedUserDTO.getLogin()))
