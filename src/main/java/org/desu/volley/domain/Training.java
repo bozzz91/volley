@@ -64,12 +64,15 @@ public class Training implements Serializable {
     private Set<TrainingUser> trainingUsers = new HashSet<>();
 
     @ManyToOne(optional = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Level level;
 
     @ManyToOne(optional = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private User organizer;
 
     @ManyToOne(optional = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Gym gym;
 
     public Long getId() {
