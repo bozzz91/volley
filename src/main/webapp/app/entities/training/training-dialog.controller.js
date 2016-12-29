@@ -17,7 +17,7 @@
         vm.openCalendar = openCalendar;
         vm.save = save;
         vm.levels = Level.query();
-        vm.gyms = Gym.query();
+        vm.gyms = [];
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -29,6 +29,15 @@
 
         Principal.identity().then(function(account) {
             vm.account = account;
+        });
+
+        Gym.query(function(result) {
+            var allGyms = result;
+            for (var i=0; i<allGyms.length; i++) {
+                if (allGyms[i].city.id == vm.account.city.id) {
+                    vm.gyms.push(allGyms[i]);
+                }
+            }
         });
 
         function save () {
