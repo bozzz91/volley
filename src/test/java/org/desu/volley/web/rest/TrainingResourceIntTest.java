@@ -57,8 +57,8 @@ public class TrainingResourceIntTest {
     private static final ZonedDateTime UPDATED_END_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
     private static final String DEFAULT_END_AT_STR = dateTimeFormatter.format(DEFAULT_END_AT);
 
-    private static final Integer DEFAULT_PRICE = 0;
-    private static final Integer UPDATED_PRICE = 1;
+    private static final String DEFAULT_PRICE = "0";
+    private static final String UPDATED_PRICE = "1";
 
     private static final TrainingState DEFAULT_STATE = TrainingState.REGISTRATION;
     private static final TrainingState UPDATED_STATE = TrainingState.PROCESS;

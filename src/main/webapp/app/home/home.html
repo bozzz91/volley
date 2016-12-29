@@ -16,7 +16,7 @@
                         <li ng-repeat="training in vm.trainings | orderBy:'startAt'">
                             <label class="show-more-train">
                                 <input type="checkbox" ng-model="hcontent" />
-                                <span>{{training.description ? (training.description + ', ') : ''}}{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}}р, {{training.gym.name}} (лимит {{training.limit}} человек)</span>
+                                <span>{{training.description ? (training.description + ', ') : ''}}{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}} р, {{training.gym.name}} (лимит {{training.limit}} человек)</span>
                             </label>
                             <a ng-show="hcontent" ng-click="vm.loadTrainings()"
                                class="refresh glyphicon glyphicon-refresh">&nbsp;Обновить</a>

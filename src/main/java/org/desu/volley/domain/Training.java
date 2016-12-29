@@ -41,9 +41,8 @@ public class Training implements Serializable {
     private ZonedDateTime endAt;
 
     @NotNull
-    @Min(value = 0)
     @Column(name = "price", nullable = false)
-    private Integer price = 150;
+    private String price = "150";
 
     @NotNull
     @Min(value = 0)
@@ -97,11 +96,11 @@ public class Training implements Serializable {
         this.endAt = endAt;
     }
 
-    public Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
