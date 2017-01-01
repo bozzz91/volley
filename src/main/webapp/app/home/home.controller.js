@@ -50,6 +50,7 @@
         vm.cities = [];
         vm.saveCity = saveCity;
         vm.loadCities = loadCities;
+        vm.isNewYearHolidays = isNewYearHolidays;
 
         vm.popupOpen = function(text) {
             vm.modalText = text;
@@ -66,6 +67,12 @@
             Principal.identity().then(function(account) {
                 vm.account = account;
             });
+        }
+
+        function isNewYearHolidays() {
+            var now = new Date();
+            var holidaysEnd = new Date("2017-01-09");
+            return now < holidaysEnd;
         }
 
         function loadCities() {
