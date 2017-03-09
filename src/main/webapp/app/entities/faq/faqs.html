@@ -1,0 +1,52 @@
+<div>
+    <h2 style="font-weight: 600; font-family: 'Arvo', serif" translate="volleyApp.faq.home.title">FAQ</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid" has-authority="ROLE_SUPERADMIN">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="faq.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  translate="volleyApp.faq.home.createLabel">
+                        Create new FAQ
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <tbody>
+                <tr ng-repeat="faq in vm.faqs track by faq.id">
+                    <td has-authority="ROLE_SUPERADMIN"><a ui-sref="faq-detail({id:faq.id})">{{faq.index}}</a></td>
+                    <td>
+                        <div ng-bind-html="vm.asHtml(($index+1) + '. ' + faq.question)"></div>
+                        <div ng-bind-html="vm.asHtml(faq.answer)"></div>
+                    </td>
+                    <td has-authority="ROLE_SUPERADMIN" class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="faq-detail({id:faq.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="faq.edit({id:faq.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="faq.delete({id:faq.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myFaqLabel" translate="volleyApp.faq.home.createOrEditLabel">Create or edit a Faq</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.faq.id">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.faq.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.faq.index" for="field_index">Index</label>
+            <input type="number" class="form-control" name="index" id="field_index"
+                    ng-model="vm.faq.index"
+                    required min="0" />
+            <div ng-show="editForm.index.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.index.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.index.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.index.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.faq.question" for="field_question">Question</label>
+            <textarea type="text" class="form-control" name="question" id="field_question"
+                    ng-model="vm.faq.question" rows="4" required >
+            </textarea>
+            <div ng-show="editForm.question.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.question.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.faq.answer" for="field_answer">Answer</label>
+            <textarea type="text" class="form-control" name="answer" id="field_answer"
+                    ng-model="vm.faq.answer" rows="4" required >
+            </textarea>
+            <div ng-show="editForm.answer.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.answer.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

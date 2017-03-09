@@ -1,0 +1,24 @@
+{
+    "volleyApp": {
+        "faq" : {
+            "home": {
+                "title": "FAQ",
+                "createLabel": "Создать новый FAQ",
+                "createOrEditLabel": "Создать или отредактировать FAQ",
+                "search": "Найти FAQ"
+            },
+            "created": "FAQ создан с идентификатором {{ param }}",
+            "updated": "FAQ обновлен с идентификатором {{ param }}",
+            "deleted": "FAQ удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить FAQ {{ id }}?"
+            },
+            "detail": {
+                "title": "FAQ"
+            },
+            "index": "Индекс",
+            "question": "Вопрос",
+            "answer": "Ответ"
+        }
+    }
+}

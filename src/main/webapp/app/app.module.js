@@ -12,6 +12,7 @@
             'ngCacheBuster',
             'ngFileUpload',
             'ui.bootstrap',
+            'ngSanitize',
             'ui.bootstrap.datetimepicker',
             'ui.router',
             'infinite-scroll',

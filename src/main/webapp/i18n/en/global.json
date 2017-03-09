@@ -13,6 +13,7 @@
                 "training": "Training",
                 "trainingUser": "Training User",
                 "sms": "SMS",
+                "faq": "FAQ",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
