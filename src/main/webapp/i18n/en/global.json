@@ -129,5 +129,5 @@
         "accessdenied": "Access denied!",
         "idexists": "A new {{ entityName }} cannot already have an ID"
     },
-    "footer": "This is your footer"
+    "footer": "Lightline © 2017"
 }
