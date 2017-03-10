@@ -18,10 +18,9 @@
         <table class="jh-table table table-striped">
             <tbody>
                 <tr ng-repeat="faq in vm.faqs track by faq.id">
-                    <td has-authority="ROLE_SUPERADMIN"><a ui-sref="faq-detail({id:faq.id})">{{faq.index}}</a></td>
                     <td>
-                        <div ng-bind-html="vm.asHtml(($index+1) + '. ' + faq.question)"></div>
-                        <div ng-bind-html="vm.asHtml(faq.answer)"></div>
+                        <div style="white-space: normal" ng-bind-html="vm.asHtml(($index+1) + '. ' + faq.question)"></div>
+                        <div style="white-space: normal" ng-bind-html="vm.asHtml(faq.answer)"></div>
                     </td>
                     <td has-authority="ROLE_SUPERADMIN" class="text-right">
                         <div class="btn-group flex-btn-group-container">
