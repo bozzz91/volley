@@ -57,18 +57,17 @@ body {
     margin: 0 auto 20px;
 }
 
+.container {
+    width: 100%;
+    padding: 0;
+}
 .well {
     background: transparent;
     border: none;
     box-shadow: none;
 }
-.container {
-    width: 100%;
-    padding: 0;
-}
 .footer {
-    z-index: -1;
-    display: inline;
+    display: inline-block;
     bottom: 0;
     position: fixed;
     width: 100%;
@@ -90,6 +89,9 @@ body {
     display: inline;
 }
 
+.signin-train {
+    padding-bottom: 20px;
+}
 .train-list ul {
     list-style: none;
     padding: 0;
