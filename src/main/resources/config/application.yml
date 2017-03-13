@@ -76,7 +76,7 @@ jhipster:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: volley@localhost
+        from: info@lightline.club
     swagger:
         title: volley API
         description: volley API documentation

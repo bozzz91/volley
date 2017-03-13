@@ -60,9 +60,9 @@ jhipster:
     security:
         rememberMe:
             # security key (this key should be unique for your application, and kept secret)
-            key: e9404fb571a9038446c8047ebdc3519db8cb36f6
+            key: # in env props #
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: volley@localhost
+        from: info@lightline.club
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:
