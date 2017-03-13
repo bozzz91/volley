@@ -52,6 +52,14 @@
         vm.loadCities = loadCities;
         vm.isNewYearHolidays = isNewYearHolidays;
 
+        vm.detectBlur = function () {
+            var blurClassName = 'bc-avatar-blur';
+            if (navigator.userAgent.toLowerCase().match(/android/i)) {
+                blurClassName = '';
+            }
+            return blurClassName;
+        };
+
         vm.popupOpen = function(text) {
             vm.modalText = text;
             ngDialog.open({
