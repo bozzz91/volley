@@ -5,15 +5,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-        <p th:text="#{email.activation.greeting(${user.login})}">
+        <p th:text="#{email.activation.greeting(${user.firstName})}">
             Dear
         </p>
         <p th:text="#{email.creation.text1}">
             Your account has been created, please click on the URL below to access it:
         </p>
+        <p th:text="#{email.user.login(${user.login})}">
+            Login: login
+        </p>
         <p>
             <a th:href="@{|${baseUrl}/#/reset/finish?key=${user.resetKey}|}"
-               th:text="|${user.login}|">login</a>
+               th:text="#{email.creation.link(${user.login})}">Login</a>
         </p>
         <p>
             <span th:text="#{email.activation.text2}">Regards, </span>

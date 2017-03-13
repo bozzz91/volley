@@ -11,6 +11,9 @@
         <p th:text="#{email.social.registration.text1(${provider})}">
             Your account has been created with the social connection: Provider.
         </p>
+        <p th:text="#{email.user.login(${user.login})}">
+            Login: login
+        </p>
         <p>
             <span th:text="#{email.social.registration.text2}">Regards, </span>
             <br/>
