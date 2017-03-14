@@ -30,7 +30,11 @@
                 {{audit.principal}}
                 <a ng-show="audit.data.socialUrl" target="_blank" ng-href="{{audit.data.socialUrl}}">({{audit.data.socialProvider}})</a>
             </td>
-            <td>{{audit.type}}</td>
+            <td>
+                <span ng-if="vm.isTypeSuccess(audit.type)" style="color: #00d800;" class="glyphicon glyphicon-ok-sign"></span>
+                <span ng-if="vm.isTypeFailure(audit.type)" style="color: #bf0303;" class="glyphicon glyphicon-alert"></span>
+                &nbsp;{{audit.type}}
+            </td>
             <td>
                 <span ng-show="audit.data.message">{{audit.data.message}}</span>
                 <span ng-show="audit.data.remoteAddress"><span translate="audits.table.data.remoteAddress">Remote Address</span> {{audit.data.remoteAddress}}</span>

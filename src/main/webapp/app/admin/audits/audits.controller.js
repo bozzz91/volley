@@ -20,6 +20,12 @@
         vm.toDate = null;
         vm.today = today;
         vm.totalItems = null;
+        vm.isTypeSuccess = function (type) {
+            return type.toLowerCase().includes('success');
+        };
+        vm.isTypeFailure = function (type) {
+            return type.toLowerCase().includes('fail');
+        };
 
         vm.today();
         vm.previousMonth();
