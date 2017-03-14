@@ -43,7 +43,7 @@ public class CustomSignInAdapter implements SignInAdapter {
             null,
             user.getAuthorities());
         Map<String, String> details = new HashMap<>();
-        details.put("remoteAddress", request.getNativeRequest(ServletWebRequest.class).getRequest().getRemoteAddr());
+        details.put("remoteAddress", ((ServletWebRequest) request).getRequest().getRemoteAddr());
         details.put("sessionId", request.getSessionId());
         details.put("socialUrl", connection.getProfileUrl());
         details.put("socialProvider", connection.getKey().getProviderId());

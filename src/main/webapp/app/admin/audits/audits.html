@@ -28,7 +28,7 @@
             <td><span>{{audit.timestamp| date:'medium'}}</span></td>
             <td>
                 {{audit.principal}}
-                <small><a ng-show="audit.data.socialUrl" ng-href="audit.data.socialUrl">{{audit.data.socialProvider}}</a></small>
+                <a ng-show="audit.data.socialUrl" target="_blank" ng-href="{{audit.data.socialUrl}}">({{audit.data.socialProvider}})</a>
             </td>
             <td>{{audit.type}}</td>
             <td>
