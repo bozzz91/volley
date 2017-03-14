@@ -33,7 +33,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.inject.Inject;
-import java.util.function.BiConsumer;
 
 // jhipster-needle-add-social-connection-factory-import-package
 
@@ -136,44 +135,9 @@ public class SocialConfiguration implements SocialConfigurer {
         ProviderSignInController providerSignInController = new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, signInAdapter);
         providerSignInController.setSignUpUrl("/social/signup");
 
-        BiConsumer<WebRequest, ConnectionFactory<?>> biConsumer = (request, connectionFactory) -> {
-            String hideMenu = request.getParameter("hideMenu");
-            request.setAttribute("hideMenu", Boolean.TRUE.toString().equals(hideMenu), RequestAttributes.SCOPE_SESSION);
-        };
-
-        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptor<VKontakte>() {
-            @Override
-            public void preSignIn(ConnectionFactory<VKontakte> connectionFactory, MultiValueMap<String, String> parameters, WebRequest request) {
-                biConsumer.accept(request, connectionFactory);
-            }
-
-            @Override
-            public void postSignIn(Connection<VKontakte> connection, WebRequest request) {
-
-            }
-        });
-        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptor<Google>() {
-            @Override
-            public void preSignIn(ConnectionFactory<Google> connectionFactory, MultiValueMap<String, String> parameters, WebRequest request) {
-                biConsumer.accept(request, connectionFactory);
-            }
-
-            @Override
-            public void postSignIn(Connection<Google> connection, WebRequest request) {
-
-            }
-        });
-        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptor<Facebook>() {
-            @Override
-            public void preSignIn(ConnectionFactory<Facebook> connectionFactory, MultiValueMap<String, String> parameters, WebRequest request) {
-                biConsumer.accept(request, connectionFactory);
-            }
-
-            @Override
-            public void postSignIn(Connection<Facebook> connection, WebRequest request) {
-
-            }
-        });
+        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptorImpl<VKontakte>() {});
+        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptorImpl<Google>() {});
+        providerSignInController.addSignInInterceptor(new ProviderSignInInterceptorImpl<Facebook>() {});
 
         return providerSignInController;
     }
@@ -181,5 +145,19 @@ public class SocialConfiguration implements SocialConfigurer {
     @Bean
     public ProviderSignInUtils getProviderSignInUtils(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository) {
         return new ProviderSignInUtils(connectionFactoryLocator, usersConnectionRepository);
+    }
+
+    interface ProviderSignInInterceptorImpl<T> extends ProviderSignInInterceptor<T> {
+
+        @Override
+        default void preSignIn(ConnectionFactory<T> connectionFactory, MultiValueMap<String, String> multiValueMap, WebRequest webRequest) {
+            String hideMenu = webRequest.getParameter("hideMenu");
+            webRequest.setAttribute("hideMenu", "true".equalsIgnoreCase(hideMenu), RequestAttributes.SCOPE_SESSION);
+        }
+
+        @Override
+        default void postSignIn(Connection<T> connection, WebRequest webRequest) {
+
+        }
     }
 }
