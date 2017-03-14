@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$state', '$location', 'Auth', 'Principal', 'ProfileService', 'LoginService'];
+    NavbarController.$inject = ['$scope', '$state', '$location', 'Auth', 'Principal', 'ProfileService', 'LoginService'];
 
-    function NavbarController ($state, $location, Auth, Principal, ProfileService, LoginService) {
+    function NavbarController ($scope, $state, $location, Auth, Principal, ProfileService, LoginService) {
         var vm = this;
 
         vm.isNavbarCollapsed = true;
@@ -26,9 +26,17 @@
         vm.$state = $state;
         vm.showMenu = showMenu;
 
-        Principal.identity().then(function (result) {
-            vm.currentAccount = result;
+        $scope.$on('authenticationSuccess', function() {
+            getAccount();
         });
+
+        function getAccount() {
+            Principal.identity().then(function (result) {
+                vm.currentAccount = result;
+            });
+        }
+
+        getAccount();
 
         function showMenu() {
             var isAdmin = false;
