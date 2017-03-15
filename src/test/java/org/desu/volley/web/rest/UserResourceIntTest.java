@@ -87,7 +87,7 @@ public class UserResourceIntTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        assertThat(userRepository.findOneByLogin("john.doe@localhost.com").isPresent()).isFalse();
+        assertThat(userRepository.findOneByLoginIgnoreCase("john.doe@localhost.com").isPresent()).isFalse();
 
         userRepository.delete(user);
     }

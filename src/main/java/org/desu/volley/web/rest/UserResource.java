@@ -99,11 +99,11 @@ public class UserResource {
         log.debug("REST request to save User : {}", managedUserDTO);
 
         //Lowercase the user login before comparing with database
-        if (userRepository.findOneByLogin(managedUserDTO.getLogin().toLowerCase()).isPresent()) {
+        if (userRepository.findOneByLoginIgnoreCase(managedUserDTO.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert("userManagement", "userexists", "Login already in use"))
                 .body(null);
-        } else if (!StringUtils.isBlank(managedUserDTO.getEmail()) && userRepository.findOneByEmail(managedUserDTO.getEmail()).isPresent()) {
+        } else if (!StringUtils.isBlank(managedUserDTO.getEmail()) && userRepository.findOneByEmailIgnoreCase(managedUserDTO.getEmail()).isPresent()) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert("userManagement", "emailexists", "Email already in use"))
                 .body(null);
@@ -140,12 +140,12 @@ public class UserResource {
         log.debug("REST request to update User : {}", managedUserDTO);
         Optional<User> existingUser;
         if (!StringUtils.isBlank(managedUserDTO.getEmail())) {
-            existingUser = userRepository.findOneByEmail(managedUserDTO.getEmail());
+            existingUser = userRepository.findOneByEmailIgnoreCase(managedUserDTO.getEmail());
             if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDTO.getId()))) {
                 return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("userManagement", "emailexists", "E-mail already in use")).body(null);
             }
         }
-        existingUser = userRepository.findOneByLogin(managedUserDTO.getLogin().toLowerCase());
+        existingUser = userRepository.findOneByLoginIgnoreCase(managedUserDTO.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDTO.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("userManagement", "userexists", "Login already in use")).body(null);
         }

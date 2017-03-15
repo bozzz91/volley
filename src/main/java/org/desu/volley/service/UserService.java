@@ -85,7 +85,7 @@ public class UserService {
     }
 
     public Optional<User> requestPasswordReset(String mail) {
-        return userRepository.findOneByEmail(mail)
+        return userRepository.findOneByEmailIgnoreCase(mail)
             .filter(User::getActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
@@ -156,7 +156,7 @@ public class UserService {
     }
 
     public void updateUserInformation(String firstName, String lastName, String email, String langKey, String phone, City city) {
-            userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+            userRepository.findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);
@@ -169,7 +169,7 @@ public class UserService {
     }
 
     public void deleteUserInformation(String login) {
-        userRepository.findOneByLogin(login).ifPresent(u -> {
+        userRepository.findOneByLoginIgnoreCase(login).ifPresent(u -> {
             socialService.deleteUserSocialConnection(u.getLogin());
             userRepository.delete(u);
             log.debug("Deleted User: {}", u);
@@ -177,7 +177,7 @@ public class UserService {
     }
 
     public void changePassword(String password) {
-        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+        userRepository.findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             String encryptedPassword = passwordEncoder.encode(password);
             u.setPassword(encryptedPassword);
             userRepository.save(u);
@@ -187,7 +187,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        return userRepository.findOneByLogin(login).map(u -> {
+        return userRepository.findOneByLoginIgnoreCase(login).map(u -> {
             loadImageUrl(u);
             eagerlyLoad(u);
             return u;
@@ -204,7 +204,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
-        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        User user = userRepository.findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin()).get();
         loadImageUrl(user);
         eagerlyLoad(user);
         return user;
@@ -220,7 +220,7 @@ public class UserService {
     @Scheduled(cron = "0 0 0 * * ?")
     public void removeOldPersistentTokens() {
         LocalDate now = LocalDate.now();
-        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).stream().forEach(token -> {
+        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).forEach(token -> {
             log.debug("Deleting token {}", token.getSeries());
             User user = token.getUser();
             user.getPersistentTokens().remove(token);
@@ -248,6 +248,7 @@ public class UserService {
         user.getAuthorities().size(); // eagerly load the association
         City city = user.getCity(); //eagerly load city
         if (city != null) {
+            //noinspection ResultOfMethodCallIgnored
             city.getName();
         }
     }

@@ -45,7 +45,7 @@ public class UserServiceIntTest {
 
     @Test
     public void testRemoveOldPersistentTokens() {
-        User admin = userRepository.findOneByLogin("admin").get();
+        User admin = userRepository.findOneByLoginIgnoreCase("admin").get();
         int existingCount = persistentTokenRepository.findByUser(admin).size();
         generateUserToken(admin, "1111-1111", LocalDate.now());
         LocalDate now = LocalDate.now();

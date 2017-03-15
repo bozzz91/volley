@@ -1,7 +1,6 @@
 package org.desu.volley.service;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.desu.volley.domain.Authority;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.AuthorityRepository;
@@ -78,7 +77,7 @@ public class SocialService {
             throw new IllegalArgumentException("Email and login cannot be null");
         }
         if (!isBlank(email)) {
-            Optional<User> user = userRepository.findOneByEmail(email);
+            Optional<User> user = userRepository.findOneByEmailIgnoreCase(email);
             if (user.isPresent()) {
                 log.info("User already exist associate the connection to this account");
                 return user.get();
@@ -86,7 +85,7 @@ public class SocialService {
         }
 
         String login = getLoginDependingOnProviderId(userProfile, providerId);
-        if (isBlank(email) && userRepository.findOneByLogin(login).isPresent()) {
+        if (isBlank(email) && userRepository.findOneByLoginIgnoreCase(login).isPresent()) {
             log.error("Cannot create social user because email is null and login already exist, login -> {}", login);
             throw new IllegalArgumentException("Email cannot be null with an existing login");
         }

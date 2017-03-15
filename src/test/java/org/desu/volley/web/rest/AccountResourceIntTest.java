@@ -172,7 +172,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        Optional<User> user = userRepository.findOneByLogin("joe");
+        Optional<User> user = userRepository.findOneByLoginIgnoreCase("joe");
         assertThat(user.isPresent()).isTrue();
     }
 
@@ -203,7 +203,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
-        Optional<User> user = userRepository.findOneByEmail("funky@example.com");
+        Optional<User> user = userRepository.findOneByEmailIgnoreCase("funky@example.com");
         assertThat(user.isPresent()).isFalse();
     }
 
@@ -234,7 +234,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
-        Optional<User> user = userRepository.findOneByLogin("bob");
+        Optional<User> user = userRepository.findOneByLoginIgnoreCase("bob");
         assertThat(user.isPresent()).isFalse();
     }
 
@@ -265,7 +265,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
-        Optional<User> user = userRepository.findOneByLogin("bob");
+        Optional<User> user = userRepository.findOneByLoginIgnoreCase("bob");
         assertThat(user.isPresent()).isFalse();
     }
 
@@ -309,7 +309,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(duplicatedUser)))
             .andExpect(status().is4xxClientError());
 
-        Optional<User> userDup = userRepository.findOneByEmail("alicejr@example.com");
+        Optional<User> userDup = userRepository.findOneByEmailIgnoreCase("alicejr@example.com");
         assertThat(userDup.isPresent()).isFalse();
     }
 
@@ -367,7 +367,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(duplicatedUser)))
             .andExpect(status().is4xxClientError());
 
-        Optional<User> userDup = userRepository.findOneByLogin("johnjr");
+        Optional<User> userDup = userRepository.findOneByLoginIgnoreCase("johnjr");
         assertThat(userDup.isPresent()).isFalse();
     }
 
@@ -398,7 +398,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
-        Optional<User> userDup = userRepository.findOneByLogin("badguy");
+        Optional<User> userDup = userRepository.findOneByLoginIgnoreCase("badguy");
         assertThat(userDup.isPresent()).isTrue();
         assertThat(userDup.get().getAuthorities()).hasSize(1)
             .containsExactly(authorityRepository.findOne(AuthoritiesConstants.USER));
@@ -427,7 +427,7 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
-        Optional<User> user = userRepository.findOneByEmail("funky@example.com");
+        Optional<User> user = userRepository.findOneByEmailIgnoreCase("funky@example.com");
         assertThat(user.isPresent()).isFalse();
     }
 }
