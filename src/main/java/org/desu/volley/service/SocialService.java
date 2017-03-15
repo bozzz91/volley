@@ -86,8 +86,8 @@ public class SocialService {
         }
 
         String login = getLoginDependingOnProviderId(userProfile, providerId);
-        if (isBlank(email) && userRepository.findOneByLogin(userName).isPresent()) {
-            log.error("Cannot create social user because email is null and login already exist, login -> {}", userName);
+        if (isBlank(email) && userRepository.findOneByLogin(login).isPresent()) {
+            log.error("Cannot create social user because email is null and login already exist, login -> {}", login);
             throw new IllegalArgumentException("Email cannot be null with an existing login");
         }
 
