@@ -53,6 +53,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
             initCachingHttpHeadersFilter(servletContext, disps);
         }
+        servletContext.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
         log.info("Web application fully configured");
     }
 

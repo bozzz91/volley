@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.social.connect.Connection;
@@ -35,6 +36,9 @@ public class CustomSignInAdapter implements SignInAdapter {
     @Inject
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Inject
+    private SessionRegistry sessionRegistry;
+
     @Override
     public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
         UserDetails user = userDetailsService.loadUserByUsername(userId);
@@ -48,6 +52,7 @@ public class CustomSignInAdapter implements SignInAdapter {
         details.put("socialUrl", connection.getProfileUrl());
         details.put("socialProvider", connection.getKey().getProviderId());
         newAuth.setDetails(details);
+        sessionRegistry.registerNewSession(request.getSessionId(), newAuth.getPrincipal());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         applicationEventPublisher.publishEvent(new AuthenticationSuccessEvent(newAuth));
         boolean hideMenu = (boolean) request.getAttribute("hideMenu", RequestAttributes.SCOPE_SESSION);

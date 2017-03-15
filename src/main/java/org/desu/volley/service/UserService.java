@@ -58,24 +58,21 @@ public class UserService {
     @Inject
     private SessionRegistry sessionRegistry;
 
-    public void listLoggedInUsers() {
+    public Collection<User> getLoggedInUsers() {
         final List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
-
+        final Collection<User> users = new HashSet<>();
         for (final Object principal : allPrincipals) {
-            /*if (principal instanceof SecurityUser) {
-                final SecurityUser user = (SecurityUser) principal;
+            if (principal instanceof org.springframework.security.core.userdetails.User) {
+                final org.springframework.security.core.userdetails.User userPrincipal =
+                    (org.springframework.security.core.userdetails.User) principal;
 
-                List<SessionInformation> activeUserSessions =
-                    sessionRegistry.getAllSessions(principal,
-                                / includeExpiredSessions / false); // Should not return null;
-
-                if (!activeUserSessions.isEmpty()) {
-                    // Do something with user
-                    System.out.println(user);
-                }
-            }*/
-            System.out.println(principal);
+                String username = userPrincipal.getUsername();
+                Optional<User> user = userRepository.findOneByLoginIgnoreCase(username);
+                user.ifPresent(users::add);
+            }
         }
+        System.out.println("\n ---> users now: " + users.size() + " <---\n");
+        return users;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -211,7 +208,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        listLoggedInUsers();
+        getLoggedInUsers();
         return userRepository.findOneByLoginIgnoreCase(login).map(u -> {
             loadImageUrl(u);
             eagerlyLoad(u);
