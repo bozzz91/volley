@@ -13,6 +13,7 @@ import org.desu.volley.web.rest.dto.ManagedUserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
@@ -54,6 +55,29 @@ public class UserService {
     @Inject
     private UsersConnectionRepository usersConnectionRepository;
 
+    @Inject
+    private SessionRegistry sessionRegistry;
+
+    public void listLoggedInUsers() {
+        final List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
+
+        for (final Object principal : allPrincipals) {
+            /*if (principal instanceof SecurityUser) {
+                final SecurityUser user = (SecurityUser) principal;
+
+                List<SessionInformation> activeUserSessions =
+                    sessionRegistry.getAllSessions(principal,
+                                / includeExpiredSessions / false); // Should not return null;
+
+                if (!activeUserSessions.isEmpty()) {
+                    // Do something with user
+                    System.out.println(user);
+                }
+            }*/
+            System.out.println(principal);
+        }
+    }
+
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository.findOneByActivationKey(key)
@@ -68,20 +92,20 @@ public class UserService {
     }
 
     public Optional<User> completePasswordReset(String newPassword, String key) {
-       log.debug("Reset user password for reset key {}", key);
+        log.debug("Reset user password for reset key {}", key);
 
-       return userRepository.findOneByResetKey(key)
+        return userRepository.findOneByResetKey(key)
             .filter(user -> {
                 ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
                 return user.getResetDate().isAfter(oneDayAgo);
-           })
-           .map(user -> {
+            })
+            .map(user -> {
                 user.setPassword(passwordEncoder.encode(newPassword));
                 user.setResetKey(null);
                 user.setResetDate(null);
                 userRepository.save(user);
                 return user;
-           });
+            });
     }
 
     public Optional<User> requestPasswordReset(String mail) {
@@ -96,7 +120,7 @@ public class UserService {
     }
 
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
-        String langKey, String phone, City city) {
+                                      String langKey, String phone, City city) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -156,7 +180,7 @@ public class UserService {
     }
 
     public void updateUserInformation(String firstName, String lastName, String email, String langKey, String phone, City city) {
-            userRepository.findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+        userRepository.findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);
@@ -187,6 +211,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
+        listLoggedInUsers();
         return userRepository.findOneByLoginIgnoreCase(login).map(u -> {
             loadImageUrl(u);
             eagerlyLoad(u);
