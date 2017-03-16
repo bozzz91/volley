@@ -14,6 +14,26 @@
                     ng-model="vm.level.id" readonly />
         </div>
         <div class="form-group">
+            <label class="control-label" translate="volleyApp.level.order" for="field_order">Order</label>
+            <input type="number" class="form-control" name="order" id="field_order"
+                   ng-model="vm.level.order"
+                   required min="0" />
+            <div ng-show="editForm.order.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.order.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.order.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                   ng-show="editForm.order.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label" translate="volleyApp.level.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.level.name"

@@ -239,6 +239,9 @@ Custom alerts for notification
             color: inherit;
             padding: 0;
             margin: 0;
+            white-space: normal;
+            word-break: normal;
+            text-align: center;
         }
         .popover pre {
             font-size: 10px;

@@ -7,16 +7,25 @@
             <div class="signin-train" ng-switch-when="true">
                 <img src="/content/images/new-year.png" ng-if="vm.isNewYearHolidays()" class="new-year-hat-1">
                 <p class="zag1">Запись на<br />тренировку</p>
-                <p class="allert" ng-if="vm.allert!=''">{{vm.allert}}</p>
                 <p class="o1">Для СМС-оповещений требуется хотя бы один раз указать свой телефон.</p>
                 <div ng-if="vm.account.city == null">
                     <p class="o1">Для просмотра тренировок необходимо выбрать город:</p>
-                    <select ng-init="vm.loadCities()" id="home_city" ng-model="vm.account.city" name="city" ng-change="vm.saveCity()" ng-options="i as i.name for i in vm.cities | orderBy:'name'"></select>
+                    <md-select ng-init="vm.loadCities()" id="home_city" ng-model="vm.account.city" aria-label="city" md-on-close="vm.saveCity()">
+                        <md-option ng-repeat="city in vm.cities | orderBy:'name'" ng-value="city">
+                            {{city.name}}
+                        </md-option>
+                    </md-select>
                 </div>
+                <jhi-alert></jhi-alert>
                 <div class="train-list" ng-if="vm.account.city" ng-init="vm.loadTrainings()">
+                    <md-select ng-model="currentLevel" aria-label="levels" ng-show="vm.levels.length > 1" md-on-close="vm.selectLevel(currentLevel)">
+                        <md-option ng-repeat="level in vm.levels | orderBy:'order'" ng-value="level">
+                            {{level.name}}
+                        </md-option>
+                    </md-select>
                     <ul>
-                        <li class="allert" ng-show="!vm.trainings.length">Тренировок пока нет.</li>
-                        <li ng-repeat="training in vm.trainings | orderBy:'startAt'">
+                        <li class="training-warn" ng-show="!vm.levels.length">Тренировок пока нет.</li>
+                        <li ng-repeat="training in vm.trainings | filter: filterByLevel(currentLevel) | orderBy:'startAt'">
                             <label class="show-more-train">
                                 <input type="checkbox" ng-model="hcontent" />
                                 <span>{{training.description ? (training.description + ', ') : ''}}{{training.startAt | date:'EEEE'}}, {{training.startAt | date:'d'}} {{training.startAt | date:'MMMM'}}, {{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}} р, {{training.gym.name}} (лимит {{training.limit}} человек)</span>
@@ -50,7 +59,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="allert" ng-if="hcontent && training.state == 'CANCELLED'">
+                            <div class="training-warn" ng-if="hcontent && training.state == 'CANCELLED'">
                                 Тренировка отменена.
                             </div>
                         </li>

@@ -7,9 +7,9 @@
                 "createOrEditLabel": "Create or edit a Training User",
                 "search": "Search for Training User"
             },
-            "created": "A new Training User is created with identifier {{ param }}",
+            "created": "You have successfully registered on the game",
             "updated": "A Training User is updated with identifier {{ param }}",
-            "deleted": "A Training User is deleted with identifier {{ param }}",
+            "deleted": "You have successfully been removed from the game",
             "delete": {
                 "question": "Are you sure you want to delete Training User {{ id }}?"
             },

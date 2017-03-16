@@ -18,16 +18,16 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span translate="global.field.id">ID</span></th>
+                    <th><span translate="volleyApp.level.order">Order</span></th>
                     <th><span translate="volleyApp.level.name">Name</span></th>
                     <th><span translate="volleyApp.level.description">Description</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="level in vm.levels track by level.id">
-                    <td><a ui-sref="level-detail({id:level.id})">{{level.id}}</a></td>
-                    <td>{{level.name}}</td>
+                <tr ng-repeat="level in vm.levels | orderBy:'order' track by level.id">
+                    <td>{{level.order}}</td>
+                    <td><a ui-sref="level-detail({id:level.id})">{{level.name}}</a></td>
                     <td>{{level.description}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

@@ -19,7 +19,7 @@
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar',
             'ngDialog',
-            'uiSwitch'
+            'ngMaterial'
         ])
         .run(run);
 

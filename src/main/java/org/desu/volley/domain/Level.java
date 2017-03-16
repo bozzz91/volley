@@ -29,6 +29,10 @@ public class Level implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @NotNull
+    @Column(name = "tab_order")
+    private int order = 0;
+
     public Long getId() {
         return id;
     }
@@ -51,6 +55,14 @@ public class Level implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     @Override
@@ -79,6 +91,7 @@ public class Level implements Serializable {
             "id=" + id +
             ", name='" + name + "'" +
             ", description='" + description + "'" +
+            ", order='" + order + "'" +
             '}';
     }
 }

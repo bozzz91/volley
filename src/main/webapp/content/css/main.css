@@ -214,7 +214,10 @@ Custom alerts for notification
     font: inherit;
     color: inherit;
     padding: 0;
-    margin: 0; }
+    margin: 0;
+    white-space: normal;
+    word-break: normal;
+    text-align: center; }
   .alerts .alert .popover pre {
     font-size: 10px; }
 

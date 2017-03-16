@@ -2,11 +2,13 @@
     <h2 translate="userManagement.home.title" translate-values="{param: '{{vm.titleSuffix()}}'}">Users</h2>
     <jhi-alert></jhi-alert>
     <div class="row">
-        <div class="col-md-4">
-            <switch name="showOnline" ng-model="vm.showOnline" on="Online" off="All" class="wide switch-middle" ng-change="vm.loadAll"></switch>
-            <button ng-if="!vm.showOnline" class="btn btn-primary" ui-sref="user-management.new">
+        <div class="col-md-4 user-buttons" style="text-align: center;">
+            <md-switch ng-model="vm.showOnline" class="md-primary" ng-change="vm.loadAll()">
+                Online Only
+            </md-switch>
+            <md-button class="md-raised md-primary" ui-sref="user-management.new">
                 <span class="glyphicon glyphicon-flash"></span> <span translate="userManagement.home.createLabel">Create a new User</span>
-            </button>
+            </md-button>
         </div>
     </div>
     <div class="table-responsive">

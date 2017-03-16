@@ -16,6 +16,7 @@
             "detail": {
                 "title": "Level"
             },
+            "order": "Order",
             "name": "Name",
             "description": "Description"
         }

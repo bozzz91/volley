@@ -21,9 +21,9 @@
         }
     }
 
-    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'User', 'Auth', 'AlertService', '$state', 'SocialService', 'Account', 'City', 'Gym'];
+    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City'];
 
-    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, User, Auth, AlertService, $state, SocialService, Account, City, Gym) {
+    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City) {
         var vm = this;
 
         vm.account = null;
@@ -46,11 +46,18 @@
             getAccount();
         });
         vm.alreadyRegister = alreadyRegister;
-        vm.allert = '';
         vm.cities = [];
+        vm.levels = [];
         vm.saveCity = saveCity;
         vm.loadCities = loadCities;
         vm.isNewYearHolidays = isNewYearHolidays;
+        vm.selectLevel = function (level) {
+            /*if (level.id != $scope.currentLevel.id) {
+                $scope.currentLevel = level;
+                AlertService.info(level.description);
+            }*/
+            //todo popup window
+        };
 
         vm.detectBlur = function () {
             var blurClassName = 'bc-avatar-blur';
@@ -58,6 +65,12 @@
                 blurClassName = '';
             }
             return blurClassName;
+        };
+
+        $scope.filterByLevel = function (level) {
+            return function (training) {
+                return training.level.id == level.id;
+            }
         };
 
         vm.popupOpen = function(text) {
@@ -99,6 +112,7 @@
 
         function loadTrainings () {
             vm.trainings = [];
+            vm.levels = [];
 
             Training.query({
                 city: vm.account.city.id,
@@ -120,7 +134,16 @@
                 for (var i = 0; i < data.length; i++) {
                     Training.get({id: data[i]['id']}, function(result) {
                         vm.trainings.push(result);
+                        addLevel(result.level);
                     });
+                }
+            }
+            function addLevel(level) {
+                if (vm.levels.map(function(e) { return e.id; }).indexOf(level.id) < 0) {
+                    vm.levels.push(level);
+                }
+                if (!$scope.currentLevel || $scope.currentLevel.order > level.order) {
+                    $scope.currentLevel = level;
                 }
             }
             function onError(error) {
@@ -162,9 +185,7 @@
                     TrainingUser.save(reg, function(savedReg) {
                         savedReg.user = vm.account;
                         training.trainingUsers.push(savedReg);
-                        vm.allert = 'Вы успешно зарегистрированы!';
                     }, function (error) {
-                        vm.allert = error.data.message;
                         AlertService.error(error.data.message);
                     });
                 }
@@ -182,9 +203,7 @@
                     if (index > -1) {
                         TrainingUser.delete({id: regId}, function () {
                             trainingUsers.splice(index, 1);
-                            vm.allert = 'Вы изменили свое решение, но мы ждем Вас на одну из ближайших тренировок.';
                         }, function (error) {
-                            vm.allert = error.data.message;
                             AlertService.error(error.data.message);
                         });
                     }
