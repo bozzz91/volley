@@ -24,6 +24,7 @@ module.exports = function (config) {
         files: [
             // bower:js
             'src/main/webapp/bower_components/jquery/dist/jquery.js',
+            'src/main/webapp/bower_components/angular-ui-switch/angular-ui-switch.js',
             'src/main/webapp/bower_components/messageformat/messageformat.js',
             'src/main/webapp/bower_components/json3/lib/json3.js',
             'src/main/webapp/bower_components/angular/angular.js',
@@ -32,6 +33,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-cache-buster/angular-cache-buster.js',
             'src/main/webapp/bower_components/angular-cookies/angular-cookies.js',
             'src/main/webapp/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
+            'src/main/webapp/bower_components/ng-dialog/js/ngDialog.js',
             'src/main/webapp/bower_components/ngstorage/ngStorage.js',
             'src/main/webapp/bower_components/angular-loading-bar/build/loading-bar.js',
             'src/main/webapp/bower_components/angular-resource/angular-resource.js',
