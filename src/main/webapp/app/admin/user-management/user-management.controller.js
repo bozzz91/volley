@@ -27,6 +27,9 @@
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.transition = transition;
         vm.isUserInRole = isUserInRole;
+        vm.titleSuffix = function () {
+            return vm.showOnline ? 'Online' : 'Все';
+        };
 
         vm.loadAll();
 
