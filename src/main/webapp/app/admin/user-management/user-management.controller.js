@@ -10,7 +10,7 @@
     function UserManagementController(Principal, User, ParseLinks, $state, pagingParams, paginationConstants, JhiLanguageService, $stateParams) {
         var vm = this;
 
-        vm.showOnline = JSON.parse($stateParams.showOnline) || false;
+        vm.showOnline = JSON.parse($stateParams.showOnline || false);
         vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         vm.currentAccount = null;
         vm.languages = null;
