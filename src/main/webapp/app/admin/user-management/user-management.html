@@ -2,11 +2,12 @@
     <h2 translate="userManagement.home.title">Users</h2>
     <jhi-alert></jhi-alert>
     <div class="row">
-      <div class="col-md-4">
-          <button class="btn btn-primary" ui-sref="user-management.new">
-              <span class="glyphicon glyphicon-flash"></span> <span translate="userManagement.home.createLabel">Create a new User</span>
-          </button>
-      </div>
+        <div class="col-md-4">
+            <switch name="showOnline" ng-model="vm.showOnline" on="Online" off="All" class="wide switch-middle" ng-change="vm.loadAll"></switch>
+            <button ng-if="!vm.showOnline" class="btn btn-primary" ui-sref="user-management.new">
+                <span class="glyphicon glyphicon-flash"></span> <span translate="userManagement.home.createLabel">Create a new User</span>
+            </button>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table table-striped">
@@ -15,7 +16,7 @@
                 <th jh-sort-by="id"><span translate="global.field.id">ID</span><span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="login"><span translate="userManagement.login">Login</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="email"><span translate="userManagement.email">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="phone"><span translate="userManagement.phone">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="phone"><span translate="userManagement.phone">Phone</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
                 <th><span translate="userManagement.profiles">Profiles</span></th>                <th jh-sort-by="createdDate"><span translate="userManagement.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="lastModifiedBy"><span translate="userManagement.lastModifiedBy">Last Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -27,9 +28,8 @@
             <tr ng-repeat="user in vm.users track by user.id">
                 <td><a ui-sref="user-management-detail({login:user.login})">{{user.id}}</a></td>
                 <td>
-                    {{user.login}}
-                    <br/>{{user.firstName}} {{user.lastName}}
-                    <br/>
+                    {{user.login}}<br/>
+                    {{user.firstName}} {{user.lastName}}<br/>
                     <span ng-if="user.socials" ng-repeat="(key, value) in user.socials">
                         <a ng-if="value" ng-repeat="social in value" ng-href="{{social}}" target="_blank">
                             &nbsp;&nbsp;{{key}}

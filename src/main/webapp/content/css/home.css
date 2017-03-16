@@ -242,3 +242,7 @@ body {
     top: 50px;
     left: -5px;
 }
+
+.switch.switch-middle {
+    vertical-align: middle;
+}

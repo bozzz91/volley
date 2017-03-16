@@ -58,21 +58,19 @@ public class UserService {
     @Inject
     private SessionRegistry sessionRegistry;
 
-    public Collection<User> getLoggedInUsers() {
+    public List<String> getLoggedInUsers() {
         final List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
-        final Collection<User> users = new HashSet<>();
+        final Collection<String> users = new HashSet<>();
         for (final Object principal : allPrincipals) {
             if (principal instanceof org.springframework.security.core.userdetails.User) {
                 final org.springframework.security.core.userdetails.User userPrincipal =
                     (org.springframework.security.core.userdetails.User) principal;
 
                 String username = userPrincipal.getUsername();
-                Optional<User> user = userRepository.findOneByLoginIgnoreCase(username);
-                user.ifPresent(users::add);
+                users.add(username);
             }
         }
-        System.out.println("\n ---> users now: " + users.size() + " <---\n");
-        return users;
+        return new ArrayList<>(users);
     }
 
     public Optional<User> activateRegistration(String key) {

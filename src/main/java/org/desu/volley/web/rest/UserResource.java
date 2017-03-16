@@ -195,9 +195,16 @@ public class UserResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<List<ManagedUserDTO>> getAllUsers(Pageable pageable)
+    public ResponseEntity<List<ManagedUserDTO>> getAllUsers(Pageable pageable,
+                                                            @RequestParam(required = false, value = "showOnline") boolean showOnline)
         throws URISyntaxException {
-        Page<User> page = userRepository.findAll(pageable);
+        Page<User> page;
+        if (showOnline) {
+            List<String> loggedInUsers = userService.getLoggedInUsers();
+            page = userRepository.findAllByLoginIn(loggedInUsers, pageable);
+        } else {
+            page = userRepository.findAll(pageable);
+        }
         List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
             .map(u -> {
                 ManagedUserDTO dto = new ManagedUserDTO(u);

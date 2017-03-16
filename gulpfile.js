@@ -136,7 +136,7 @@ gulp.task('inject:vendor', function () {
         .pipe(inject(gulp.src(bowerFiles(), {read: false}), {
             name: 'bower',
             relative: true
-        }))
+        }).pipe(angularFilesort()))
         .pipe(gulp.dest(config.app));
 
     return es.merge(stream, gulp.src(config.sassVendor)

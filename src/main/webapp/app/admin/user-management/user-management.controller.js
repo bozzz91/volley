@@ -5,11 +5,12 @@
         .module('volleyApp')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['Principal', 'User', 'ParseLinks', '$state', 'pagingParams', 'paginationConstants', 'JhiLanguageService'];
+    UserManagementController.$inject = ['Principal', 'User', 'ParseLinks', '$state', 'pagingParams', 'paginationConstants', 'JhiLanguageService', '$stateParams'];
 
-    function UserManagementController(Principal, User, ParseLinks, $state, pagingParams, paginationConstants, JhiLanguageService) {
+    function UserManagementController(Principal, User, ParseLinks, $state, pagingParams, paginationConstants, JhiLanguageService, $stateParams) {
         var vm = this;
 
+        vm.showOnline = JSON.parse($stateParams.showOnline) || false;
         vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         vm.currentAccount = null;
         vm.languages = null;
@@ -52,6 +53,7 @@
             User.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
+                showOnline: vm.showOnline,
                 sort: sort()
             }, onSuccess, onError);
         }
@@ -67,6 +69,7 @@
             vm.queryCount = vm.totalItems;
             vm.page = pagingParams.page;
             vm.users = data;
+            vm.showOnline = JSON.parse(pagingParams.showOnline || vm.showOnline);
         }
         function onError (error) {
             AlertService.error(error.data.message);
@@ -96,6 +99,7 @@
             $state.transitionTo($state.$current, {
                 page: vm.page,
                 sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
+                showOnline: vm.showOnline,
                 search: vm.currentSearch
             });
         }

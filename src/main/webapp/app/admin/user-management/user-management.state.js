@@ -11,7 +11,7 @@
         $stateProvider
         .state('user-management', {
             parent: 'admin',
-            url: '/user-management?page&sort',
+            url: '/user-management?page&sort&showOnline',
             data: {
                 authorities: ['ROLE_ADMIN'],
                 pageTitle: 'user-management.home.title'
@@ -22,7 +22,8 @@
                     controller: 'UserManagementController',
                     controllerAs: 'vm'
                 }
-            },            params: {
+            },
+            params: {
                 page: {
                     value: '1',
                     squash: true
