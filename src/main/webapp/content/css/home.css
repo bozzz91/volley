@@ -57,6 +57,10 @@ body {
     margin: 0 auto 20px;
 }
 
+.navbar-default {
+    z-index: 1;
+}
+
 .container {
     width: 100%;
     padding: 0;
