@@ -165,17 +165,31 @@ body {
 	width: 70%;
 	border-radius: 50%;
 }
-.users-list li span {
-	display: block;
+.users-list li img.refresh  {
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition:         transform .5s ease-in-out;
 }
+.users-list li img.refresh:hover {
+    -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}
+.users-list li span {
+    display: block;
+}
+.users-list li span.refresh {
+    color: #2c95dd;
+}
+
 .users-list li {
     display: inline-block;
     width: 40%;
-    margin: 20px 5%;
+    margin: 20px 4%;
     text-align: center;
     font-size: 12pt;
     line-height: 2;
     vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .dark {
     background: rgba(255,255,255,1);
@@ -202,12 +216,6 @@ body {
 
 .users-list .red {
 	color: #fb8500;
-}
-
-.refresh {
-    font-size: 120%;
-    width: 100%;
-    text-align: center;
 }
 
 .container > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-header, .container-fluid > .navbar-collapse {
