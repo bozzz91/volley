@@ -70,6 +70,8 @@ body {
     display: block;
     opacity: 0;
     visibility: hidden;
+    position: absolute;
+    top: -300px;
     -webkit-transition: opacity 500ms ease, visibility 500ms ease;
     -moz-transition: opacity 500ms ease, visibility 500ms ease;
     -o-transition: opacity 500ms ease, visibility 500ms ease;
