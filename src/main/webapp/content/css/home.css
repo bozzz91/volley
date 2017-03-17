@@ -78,6 +78,12 @@ body {
     transition: opacity 500ms ease, visibility 500ms ease;
 }
 
+@media (min-width: 767px) {
+    .navbar-nav .open > .dropdown-menu {
+        top: 100%;
+    }
+}
+
 .container {
     width: 100%;
     padding: 0;
