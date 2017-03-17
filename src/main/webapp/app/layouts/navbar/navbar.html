@@ -1,5 +1,5 @@
 <nav ng-if="vm.showMenu()" class="navbar navbar-default" role="navigation">
-    <div  class="container">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" ng-click="vm.toggleNavbar()">
                 <span class="sr-only">Toggle navigation</span>
@@ -13,7 +13,7 @@
                 <span has-authority="ROLE_ADMIN" class="navbar-version">v{{VERSION}}</span>
             </a>
         </div>
-        <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">
+        <div class="navbar-collapse" uib-collapse="vm.navbarState()" ng-switch="vm.isAuthenticated()">
             <ul class="nav navbar-nav navbar-right">
                 <li ui-sref-active="active">
                     <a ui-sref="home" ng-click="vm.collapseNavbar()">

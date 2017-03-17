@@ -5,12 +5,11 @@
         .module('volleyApp')
         .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$scope', '$state', '$location', 'Auth', 'Principal', 'ProfileService', 'LoginService'];
+    NavbarController.$inject = ['$scope', '$state', '$location', 'Auth', 'Principal', 'ProfileService', 'LoginService', 'Navbar'];
 
-    function NavbarController ($scope, $state, $location, Auth, Principal, ProfileService, LoginService) {
+    function NavbarController ($scope, $state, $location, Auth, Principal, ProfileService, LoginService, Navbar) {
         var vm = this;
 
-        vm.isNavbarCollapsed = true;
         vm.currentAccount = null;
         vm.isAuthenticated = Principal.isAuthenticated;
 
@@ -21,8 +20,9 @@
 
         vm.login = login;
         vm.logout = logout;
-        vm.toggleNavbar = toggleNavbar;
-        vm.collapseNavbar = collapseNavbar;
+        vm.toggleNavbar = Navbar.toggle;
+        vm.collapseNavbar = Navbar.collapse;
+        vm.navbarState = Navbar.state;
         vm.$state = $state;
         vm.showMenu = showMenu;
 
@@ -57,14 +57,6 @@
             collapseNavbar();
             Auth.logout();
             $state.go('home');
-        }
-
-        function toggleNavbar() {
-            vm.isNavbarCollapsed = !vm.isNavbarCollapsed;
-        }
-
-        function collapseNavbar() {
-            vm.isNavbarCollapsed = true;
         }
     }
 })();

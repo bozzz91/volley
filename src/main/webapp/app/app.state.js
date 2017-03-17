@@ -15,6 +15,11 @@
                     templateUrl: 'app/layouts/navbar/navbar.html',
                     controller: 'NavbarController',
                     controllerAs: 'vm'
+                },
+                'footer@': {
+                    templateUrl: 'app/layouts/navbar/footer.html',
+                    controller: 'FooterController',
+                    controllerAs: 'vm'
                 }
             },
             resolve: {
