@@ -49,12 +49,12 @@
         }
 
         function login() {
-            collapseNavbar();
+            vm.collapseNavbar();
             LoginService.open();
         }
 
         function logout() {
-            collapseNavbar();
+            vm.collapseNavbar();
             Auth.logout();
             $state.go('home');
         }
