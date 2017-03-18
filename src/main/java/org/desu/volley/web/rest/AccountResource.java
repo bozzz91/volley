@@ -147,15 +147,22 @@ public class AccountResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> saveAccount(@Valid @RequestBody UserDTO userDTO) {
-        Optional<User> existingUser;
+        //check unique email
         if (!StringUtils.isBlank(userDTO.getEmail())) {
-            existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        } else {
-            existingUser = userRepository.findOneByLoginIgnoreCase(userDTO.getLogin());
+            Optional<User> user = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+            if (user.isPresent() && (!user.get().getLogin().equalsIgnoreCase(userDTO.getLogin()))) {
+                return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
+            }
         }
-        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userDTO.getLogin()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use")).body(null);
+
+        //check unique phone
+        if (!StringUtils.isBlank(userDTO.getPhone())) {
+            Optional<User> user = userRepository.findOneByPhoneIgnoreCase(userDTO.getPhone());
+            if (user.isPresent() && (!user.get().getLogin().equalsIgnoreCase(userDTO.getLogin()))) {
+                return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "phoneexists", "Phone already in use")).body(null);
+            }
         }
+
         return userRepository
             .findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin())
             .map(u -> {

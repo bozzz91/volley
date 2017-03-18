@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,7 +42,7 @@ public class SocialService {
 
     public void deleteUserSocialConnection(String login) {
         ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(login);
-        connectionRepository.findAllConnections().keySet().stream()
+        connectionRepository.findAllConnections().keySet()
             .forEach(providerId -> {
                 connectionRepository.removeConnections(providerId);
                 log.debug("Delete user social connection providerId: {}", providerId);
@@ -65,29 +64,23 @@ public class SocialService {
 
     private User createUserIfNotExist(UserProfile userProfile, String langKey, String providerId) {
         String email = userProfile.getEmail();
-        String userName = userProfile.getUsername();
-        String userId = userProfile.getId();
-        if (!isBlank(userName)) {
-            userName = userName.toLowerCase(Locale.ENGLISH);
-        } else if (!isBlank(userId)) {
-            userName = userId.toLowerCase(Locale.ENGLISH);
-        }
-        if (isBlank(email) && isBlank(userName)) {
-            log.error("Cannot create social user because email and login are null");
-            throw new IllegalArgumentException("Email and login cannot be null");
+        String login = getLoginDependingOnProviderId(userProfile, providerId);
+
+        if (isBlank(login)) {
+            log.error("Cannot create social user because email and id and username are null");
+            throw new IllegalArgumentException("Email and id and username can not be null");
         }
         if (!isBlank(email)) {
             Optional<User> user = userRepository.findOneByEmailIgnoreCase(email);
             if (user.isPresent()) {
-                log.info("User already exist associate the connection to this account");
+                log.info("User already exist associate the connection to this account by email: {}", email);
                 return user.get();
             }
         }
-
-        String login = getLoginDependingOnProviderId(userProfile, providerId);
-        if (isBlank(email) && userRepository.findOneByLoginIgnoreCase(login).isPresent()) {
-            log.error("Cannot create social user because email is null and login already exist, login -> {}", login);
-            throw new IllegalArgumentException("Email cannot be null with an existing login");
+        Optional<User> user = userRepository.findOneByLoginIgnoreCase(login);
+        if (user.isPresent()) {
+            log.error("User already exist associate the connection to this account by login: {}", login);
+            return user.get();
         }
 
         String encryptedPassword = passwordEncoder.encode(RandomStringUtils.random(10));
@@ -114,10 +107,10 @@ public class SocialService {
     private String getLoginDependingOnProviderId(UserProfile userProfile, String providerId) {
         return userProfile.getEmail() != null
             ? userProfile.getEmail()
-            : userProfile.getUsername() != null
-            ? (providerId + "-" + userProfile.getUsername())
             : userProfile.getId() != null
             ? (providerId + "-" + userProfile.getId())
+            : userProfile.getUsername() != null
+            ? (providerId + "-" + userProfile.getUsername())
             : null;
     }
 

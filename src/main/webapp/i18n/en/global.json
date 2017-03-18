@@ -126,6 +126,7 @@
         "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
         "userexists": "Login name already used!",
         "emailexists": "E-mail is already in use!",
+        "phoneexists": "Phone is already in use!",
         "accessdenied": "Access denied!",
         "idexists": "A new {{ entityName }} cannot already have an ID"
     },
