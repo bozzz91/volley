@@ -21,9 +21,9 @@
         }
     }
 
-    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City'];
+    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City', '$mdDialog'];
 
-    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City) {
+    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City, $mdDialog) {
         var vm = this;
 
         vm.account = null;
@@ -48,7 +48,7 @@
         vm.alreadyRegister = alreadyRegister;
         vm.cities = [];
         vm.levels = [];
-        vm.saveCity = saveCity;
+        vm.saveAccount = saveAccount;
         vm.loadCities = loadCities;
         vm.isNewYearHolidays = isNewYearHolidays;
         vm.selectLevel = function (level) {
@@ -57,6 +57,23 @@
                 AlertService.info(level.description);
             }*/
             //todo popup window
+        };
+
+        $scope.showConfirm = function(ev, trainingId) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.confirm()
+                .title('Отписаться')
+                .textContent('Вы уверены что хотите отписаться от тренировки?')
+                .ariaLabel('Lucky day')
+                .targetEvent(ev)
+                .ok('Да')
+                .cancel('Нет');
+
+            $mdDialog.show(confirm).then(function() {
+                vm.unroll(trainingId);
+            }, function() {
+                //nothing
+            });
         };
 
         vm.detectBlur = function () {
@@ -162,7 +179,7 @@
             vm.trainings = [];
         }
 
-        function saveCity() {
+        function saveAccount() {
             Auth.updateAccount(vm.account);
         }
 
@@ -174,6 +191,7 @@
                     if (training.trainingUsers === null) {
                         training.trainingUsers = [];
                     }
+                    //todo remove after separate phone changer is implemented
                     //update phone
                     Auth.updateAccount(vm.account);
 
