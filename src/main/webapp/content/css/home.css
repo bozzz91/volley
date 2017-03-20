@@ -61,6 +61,7 @@ body {
     z-index: 1;
 }
 
+/* todo calendar is broken
 .open > .dropdown-menu {
     opacity: 1;
     visibility: visible;
@@ -82,7 +83,7 @@ body {
     .navbar-nav .open > .dropdown-menu {
         top: 100%;
     }
-}
+}*/
 
 .container {
     width: 100%;
