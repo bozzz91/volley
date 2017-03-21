@@ -9,12 +9,12 @@ body {
 }
 #one {
     position: relative;
-    width: 630px;
+    width: 350px;
     margin: 0 auto;
     padding: 4% 10px 0 10px;
 }
 
-@media (min-width: 350px) {
+@media (min-width: 320px) {
     #one {
         width: 100%;
         padding: 1% 0 0 0;
@@ -187,7 +187,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
 }
-@media (min-width: 350px) {
+@media (min-width: 330px) {
     .users-list li {
         width: 40%;
     }
