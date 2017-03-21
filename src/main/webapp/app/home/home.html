@@ -7,7 +7,7 @@
             <div class="signin-train" ng-switch-when="true">
                 <img src="/content/images/new-year.png" ng-if="vm.isNewYearHolidays()" class="new-year-hat-1">
                 <p class="welcome md-headline">Добро пожаловать, {{vm.account.firstName}}!</p>
-                <p class="o1">Для СМС-оповещений требуется хотя бы один раз указать свой телефон.</p>
+                <p class="o1">Для СМС-оповещений требуется указать в свой телефон в <a ui-sref="settings">настройках</a>.</p>
                 <div ng-if="vm.account.city == null">
                     <p class="o1">Для просмотра тренировок необходимо выбрать город:</p>
                     <md-select ng-init="vm.loadCities()" id="home_city" ng-model="vm.account.city" aria-label="city" md-on-close="vm.saveAccount()">
