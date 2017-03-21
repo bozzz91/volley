@@ -9,16 +9,21 @@ body {
 }
 #one {
     position: relative;
-    width: 350px;
+    width: 630px;
     margin: 0 auto;
     padding: 4% 10px 0 10px;
 }
 
-@media (min-width: 767px) {
+@media (min-width: 350px) {
     #one {
-        position: relative;
-        width: 650px;
-        margin: 0 auto;
+        width: 100%;
+        padding: 1% 0 0 0;
+    }
+}
+
+@media (min-width: 650px) {
+    #one {
+        width: 630px;
         padding: 2% 10px 0 10px;
     }
 }
@@ -29,10 +34,6 @@ body {
     padding: 0;
     margin: 0 auto 15px;
     line-height: 120%;
-    box-shadow:
-        0px 0px 0px 0px rgba(0, 0, 0, 0.2),
-        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-        0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 .o1 {
@@ -73,30 +74,6 @@ body {
     z-index: 1;
 }
 
-/* todo calendar is broken
-.open > .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-}
-
-.dropdown-menu {
-    display: block;
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    top: -500px;
-    -webkit-transition: opacity 500ms ease, visibility 500ms ease;
-    -moz-transition: opacity 500ms ease, visibility 500ms ease;
-    -o-transition: opacity 500ms ease, visibility 500ms ease;
-    transition: opacity 500ms ease, visibility 500ms ease;
-}
-
-@media (min-width: 767px) {
-    .navbar-nav .open > .dropdown-menu {
-        top: 100%;
-    }
-}*/
-
 .container {
     width: 100%;
     padding: 0;
@@ -131,6 +108,11 @@ body {
 
 .signin-train {
     padding-bottom: 20px;
+}
+.signup-train {
+    padding-bottom: 20px;
+    width: 300px;
+    margin: auto;
 }
 .train-list ul {
     list-style: none;
@@ -174,6 +156,7 @@ body {
     border: 1px solid #c8ced1;
     text-decoration: none;
 }
+
 .users-list li img {
 	width: 70%;
 	border-radius: 50%;
@@ -195,7 +178,7 @@ body {
 
 .users-list li {
     display: inline-block;
-    width: 40%;
+    width: 38%;
     margin: 20px 14px 10px 14px;
     text-align: center;
     font-size: 12pt;
@@ -204,10 +187,18 @@ body {
     white-space: nowrap;
     overflow: hidden;
 }
-@media (min-width: 767px) {
+@media (min-width: 350px) {
+    .users-list li {
+        width: 40%;
+    }
+}
+@media (min-width: 650px) {
     .users-list li {
         width: 20%;
     }
+}
+.users-list .red {
+    color: #fb8500;
 }
 
 .dark {
@@ -231,10 +222,6 @@ body {
     padding: 10px;
     font-size: 12pt;
     border-radius: 4px;
-}
-
-.users-list .red {
-	color: #fb8500;
 }
 
 .container > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-header, .container-fluid > .navbar-collapse {
@@ -275,7 +262,7 @@ body {
     top: 30%;
 }
 
-@media (min-width: 767px) {
+@media (min-width: 650px) {
     .card-title-sm {
         padding: 24px 24px 8px;
     }
