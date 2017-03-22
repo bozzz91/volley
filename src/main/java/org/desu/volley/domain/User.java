@@ -68,6 +68,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(nullable = false)
     private boolean activated = false;
 
+    @NotNull
+    @Column(name = "readonly", nullable = false)
+    private boolean readOnly = false;
+
     @Size(min = 2, max = 5)
     @Column(name = "lang_key", length = 5)
     private String langKey;
@@ -81,7 +85,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_key", length = 20)
     private String resetKey;
 
-    @Column(name = "reset_date", nullable = true)
+    @Column(name = "reset_date")
     private ZonedDateTime resetDate = null;
 
     @Transient
@@ -172,7 +176,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.city = city;
     }
 
-    public boolean getActivated() {
+    public boolean isActivated() {
         return activated;
     }
 
@@ -244,6 +248,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.trainings = trainings;
     }
 
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -272,6 +284,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", email='" + email + '\'' +
             ", phone='" + phone + '\'' +
             ", activated='" + activated + '\'' +
+            ", readOnly='" + readOnly + '\'' +
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
             "}";

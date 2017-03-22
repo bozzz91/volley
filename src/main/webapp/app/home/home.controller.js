@@ -21,9 +21,9 @@
         }
     }
 
-    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City', '$mdDialog'];
+    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City', '$mdDialog', '$translate'];
 
-    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City, $mdDialog) {
+    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City, $mdDialog, $translate) {
         var vm = this;
 
         vm.account = null;
@@ -164,7 +164,7 @@
                 }
             }
             function onError(error) {
-                AlertService.error(error.data.message);
+                //just show error alert, data provided by response headers
             }
 
         }
@@ -184,6 +184,10 @@
         }
 
         function enroll(id) {
+            if (vm.account.readOnly) {
+                AlertService.error($translate.instant('volleyApp.trainingUser.accessdenied'));
+                return;
+            }
             var trainings = vm.trainings;
             for(var i = 0; i<trainings.length; i++) {
                 if(trainings[i].id == id) {
@@ -193,7 +197,7 @@
                     }
                     //todo remove after separate phone changer is implemented
                     //update phone
-                    Auth.updateAccount(vm.account);
+                    //Auth.updateAccount(vm.account);
 
                     var reg = {
                         'user': vm.account,
@@ -204,7 +208,7 @@
                         savedReg.user = vm.account;
                         training.trainingUsers.push(savedReg);
                     }, function (error) {
-                        AlertService.error(error.data.message);
+                        //just show error alert, data provided by response headers
                     });
                 }
             }
@@ -222,7 +226,7 @@
                         TrainingUser.delete({id: regId}, function () {
                             trainingUsers.splice(index, 1);
                         }, function (error) {
-                            AlertService.error(error.data.message);
+                            //just show error alert, data provided by response headers
                         });
                     }
                 }

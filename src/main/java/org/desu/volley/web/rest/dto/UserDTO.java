@@ -44,6 +44,8 @@ public class UserDTO {
 
     private boolean activated = false;
 
+    private boolean readOnly = false;
+
     @Size(min = 2, max = 5)
     private String langKey;
 
@@ -54,15 +56,14 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this(user.getLogin(), user.getFirstName(), user.getLastName(), user.getEmail(),
-            user.getActivated(), user.getLangKey(), user.getPhone(), user.getCity(),
-            user.getImageUrl(), user.getId(),
+            user.isActivated(), user.getLangKey(), user.getPhone(), user.getCity(),
+            user.getImageUrl(), user.getId(), user.isReadOnly(),
             user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String firstName, String lastName,
                    String email, boolean activated, String langKey, String phone,
-                   City city, String imageUrl, Long id, Set<String> authorities) {
-
+                   City city, String imageUrl, Long id, boolean readOnly, Set<String> authorities) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -74,6 +75,7 @@ public class UserDTO {
         this.city = city;
         this.imageUrl = imageUrl;
         this.id = id;
+        this.readOnly = readOnly;
     }
 
     public String getLogin() {
@@ -124,6 +126,14 @@ public class UserDTO {
         return imageUrl;
     }
 
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -136,6 +146,7 @@ public class UserDTO {
             ", city='" + city + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
+            ", readOnly=" + readOnly +
             ", langKey='" + langKey + '\'' +
             ", authorities=" + authorities +
             "}";

@@ -16,6 +16,7 @@
         vm.languages = null;
         vm.loadAll = loadAll;
         vm.setActive = setActive;
+        vm.setReadOnly = setReadOnly;
         vm.users = [];
         vm.page = 1;
         vm.totalItems = null;
@@ -42,6 +43,14 @@
 
         function setActive (user, isActivated) {
             user.activated = isActivated;
+            User.update(user, function () {
+                vm.loadAll();
+                vm.clear();
+            });
+        }
+
+        function setReadOnly (user, isReadonly) {
+            user.readOnly = isReadonly;
             User.update(user, function () {
                 vm.loadAll();
                 vm.clear();
@@ -82,7 +91,7 @@
                 id: null, login: null, firstName: null, lastName: null, email: null,
                 activated: null, langKey: null, createdBy: null, createdDate: null,
                 lastModifiedBy: null, lastModifiedDate: null, resetDate: null,
-                resetKey: null, authorities: null
+                resetKey: null, authorities: null, readOnly: null
             };
         }
         function sort () {

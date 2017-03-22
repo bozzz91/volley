@@ -26,10 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyObject;
@@ -159,11 +156,12 @@ public class AccountResourceIntTest {
             "ru",               // langKey
             "+71231234567",
             null,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            null
+            null,
+            false                    // readonly
         );
 
         restMvc.perform(
@@ -190,11 +188,12 @@ public class AccountResourceIntTest {
             "ru",               // langKey
             "+71231234567",
             null,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            null
+            null,
+            false                    // readonly
         );
 
         restUserMockMvc.perform(
@@ -221,11 +220,12 @@ public class AccountResourceIntTest {
             "ru",               // langKey
             "+71231234567",
             null,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            null
+            null,
+            false                    // readonly
         );
 
         restUserMockMvc.perform(
@@ -252,11 +252,12 @@ public class AccountResourceIntTest {
             "ru",               // langKey
             "+71231234567",
             null,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            null
+            null,
+            false                    // readonly
         );
 
         restUserMockMvc.perform(
@@ -284,16 +285,19 @@ public class AccountResourceIntTest {
             "ru",               // langKey
             "+71231234567",
             null,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            null
+            null,
+            false                    // readonly
         );
 
         // Duplicate login, different e-mail
         ManagedUserDTO duplicatedUser = new ManagedUserDTO(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-            "alicejr@example.com", true, validUser.getLangKey(), validUser.getPhone(), validUser.getCity(), validUser.getAuthorities(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getImageUrl());
+            "alicejr@example.com", true, validUser.getLangKey(), validUser.getPhone(), validUser.getCity(),
+            validUser.getAuthorities(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(),
+            validUser.getImageUrl(), validUser.isActivated());
 
         // Good user
         restMvc.perform(
@@ -328,11 +332,12 @@ public class AccountResourceIntTest {
             "ru",               // langKey
             "+71231234567",
             null,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            null
+            null,
+            false                    // readonly
         );
 
         // Duplicate e-mail, different login
@@ -351,7 +356,8 @@ public class AccountResourceIntTest {
             validUser.getCreatedDate(),
             validUser.getLastModifiedBy(),
             validUser.getLastModifiedDate(),
-            validUser.getImageUrl());
+            validUser.getImageUrl(),
+            validUser.isActivated());
 
         // Good user
         restMvc.perform(
@@ -385,11 +391,12 @@ public class AccountResourceIntTest {
             "ru",               // langKey
             "+71231234567",
             null,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)),
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,
-            null                    // lastModifiedDate
+            null,                   // lastModifiedDate
+            false                    // readonly
         );
 
         restMvc.perform(
@@ -418,7 +425,8 @@ public class AccountResourceIntTest {
             null,
             null,
             1L,
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER))
+            false,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
         );
 
         restUserMockMvc.perform(

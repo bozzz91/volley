@@ -17,6 +17,7 @@
                     </md-select>
                 </div>
                 <jhi-alert></jhi-alert>
+                <jhi-alert-error></jhi-alert-error>
                 <div class="train-list" ng-if="vm.account.city" ng-init="vm.loadTrainings()">
                     <md-select ng-model="currentLevel" aria-label="levels" ng-show="vm.levels.length > 1" md-on-close="vm.selectLevel(currentLevel)">
                         <md-option ng-repeat="level in vm.levels | orderBy:'order'" ng-value="level">
@@ -26,7 +27,7 @@
                     <ul>
                         <li class="training-warn" ng-show="!vm.levels.length">Тренировок пока нет.</li>
                         <li ng-repeat="training in vm.trainings | filter: filterByLevel(currentLevel) | orderBy:'startAt'">
-                            <md-card md-theme="'default'" md-theme-watch ng-model="hcontent">
+                            <md-card ng-model="hcontent">
                                 <md-card-title class="card-title-sm">
                                     <md-card-title-media>
                                         <div class="md-media-sm card-media training">
@@ -46,8 +47,13 @@
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end center">
                                     <md-button class="md-flat" ng-click="hcontent = !hcontent">Подробнее</md-button>
-                                    <md-button class="md-flat md-primary" ng-if="!vm.alreadyRegister(training.id)" ng-click="vm.enroll(training.id)">Записаться</md-button>
-                                    <md-button class="md-flat md-warn"    ng-if="vm.alreadyRegister(training.id)"  ng-click="showConfirm($event, training.id)">Отписаться</md-button>
+                                    <md-button class="md-flat md-primary"
+                                               ng-disabled="vm.account.readOnly"
+                                               ng-if="!vm.alreadyRegister(training.id)"
+                                               ng-click="vm.enroll(training.id)">Записаться</md-button>
+                                    <md-button class="md-flat md-warn"
+                                               ng-if="vm.alreadyRegister(training.id)"
+                                               ng-click="showConfirm($event, training.id)">Отписаться</md-button>
                                 </md-card-actions>
 
                                 <div ng-show="hcontent && training.state == 'REGISTRATION'">

@@ -161,23 +161,31 @@ public class UserResource {
                 user.setLangKey(managedUserDTO.getLangKey());
                 Set<Authority> authorities = user.getAuthorities();
                 boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
+                //super admin can do anything
                 if (isSuperAdmin) {
                     authorities.clear();
                     managedUserDTO.getAuthorities().forEach(authority ->
                         authorities.add(authorityRepository.findOne(authority))
                     );
                     user.setActivated(managedUserDTO.isActivated());
+                    user.setReadOnly(managedUserDTO.isReadOnly());
                 } else {
                     //just ADMIN can't disable another ADMIN or SUPERADMIN
-                    boolean isAdminChanging = authorities.stream().map(Authority::getName).anyMatch(AuthoritiesConstants.ADMIN::equals);
-                    if (!isAdminChanging) {
+                    boolean isCommonUserChanging = authorities.stream().map(Authority::getName).noneMatch(AuthoritiesConstants.ADMIN::equals);
+                    if (isCommonUserChanging) {
                         user.setActivated(managedUserDTO.isActivated());
+                        user.setReadOnly(managedUserDTO.isReadOnly());
+                    } else { //changing of admin or superadmin or yourself
+                        //it is possible to change only yourself in this case
+                        //and you can't disable yourself (change activated flag)
+                        if (SecurityUtils.getCurrentUserLogin().equals(managedUserDTO.getLogin())) {
+                            user.setReadOnly(managedUserDTO.isReadOnly());
+                        }
                     }
                 }
                 return ResponseEntity.ok()
                     .headers(HeaderUtil.createAlert("userManagement.updated", managedUserDTO.getLogin()))
-                    .body(new ManagedUserDTO(userRepository
-                        .findOne(managedUserDTO.getId())));
+                    .body(new ManagedUserDTO(userRepository.findOne(managedUserDTO.getId())));
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
 

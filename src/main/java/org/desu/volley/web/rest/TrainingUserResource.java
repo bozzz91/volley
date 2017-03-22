@@ -79,6 +79,11 @@ public class TrainingUserResource {
                 .headers(HeaderUtil.createFailureAlert("trainingUser", "accessdenied", "Access denied"))
                 .body(null);
         }
+        if (currentUser.isReadOnly()) {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("trainingUser", "accessdenied", "Access denied"))
+                .body(null);
+        }
         trainingUser.setRegisterDate(ZonedDateTime.now());
         List<TrainingUser> existed = trainingUserRepository.findByTrainingAndUser(trainingUser.getTraining(), trainingUser.getUser());
         TrainingUser result;

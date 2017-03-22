@@ -19,6 +19,11 @@
         "detail": {
             "title": "User"
         },
+        "access": {
+            "title": "Training permission",
+            "read": "Read only",
+            "write": "Read and register"
+        },
         "login": "Login",
         "firstName": "First name",
         "lastName": "Last name",

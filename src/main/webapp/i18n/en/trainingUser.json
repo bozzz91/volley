@@ -7,6 +7,7 @@
                 "createOrEditLabel": "Create or edit a Training User",
                 "search": "Search for Training User"
             },
+            "accessdenied": "Do not have permissions for registration on training",
             "created": "You have successfully registered on the game",
             "updated": "A Training User is updated with identifier {{ param }}",
             "deleted": "You have successfully been removed from the game",

@@ -20,7 +20,9 @@
                 <th jh-sort-by="email"><span translate="userManagement.email">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="phone"><span translate="userManagement.phone">Phone</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
-                <th><span translate="userManagement.profiles">Profiles</span></th>                <th jh-sort-by="createdDate"><span translate="userManagement.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th><span translate="userManagement.access.title">Access</span></th>
+                <th><span translate="userManagement.profiles">Profiles</span></th>
+                <th jh-sort-by="createdDate"><span translate="userManagement.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="lastModifiedBy"><span translate="userManagement.lastModifiedBy">Last Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="lastModifiedDate"><span translate="userManagement.lastModifiedDate">Last Modified Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
@@ -48,6 +50,14 @@
                     <span class="label label-success" ng-click="vm.setActive(user, false)" ng-show="user.activated"
                           ng-if="!vm.isUserInRole(user, 'ROLE_ADMIN') || vm.isUserInRole(vm.currentAccount, 'ROLE_SUPERADMIN')"
                           translate="userManagement.activated" style="cursor: pointer;">Activated</span>
+                </td>
+                <td>
+                    <span class="label label-danger" ng-click="vm.setReadOnly(user, false)" ng-show="user.readOnly"
+                          ng-if="!vm.isUserInRole(user, 'ROLE_ADMIN') || vm.isUserInRole(vm.currentAccount, 'ROLE_SUPERADMIN')"
+                          translate="userManagement.access.read" style="cursor: pointer;">Read only</span>
+                    <span class="label label-success" ng-click="vm.setReadOnly(user, true)" ng-show="!user.readOnly"
+                          ng-if="!vm.isUserInRole(user, 'ROLE_ADMIN') || vm.isUserInRole(vm.currentAccount, 'ROLE_SUPERADMIN')"
+                          translate="userManagement.access.write" style="cursor: pointer;">Register</span>
                 </td>
                 <td>
                     <div ng-repeat="authority in user.authorities">
