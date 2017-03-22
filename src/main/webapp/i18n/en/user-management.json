@@ -32,6 +32,7 @@
         "city": "City",
         "activated": "Activated",
         "deactivated": "Deactivated",
+        "readOnly": "Read only",
         "profiles": "Profiles",
         "langKey": "Language",
         "createdBy": "Created by",

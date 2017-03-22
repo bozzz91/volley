@@ -32,6 +32,7 @@
         "city": "Город",
         "activated": "Активен",
         "deactivated": "Неактивен",
+        "readOnly": "Только просмотр",
         "profiles": "Профили",
         "langKey": "Язык",
         "createdBy": "Создал",
