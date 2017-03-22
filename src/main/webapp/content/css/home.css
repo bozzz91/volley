@@ -238,6 +238,12 @@ body {
     padding-left: 10px;
 }
 
+.card-with-border hr {
+    height: 1px;
+    visibility: hidden;
+    margin-bottom: -20px;
+}
+
 .card-media.training {
     padding-right: 10px;
     position: relative;

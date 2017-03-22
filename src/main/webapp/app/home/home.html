@@ -40,8 +40,11 @@
                                     </md-card-title-media>
                                     <md-card-title-text class="card-with-border">
                                         <span class="md-headline" ng-show="training.description">{{training.description}}</span>
+                                        <hr/>
                                         <span class="md-subhead">{{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}} р</span>
+                                        <hr/>
                                         <span class="md-subhead">{{training.gym.name}}</span>
+                                        <hr/>
                                         <span class="md-subhead">Лимит {{training.limit}} человек</span>
                                     </md-card-title-text>
                                 </md-card-title>
