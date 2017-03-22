@@ -264,13 +264,14 @@ public class UserService {
         }
     }
 
-    private void eagerlyLoad(User user) {
+    public User eagerlyLoad(User user) {
         user.getAuthorities().size(); // eagerly load the association
         City city = user.getCity(); //eagerly load city
         if (city != null) {
             //noinspection ResultOfMethodCallIgnored
             city.getName();
         }
+        return user;
     }
 
     public void loadImageUrl(User user) {

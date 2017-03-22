@@ -215,6 +215,7 @@ public class UserResource {
         }
         List<ManagedUserDTO> managedUserDTOs = page.getContent().stream()
             .map(u -> {
+                u = userService.eagerlyLoad(u);
                 ManagedUserDTO dto = new ManagedUserDTO(u);
                 dto.setSocials(userService.getSocialProfiles(u));
                 return dto;
