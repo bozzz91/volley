@@ -4,7 +4,22 @@
     angular
         .module('volleyApp')
         .controller('HomeController', HomeController)
-        .directive('closeDialog', CloseDialog);
+        .directive('closeDialog', CloseDialog)
+        .filter('unique', function() {
+            return function(collection, keyname) {
+                var output = [],
+                    keys = [];
+
+                angular.forEach(collection, function(item) {
+                    var key = item[keyname];
+                    if(keys.indexOf(key) === -1) {
+                        keys.push(key);
+                        output.push(item);
+                    }
+                });
+                return output;
+            };
+        });
 
     CloseDialog.$inject = ['$timeout', 'ngDialog'];
 
@@ -51,12 +66,11 @@
         vm.saveAccount = saveAccount;
         vm.loadCities = loadCities;
         vm.isNewYearHolidays = isNewYearHolidays;
-        vm.selectLevel = function (level) {
-            /*if (level.id != $scope.currentLevel.id) {
+
+        $scope.onLevelSelected = function (level) {
+            if (level.id != $scope.currentLevel.id) {
                 $scope.currentLevel = level;
-                AlertService.info(level.description);
-            }*/
-            //todo popup window
+            }
         };
 
         $scope.showConfirm = function(ev, trainingId) {
@@ -148,25 +162,28 @@
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
+                var tempLevels = [];
                 for (var i = 0; i < data.length; i++) {
+                    addLevel(tempLevels, data[i].level);
+
                     Training.get({id: data[i]['id']}, function(result) {
                         vm.trainings.push(result);
-                        addLevel(result.level);
                     });
                 }
+                tempLevels.sort(function(a, b) {
+                    return a.order - b.order;
+                });
+                vm.levels = tempLevels;
+                $scope.currentLevel = vm.levels[0];
             }
-            function addLevel(level) {
-                if (vm.levels.map(function(e) { return e.id; }).indexOf(level.id) < 0) {
-                    vm.levels.push(level);
-                }
-                if (!$scope.currentLevel || $scope.currentLevel.order > level.order) {
-                    $scope.currentLevel = level;
+            function addLevel(collection, level) {
+                if (collection.map(function(e) { return e.id; }).indexOf(level.id) < 0) {
+                    collection.push(level);
                 }
             }
             function onError(error) {
                 //just show error alert, data provided by response headers
             }
-
         }
 
         function loadPage(page) {
