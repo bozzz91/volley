@@ -119,6 +119,13 @@ body {
         width: 300px;
     }
 }
+.train-list .md-nav-bar {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.train-list .md-nav-bar .md-button {
+    color: #337ab7;
+}
 .train-list ul {
     list-style: none;
     padding: 0;
@@ -175,6 +182,9 @@ body {
     transform: rotate(-180deg);
 }
 .users-list li span {
+    display: block;
+}
+.users-list li a {
     display: block;
 }
 .users-list li span.refresh {

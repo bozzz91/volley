@@ -66,9 +66,10 @@
         vm.saveAccount = saveAccount;
         vm.loadCities = loadCities;
         vm.isNewYearHolidays = isNewYearHolidays;
+        vm.isCurrentUserAdmin = isCurrentUserAdmin;
 
         $scope.onLevelSelected = function (level) {
-            if (level.id != $scope.currentLevel.id) {
+            if (level.id !== $scope.currentLevel.id) {
                 $scope.currentLevel = level;
             }
         };
@@ -98,9 +99,17 @@
             return blurClassName;
         };
 
+        vm.calcUserClass = function (index, limit) {
+            var limitClass = '';
+            if (index >= limit) {
+                limitClass = 'red';
+            }
+            return limitClass;
+        };
+
         $scope.filterByLevel = function (level) {
             return function (training) {
-                return training.level.id == level.id;
+                return training.level.id === level.id;
             }
         };
 
@@ -119,6 +128,10 @@
             Principal.identity().then(function(account) {
                 vm.account = account;
             });
+        }
+
+        function isCurrentUserAdmin() {
+            return vm.account.authorities.indexOf('ROLE_ADMIN') > 0;
         }
 
         function isNewYearHolidays() {
@@ -207,7 +220,7 @@
             }
             var trainings = vm.trainings;
             for(var i = 0; i<trainings.length; i++) {
-                if(trainings[i].id == id) {
+                if(trainings[i].id === id) {
                     var training = trainings[i];
                     if (training.trainingUsers === null) {
                         training.trainingUsers = [];
@@ -235,7 +248,7 @@
         function unroll(id) {
             var trainings = vm.trainings;
             for(var i = 0; i<trainings.length; i++) {
-                if(trainings[i].id == id) {
+                if(trainings[i].id === id) {
                     var trainingUsers = trainings[i].trainingUsers;
                     var index = findUserInTraining(trainingUsers, vm.account);
                     var regId = trainingUsers[index].id;
@@ -256,7 +269,7 @@
                 return -1;
             }
             for (var i=0; i<trainingUsers.length; i++) {
-                if (trainingUsers[i].user.login == user.login) {
+                if (trainingUsers[i].user.login === user.login) {
                     return i;
                 }
             }
@@ -266,7 +279,7 @@
         function alreadyRegister(id) {
             var trainings = vm.trainings;
             for(var j = 0; j<trainings.length; j++) {
-                if(trainings[j].id == id) {
+                if(trainings[j].id === id) {
                     var index = findUserInTraining(trainings[j].trainingUsers, vm.account);
                     if (index > -1) {
                         return true;
