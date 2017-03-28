@@ -1,42 +1,38 @@
-<div>
-    <h2><span translate="userManagement.detail.title">User</span> "{{vm.user.login}}"</h2>
-    <dl class="dl-horizontal">
-        <dt><span translate="userManagement.login">Login</span></dt>
-        <dd><span>{{vm.user.login}}</span></dd>
-        <dt><span translate="userManagement.firstName">First Name</span></dt>
-        <dd>{{vm.user.firstName}}</dd>
-        <dt><span translate="userManagement.lastName">Last Name</span></dt>
-        <dd>{{vm.user.lastName}}</dd>
-        <dt><span translate="userManagement.email">Email</span></dt>
-        <dd>{{vm.user.email}}</dd>
-        <dt><span translate="userManagement.city">City</span></dt>
-        <dd>{{vm.user.city.name}}</dd>
-        <dt><span translate="userManagement.phone">Phone</span></dt>
-        <dd>{{vm.user.phone}}</dd>
-        <dt><span translate="userManagement.activated">Activated</span></dt>
-        <dd>{{vm.user.activated}}</dd>
-        <dt><span translate="userManagement.readOnly">Readonly</span></dt>
-        <dd>{{vm.user.readOnly}}</dd>
-        <dt><span translate="userManagement.langKey">Lang Key</span></dt>
-        <dd>{{vm.user.langKey}}</dd>
-        <dt><span translate="userManagement.createdBy">Created By</span></dt>
-        <dd>{{vm.user.createdBy}}</dd>
-        <dt><span translate="userManagement.createdDate">Created Date</span></dt>
-        <dd>{{vm.user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
-        <dt><span translate="userManagement.lastModifiedBy">Last Modified By</span></dt>
-        <dd>{{vm.user.lastModifiedBy}}</dd>
-        <dt><span translate="userManagement.lastModifiedDate">Last Modified Date</span></dt>
-        <dd>{{vm.user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
-        <dt><span translate="userManagement.profiles">Profiles</span></dt>
-        <dd>
-            <ul class="list-unstyled">
-                <li ng-repeat="authority in vm.user.authorities"><span>{{authority}}</span></li>
-            </ul>
-        </dd>
-    </dl>
-    <button type="submit"
-            onclick="window.history.back()"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
-    </button>
+<div style="display: inline-block">
+    <md-content class="md-padding">
+        <md-card>
+            <md-card-title>
+                <md-card-title-media>
+                    <div class="md-media-lg card-media user-info">
+                        <img ng-src="{{vm.user.imageUrl}}"/><br/><br/>
+                        <span class="md-subhead">{{vm.user.firstName}} {{vm.user.lastName}}</span><br/>
+                        <!-- todo social profiles -->
+                    </div>
+                </md-card-title-media>
+                <md-card-title-text>
+                    <div class="user-details">
+                        <span class="md-headline">{{'userManagement.login' | translate}}: {{vm.user.login}}</span><br/>
+                        <span class="md-headline" ng-if="vm.user.email">{{'userManagement.email' | translate}}: {{vm.user.email}}</span><br/>
+                        <span class="md-headline" ng-if="!vm.user.email">{{'userManagement.email' | translate}}: Не задан</span><br/>
+                        <span class="md-subhead">{{'userManagement.city' | translate}}: {{vm.user.city.name}} ({{vm.user.langKey}})</span><br/>
+                        <span class="md-subhead">{{'userManagement.phone' | translate}}: {{vm.user.phone}}</span><br/>
+                        <span class="md-subhead">{{'userManagement.activated' | translate}}: {{vm.user.activated ? 'Да' : 'Нет'}}</span><br/>
+                        <span class="md-subhead">{{'userManagement.access.title' | translate}}: {{vm.user.readOnly ? 'Только просмотр' : 'Просмотр и запись'}}</span><br/>
+                        <span class="md-subhead">{{'userManagement.profiles' | translate}}: {{vm.userRole}}</span><br/>
+
+                        <!-- system fields -->
+                        <hr/>
+                        <span class="md-subhead">{{'userManagement.createdBy' | translate}}: {{vm.user.createdBy}}</span><br/>
+                        <span class="md-subhead">{{'userManagement.createdDate' | translate}}: {{vm.user.createdDate | date:'dd/MM/yy HH:mm' }}</span><br/>
+                        <span class="md-subhead">{{'userManagement.lastModifiedBy' | translate}}: {{vm.user.lastModifiedBy}}</span><br/>
+                        <span class="md-subhead">{{'userManagement.lastModifiedDate' | translate}}: {{vm.user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</span><br/>
+                    </div>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-flat md-primary" ui-sref="user-management.edit({login:vm.user.login})">Изменить</md-button>
+                <md-button class="md-flat md-warn" ui-sref="user-management"><span translate="entity.action.back">Back</span></md-button>
+            </md-card-actions>
+        </md-card>
+    </md-content>
 </div>

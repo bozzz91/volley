@@ -317,6 +317,19 @@ body {
     }
 }
 
+.card-media.user-info {
+    text-align: center;
+}
+.card-media.user-info img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.user-details {
+    padding: 0 16px 0 16px;
+}
+
 .bc-avatar {
     position: fixed;
     top: 0;
