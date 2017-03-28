@@ -326,7 +326,15 @@ body {
     border-radius: 50%;
 }
 
-.user-details {
+.user-detail-container {
+    display: table;
+    margin: auto;
+}
+.user-detail-container .md-padding {
+    background-color: transparent;
+}
+
+.user-detail-container .user-details {
     padding: 0 16px 0 16px;
 }
 
