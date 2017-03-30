@@ -238,7 +238,12 @@ public class UserResource {
     public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
         return userService.getUserWithAuthoritiesByLogin(login)
-                .map(ManagedUserDTO::new)
+                .map(u -> {
+                    u = userService.eagerlyLoad(u);
+                    ManagedUserDTO dto = new ManagedUserDTO(u);
+                    dto.setSocials(userService.getSocialProfiles(u));
+                    return dto;
+                })
                 .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

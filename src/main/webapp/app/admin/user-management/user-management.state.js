@@ -44,6 +44,7 @@
                 }],
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('user-management');
+                    $translatePartialLoader.addPart('social');
                     return $translate.refresh();
                 }]
 
@@ -65,6 +66,7 @@
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('user-management');
+                    $translatePartialLoader.addPart('social');
                     return $translate.refresh();
                 }]
             }

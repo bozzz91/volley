@@ -4,18 +4,21 @@
             <md-card-title>
                 <md-card-title-media>
                     <div class="md-media-lg card-media user-info">
-                        <img ng-src="{{vm.user.imageUrl}}"/><br/><br/>
+                        <img ng-src="{{vm.user.imageUrl || '/content/images/nouser.png'}}"/><br/><br/>
                         <span class="md-subhead">{{vm.user.firstName}} {{vm.user.lastName}}</span><br/>
-                        <!-- todo social profiles -->
+                        <div ng-if="vm.user.socials" ng-repeat="(key, value) in vm.user.socials">
+                            <md-button ng-if="value" ng-repeat="social in value" class="md-flat md-primary" ng-href="{{social}}" target="_blank">
+                                {{'social.' + key | translate}}
+                            </md-button>
+                        </div>
                     </div>
                 </md-card-title-media>
                 <md-card-title-text>
                     <div class="user-details">
                         <span class="md-headline">{{'userManagement.login' | translate}}: {{vm.user.login}}</span><br/>
-                        <span class="md-headline" ng-if="vm.user.email">{{'userManagement.email' | translate}}: {{vm.user.email}}</span><br/>
-                        <span class="md-headline" ng-if="!vm.user.email">{{'userManagement.email' | translate}}: Не задан</span><br/>
+                        <span class="md-headline">{{'userManagement.email' | translate}}: {{vm.user.email || 'Не задан'}}</span><hr/>
                         <span class="md-subhead">{{'userManagement.city' | translate}}: {{vm.user.city.name}} ({{vm.user.langKey}})</span><br/>
-                        <span class="md-subhead">{{'userManagement.phone' | translate}}: {{vm.user.phone}}</span><br/>
+                        <span class="md-subhead">{{'userManagement.phone' | translate}}: {{vm.user.phone || 'Не задан'}}</span><br/>
                         <span class="md-subhead">{{'userManagement.activated' | translate}}: {{vm.user.activated ? 'Да' : 'Нет'}}</span><br/>
                         <span class="md-subhead">{{'userManagement.access.title' | translate}}: {{vm.user.readOnly ? 'Только просмотр' : 'Просмотр и запись'}}</span><br/>
                         <span class="md-subhead">{{'userManagement.profiles' | translate}}: {{vm.userRole}}</span><br/>

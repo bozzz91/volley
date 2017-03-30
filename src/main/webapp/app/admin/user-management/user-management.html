@@ -35,8 +35,9 @@
                     {{user.login}}<br/>
                     {{user.firstName}} {{user.lastName}}<br/>
                     <span ng-if="user.socials" ng-repeat="(key, value) in user.socials">
+                        <span>&nbsp;</span>
                         <a ng-if="value" ng-repeat="social in value" ng-href="{{social}}" target="_blank">
-                            &nbsp;&nbsp;{{key}}
+                            {{'social.' + key | translate}}
                         </a>
                         <br ng-if="value && value.length > 0 && $last == false"/>
                     </span>
