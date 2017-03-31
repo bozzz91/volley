@@ -62,7 +62,7 @@
                                 <div ng-show="hcontent && training.state == 'REGISTRATION'">
                                     <ul class="users-list">
                                         <li ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'">
-                                            <img ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}">
+                                            <img class="random-rotate" ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}">
                                             <a ng-if="vm.isCurrentUserAdmin()" ng-class="vm.calcUserClass($index, training.limit)"
                                                ui-sref="user-management-detail({login:trainingUser.user.login})" target="_blank">
                                                 {{$index+1}}. {{trainingUser.user.firstName}}
@@ -72,7 +72,7 @@
                                             </span>
                                         </li>
                                         <li>
-                                            <img class="refresh" src="/content/images/refresh.png" ng-click="vm.loadTrainings()">
+                                            <img class="refresh random-rotate" src="/content/images/refresh.png" ng-click="vm.loadTrainings()">
                                             <span class="refresh">Обновить</span>
                                         </li>
                                     </ul>
@@ -101,6 +101,24 @@
                 <div class="modal-footer">
                     <button close-dialog="2" class="btn btn-primary">OK</button>
                 </div>
+            </script>
+
+            <script>
+                var inputDate = new Date("04/01/2017");
+                var todayDate = new Date();
+
+                function rotateAll() {
+                    $('.random-rotate').each(function() {
+                        var a = Math.random() * 140 - 70;
+                        var b = Math.random() * 0.3 + 0.7;
+                        $(this).css('transform', 'rotate(' + a + 'deg) scale(' + b + ')');
+                    });
+                    setTimeout(rotateAll, 1000);
+                }
+
+                if(inputDate.setHours(0,0,0,0) === todayDate.setHours(0,0,0,0)) {
+                    setTimeout(rotateAll, 1000);
+                }
             </script>
 
             <div class="signup-train" ng-switch-when="false">

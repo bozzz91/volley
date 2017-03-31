@@ -172,6 +172,7 @@ body {
 .users-list li img {
 	width: 70%;
 	border-radius: 50%;
+    transition: transform 1s linear;
 }
 .users-list li img.refresh  {
     -webkit-transition: -webkit-transform .5s ease-in-out;
