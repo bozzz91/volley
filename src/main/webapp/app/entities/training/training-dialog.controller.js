@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('TrainingDialogController', TrainingDialogController);
 
-    TrainingDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Training', 'Principal', 'Level', 'Gym'];
+    TrainingDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity', 'Training', 'Principal', 'Level', 'Gym'];
 
-    function TrainingDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Training, Principal, Level, Gym) {
+    function TrainingDialogController ($timeout, $scope, $uibModalInstance, entity, Training, Principal, Level, Gym) {
         var vm = this;
 
         vm.training = entity;
@@ -34,7 +34,7 @@
         Gym.query(function(result) {
             var allGyms = result;
             for (var i=0; i<allGyms.length; i++) {
-                if (allGyms[i].city.id == vm.account.city.id) {
+                if (allGyms[i].city && allGyms[i].city.id === vm.account.city.id) {
                     vm.gyms.push(allGyms[i]);
                 }
             }

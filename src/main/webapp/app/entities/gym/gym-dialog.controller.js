@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('GymDialogController', GymDialogController);
 
-    GymDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Gym', 'Training', 'City'];
+    GymDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity', 'Gym', 'Training', 'City'];
 
-    function GymDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Gym, Training, City) {
+    function GymDialogController ($timeout, $scope, $uibModalInstance, entity, Gym, Training, City) {
         var vm = this;
 
         vm.gym = entity;
@@ -42,7 +42,5 @@
         function onSaveError () {
             vm.isSaving = false;
         }
-
-
     }
 })();
