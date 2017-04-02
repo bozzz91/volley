@@ -148,6 +148,8 @@ body {
     text-align: center;
     overflow: hidden;
     height: 100%;
+    font-size: 12pt;
+    line-height: 2;
 }
 
 .user-cell .user-cell-wrap.red {

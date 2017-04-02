@@ -61,8 +61,8 @@
 
                                 <div class="user-grid-container" ng-show="hcontent && training.state == 'REGISTRATION'" flex ng-cloak>
                                     <md-grid-list
-                                        md-cols="4" md-cols-xs="2" md-cols-sm="3" md-cols-md="4"
-                                        md-row-height="150px"
+                                        md-cols-xs="2" md-cols-sm="4" md-cols-md="4" md-cols="4"
+                                        md-row-height="120px"
                                         md-gutter="8px" md-gutter-gt-sm="8px" md-gutter-md="8px" md-gutter-gt-md="16px">
 
                                         <md-grid-tile ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'"
@@ -76,16 +76,16 @@
                                                      ng-click="vm.loadTrainings()"/>
                                                 <br>
 
-                                                <span ng-if="!vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)" class="md-button">
+                                                <span ng-if="!vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)">
                                                     {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}
                                                 </span>
-                                                <md-button ng-if="vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)" class="md-flat"
-                                                           ui-sref="user-management-detail({login:trainingUser.user.login})" target="_blank">
+                                                <a ng-if="vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)"
+                                                           ui-sref="user-management-detail({login:trainingUser.user.login})">
                                                     {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}
-                                                </md-button>
-                                                <md-button ng-if="vm.isRefreshBtn(trainingUser)" class="md-flat" ng-click="vm.loadTrainings()">
+                                                </a>
+                                                <a ng-if="vm.isRefreshBtn(trainingUser)" ng-click="vm.loadTrainings()">
                                                     Обновить
-                                                </md-button>
+                                                </a>
                                             </div>
                                         </md-grid-tile>
                                     </md-grid-list>
