@@ -140,89 +140,35 @@ body {
     margin-bottom: 15px;
 }
 
-.enroll, .unroll {
-    background: #fff;
-    color: #3065d1;
-    display: block;
-    font-size: 12pt;
-    text-transform: uppercase;
-    width: 150px;
+.user-cell .user-cell-wrap {
     text-align: center;
-    padding: 6px 0;
-    border-radius: 6px;
-    margin: 0 auto;
-    border: 1px solid #3065d1;
-}
-.unroll {
-    margin-top: 8px;
-}
-.enroll:hover, .unroll:hover {
-    color: #fff;
-    background: #3065d1;
-    border: 1px solid #3065d1;
-    text-decoration: none;
-}
-.enroll:disabled, .unroll:disabled {
-    color: #fff;
-    background: #cdd2cc;
-    border: 1px solid #c8ced1;
-    text-decoration: none;
-}
-
-.users-list li img {
-	width: 70%;
-	border-radius: 50%;
-    transition: transform 1s linear;
-}
-.users-list li img.refresh  {
-    -webkit-transition: -webkit-transform .5s ease-in-out;
-    transition:         transform .5s ease-in-out;
-}
-.users-list li img.refresh:hover {
-    -webkit-transform: rotate(-180deg);
-    transform: rotate(-180deg);
-}
-.users-list li span {
-    display: block;
-}
-.users-list li a {
-    display: block;
-}
-.users-list li span.refresh {
-    color: #2c95dd;
-}
-
-.users-list li {
-    display: inline-block;
-    width: 38%;
-    margin: 20px 14px 10px 14px;
-    text-align: center;
-    font-size: 12pt;
-    line-height: 2;
-    vertical-align: top;
-    white-space: nowrap;
     overflow: hidden;
 }
-@media (min-width: 330px) {
-    .users-list li {
-        width: 40%;
-    }
-}
-@media (min-width: 650px) {
-    .users-list li {
-        width: 20%;
-    }
-}
-.users-list .red {
+
+.user-cell .user-cell-wrap.red {
     color: #fb8500;
 }
 
-.dark {
-    background: rgba(255,255,255,1);
-    left: 0;
-    width: 100%;
-    height: 100%;
+.user-cell .user-cell-wrap.refresh {
+    color: #2c95dd;
 }
+
+.user-cell .user-cell-wrap .user-avatar {
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+}
+
+.user-cell .user-cell-wrap .user-avatar.refresh {
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition:         transform .5s ease-in-out;
+}
+
+.user-cell .user-cell-wrap .user-avatar.refresh:hover {
+    -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}
+
 .train-list input[type="text"] {
     display: block;
     margin: 10px auto;
@@ -363,18 +309,4 @@ body {
     .user-buttons {
         text-align: left !important;
     }
-}
-
-.new-year-hat-1 {
-    position: relative;
-    width: 20px;
-    left: 64px;
-    top: 15px;
-}
-
-.new-year-hat-2 {
-    position: relative;
-    margin-top: -50px;
-    top: 50px;
-    left: -5px;
 }

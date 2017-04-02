@@ -65,8 +65,8 @@
         vm.levels = [];
         vm.saveAccount = saveAccount;
         vm.loadCities = loadCities;
-        vm.isNewYearHolidays = isNewYearHolidays;
         vm.isCurrentUserAdmin = isCurrentUserAdmin;
+        vm.isRefreshBtn = isRefreshBtn;
 
         $scope.onLevelSelected = function (level) {
             if (level.id !== $scope.currentLevel.id) {
@@ -99,12 +99,14 @@
             return blurClassName;
         };
 
-        vm.calcUserClass = function (index, limit) {
-            var limitClass = '';
-            if (index >= limit) {
-                limitClass = 'red';
+        vm.calcUserClass = function (index, limit, user) {
+            if (isRefreshBtn(user)) {
+                return 'refresh';
             }
-            return limitClass;
+            if (index >= limit) {
+                return 'red';
+            }
+            return '';
         };
 
         $scope.filterByLevel = function (level) {
@@ -134,10 +136,8 @@
             return vm.account.authorities.indexOf('ROLE_ADMIN') > 0;
         }
 
-        function isNewYearHolidays() {
-            var now = new Date();
-            var holidaysEnd = new Date("2017-01-09");
-            return now < holidaysEnd;
+        function isRefreshBtn(trainingUser) {
+            return trainingUser.user.login === '__refresh';
         }
 
         function loadCities() {
@@ -180,6 +180,15 @@
                     addLevel(tempLevels, data[i].level);
 
                     Training.get({id: data[i]['id']}, function(result) {
+                        var refreshButtonAsUser = {
+                            'id': -1,
+                            'user': {
+                                'id' : -1,
+                                'login': '__refresh'
+                            },
+                            'registerDate': '2050-01-01T00:00:00.0000'
+                        };
+                        result.trainingUsers.push(refreshButtonAsUser);
                         vm.trainings.push(result);
                     });
                 }
@@ -222,16 +231,15 @@
             for(var i = 0; i<trainings.length; i++) {
                 if(trainings[i].id === id) {
                     var training = trainings[i];
-                    if (training.trainingUsers === null) {
+                    if (!training.trainingUsers) {
                         training.trainingUsers = [];
                     }
-                    //todo remove after separate phone changer is implemented
-                    //update phone
-                    //Auth.updateAccount(vm.account);
 
                     var reg = {
                         'user': vm.account,
-                        'training': training
+                        'training': {
+                            id: training.id
+                        }
                     };
 
                     TrainingUser.save(reg, function(savedReg) {

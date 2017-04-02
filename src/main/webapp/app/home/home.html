@@ -5,7 +5,6 @@
     <div id="one">
         <div ng-switch="vm.isAuthenticated()">
             <div class="signin-train" ng-switch-when="true">
-                <img src="/content/images/new-year.png" ng-if="vm.isNewYearHolidays()" class="new-year-hat-1">
                 <p class="welcome md-headline">Добро пожаловать, {{vm.account.firstName}}!</p>
                 <p class="o1">Для СМС-оповещений требуется указать свой телефон в <a ui-sref="settings">настройках</a>.</p>
                 <div ng-if="vm.account.city == null">
@@ -25,6 +24,7 @@
                         </md-nav-item>
                     </md-nav-bar>
                     <ul ng-init="vm.loadTrainings()">
+                        <!--todo empty view-->
                         <li class="training-warn" ng-show="!vm.levels.length">Тренировок пока нет.</li>
                         <li ng-repeat="training in vm.trainings | orderBy:'startAt' | filter: filterByLevel(currentLevel)">
                             <md-card ng-model="hcontent">
@@ -59,23 +59,35 @@
                                                ng-click="showConfirm($event, training.id)">Отписаться</md-button>
                                 </md-card-actions>
 
-                                <div ng-show="hcontent && training.state == 'REGISTRATION'">
-                                    <ul class="users-list">
-                                        <li ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'">
-                                            <img class="random-rotate" ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}">
-                                            <a ng-if="vm.isCurrentUserAdmin()" ng-class="vm.calcUserClass($index, training.limit)"
-                                               ui-sref="user-management-detail({login:trainingUser.user.login})" target="_blank">
-                                                {{$index+1}}. {{trainingUser.user.firstName}}
-                                            </a>
-                                            <span ng-if="!vm.isCurrentUserAdmin()" ng-class="vm.calcUserClass($index, training.limit)">
-                                                {{$index+1}}. {{trainingUser.user.firstName}}
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <img class="refresh random-rotate" src="/content/images/refresh.png" ng-click="vm.loadTrainings()">
-                                            <span class="refresh">Обновить</span>
-                                        </li>
-                                    </ul>
+                                <div ng-show="hcontent && training.state == 'REGISTRATION'" flex ng-cloak>
+                                    <md-grid-list
+                                        md-cols="2" md-cols-xs="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-sm="4"
+                                        md-row-height="1:1"
+                                        md-gutter="8px" md-gutter-gt-sm="8px" md-gutter-md="8px" md-gutter-gt-md="16px">
+
+                                        <md-grid-tile ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'"
+                                                      md-rowspan="1" md-colspan="1" md-colspan-sm="1" md-colspan-xs="1"
+                                                      class="user-cell" >
+                                            <div class="user-cell-wrap" ng-class="vm.calcUserClass($index, training.limit, trainingUser)">
+                                                <img ng-if="!vm.isRefreshBtn(trainingUser)" class="user-avatar"
+                                                     ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}"/>
+                                                <img ng-if="vm.isRefreshBtn(trainingUser)" class="user-avatar refresh"
+                                                     ng-src="{{'/content/images/refresh.png'}}"
+                                                     ng-click="vm.loadTrainings()"/>
+
+                                                <span ng-if="!vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)" class="md-button">
+                                                    {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}
+                                                </span>
+                                                <md-button ng-if="vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)" class="md-flat"
+                                                           ui-sref="user-management-detail({login:trainingUser.user.login})" target="_blank">
+                                                    {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}
+                                                </md-button>
+                                                <md-button ng-if="vm.isRefreshBtn(trainingUser)" class="md-flat" ng-click="vm.loadTrainings()">
+                                                    Обновить
+                                                </md-button>
+                                            </div>
+                                        </md-grid-tile>
+                                    </md-grid-list>
                                 </div>
                                 <!--todo cancelled view-->
                                 <div class="alert" ng-if="hcontent && training.state == 'CANCELLED'">
