@@ -59,10 +59,10 @@
                                                ng-click="showConfirm($event, training.id)">Отписаться</md-button>
                                 </md-card-actions>
 
-                                <div ng-show="hcontent && training.state == 'REGISTRATION'" flex ng-cloak>
+                                <div class="user-grid-container" ng-show="hcontent && training.state == 'REGISTRATION'" flex ng-cloak>
                                     <md-grid-list
-                                        md-cols="2" md-cols-xs="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-sm="4"
-                                        md-row-height="1:1"
+                                        md-cols="4" md-cols-xs="2" md-cols-sm="3" md-cols-md="4"
+                                        md-row-height="150px"
                                         md-gutter="8px" md-gutter-gt-sm="8px" md-gutter-md="8px" md-gutter-gt-md="16px">
 
                                         <md-grid-tile ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'"
@@ -74,6 +74,7 @@
                                                 <img ng-if="vm.isRefreshBtn(trainingUser)" class="user-avatar refresh"
                                                      ng-src="{{'/content/images/refresh.png'}}"
                                                      ng-click="vm.loadTrainings()"/>
+                                                <br>
 
                                                 <span ng-if="!vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)" class="md-button">
                                                     {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}

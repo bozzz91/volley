@@ -140,9 +140,14 @@ body {
     margin-bottom: 15px;
 }
 
+.user-grid-container {
+    padding-bottom: 10px;
+}
+
 .user-cell .user-cell-wrap {
     text-align: center;
     overflow: hidden;
+    height: 100%;
 }
 
 .user-cell .user-cell-wrap.red {
@@ -154,7 +159,6 @@ body {
 }
 
 .user-cell .user-cell-wrap .user-avatar {
-    width: 75%;
     height: 75%;
     border-radius: 50%;
 }
