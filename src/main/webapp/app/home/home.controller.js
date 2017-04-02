@@ -4,7 +4,6 @@
     angular
         .module('volleyApp')
         .controller('HomeController', HomeController)
-        .directive('closeDialog', CloseDialog)
         .filter('unique', function() {
             return function(collection, keyname) {
                 var output = [],
@@ -21,24 +20,9 @@
             };
         });
 
-    CloseDialog.$inject = ['$timeout', 'ngDialog'];
+    HomeController.$inject = ['$scope', 'TrainingUser', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City', '$mdDialog', '$translate'];
 
-    function CloseDialog($timeout, ngDialog) {
-        return {
-            link: function(scope, element, attrs) {
-                if(attrs.closeDialog) {
-                    $timeout(function(){ngDialog.close()}, attrs.closeDialog * 1000);
-                }
-                element.bind('click', function(element) {
-                    ngDialog.close();
-                })
-            }
-        }
-    }
-
-    HomeController.$inject = ['$scope', 'TrainingUser', 'ngDialog', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City', '$mdDialog', '$translate'];
-
-    function HomeController ($scope, TrainingUser, ngDialog, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City, $mdDialog, $translate) {
+    function HomeController ($scope, TrainingUser, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City, $mdDialog, $translate) {
         var vm = this;
 
         vm.account = null;
@@ -113,15 +97,6 @@
             return function (training) {
                 return training.level.id === level.id;
             }
-        };
-
-        vm.popupOpen = function(text) {
-            vm.modalText = text;
-            ngDialog.open({
-                template: 'popupTmpl.html',
-                className: 'ngdialog-theme-default',
-                scope: $scope
-            });
         };
 
         getAccount();

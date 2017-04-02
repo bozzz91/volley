@@ -17,6 +17,8 @@
         vm.reverse = false;
         vm.reset = reset;
         vm.sendSms = sendSms;
+
+        //todo replace by $mdDialog, find '$mdDialog.confirm() in home.controller.js'
         vm.popupOpen = function() {
             ngDialog.open({
                 template: 'popupTmpl.html',
