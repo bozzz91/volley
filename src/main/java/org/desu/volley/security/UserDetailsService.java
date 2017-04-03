@@ -1,4 +1,5 @@
 package org.desu.volley.security;
+
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.UserRepository;
 import org.slf4j.Logger;
@@ -31,6 +32,9 @@ public class UserDetailsService implements org.springframework.security.core.use
         log.debug("Authenticating {}", login);
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
         Optional<User> userFromDatabase = userRepository.findOneByLoginIgnoreCase(lowercaseLogin);
+        if (!userFromDatabase.isPresent() && !lowercaseLogin.isEmpty()) {
+            userFromDatabase = userRepository.findOneByEmailIgnoreCase(lowercaseLogin);
+        }
         return userFromDatabase.map(user -> {
             if (!user.isActivated()) {
                 throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
@@ -38,7 +42,7 @@ public class UserDetailsService implements org.springframework.security.core.use
             List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                 .collect(Collectors.toList());
-            return new org.springframework.security.core.userdetails.User(lowercaseLogin,
+            return new org.springframework.security.core.userdetails.User(user.getLogin(),
                 user.getPassword(),
                 grantedAuthorities);
         }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +

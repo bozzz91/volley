@@ -41,8 +41,8 @@
             "language": "Язык"
         },
         "form": {
-            "username": "Логин",
-            "username.placeholder": "Ваш логин",
+            "username": "Логин / E-mail",
+            "username.placeholder": "Ваш логин или e-mail",
             "newpassword": "Новый пароль",
             "newpassword.placeholder": "Новый пароль",
             "confirmpassword": "Подтверждение нового пароля",
