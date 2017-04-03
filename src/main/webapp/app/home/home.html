@@ -24,10 +24,9 @@
                         </md-nav-item>
                     </md-nav-bar>
                     <ul ng-init="vm.loadTrainings()">
-                        <!--todo empty view-->
-                        <li class="training-warn" ng-show="!vm.levels.length" translate="home.logged.training.empty"></li>
+                        <li class="training-warn md-whiteframe-6dp" ng-show="!vm.levels.length" translate="home.logged.training.empty"></li>
                         <li ng-repeat="training in vm.trainings | orderBy:'startAt' | filter: filterByLevel(currentLevel)">
-                            <md-card ng-model="showUsers">
+                            <md-card ng-model="showUsers" class="md-whiteframe-6dp">
                                 <md-card-title class="card-title-sm">
                                     <md-card-title-media>
                                         <div class="md-media-sm card-media training">
