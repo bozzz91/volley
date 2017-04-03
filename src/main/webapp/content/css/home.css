@@ -148,6 +148,7 @@ body {
     text-align: center;
     overflow: hidden;
     height: 100%;
+    width: 100%;
     font-size: 12pt;
     line-height: 2;
 }
@@ -210,6 +211,10 @@ body {
     height: 1px;
     visibility: hidden;
     margin-bottom: -20px;
+}
+
+.card-with-border .cancelled {
+    color: #fb8500;
 }
 
 .card-media.training {

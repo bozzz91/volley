@@ -3,7 +3,18 @@
         "title": "Welcome, Java Hipster!",
         "subtitle": "This is your homepage",
         "logged": {
-            "message": "You are logged in as user \"{{username}}\"."
+            "message": "Welcome, {{username}}!",
+            "smsInfo": "To receive SMS info you need to set your phone number in ",
+            "smsSettings": "settings",
+            "city": "You need to choose your city",
+            "training": {
+                "empty": "There are no trainings yet.",
+                "cancelled": "The training has been cancelled!",
+                "info": "Info",
+                "subscribe": "Subscribe",
+                "unsubscribe": "Unsubscribe",
+                "limit": "Limit: {{n}} people"
+            }
         },
         "form" : {
             "phone.placeholder" : "Phone number"
@@ -26,6 +37,7 @@
                 }
             }
         },
+        "refresh": "Refresh",
         "like": "If you like JHipster, don't forget to give us a star on",
         "github": "GitHub"
     }

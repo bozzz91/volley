@@ -29,8 +29,8 @@
         vm.isAuthenticated = Principal.isAuthenticated;
         vm.loadTrainings = loadTrainings;
         vm.login = LoginService.open;
-        vm.enroll = enroll;
-        vm.unroll = unroll;
+        vm.subscribe = subscribe;
+        vm.unsubscribe = unsubscribe;
         vm.trainings = [];
         vm.thumbs = [];
         vm.loadPage = loadPage;
@@ -69,10 +69,14 @@
                 .cancel('Нет');
 
             $mdDialog.show(confirm).then(function() {
-                vm.unroll(trainingId);
+                vm.unsubscribe(trainingId);
             }, function() {
                 //nothing
             });
+        };
+
+        $scope.isTrainingCancelled = function (training) {
+            return training.state === 'CANCELLED';
         };
 
         vm.detectBlur = function () {
@@ -197,7 +201,7 @@
             Auth.updateAccount(vm.account);
         }
 
-        function enroll(id) {
+        function subscribe(id) {
             if (vm.account.readOnly) {
                 AlertService.error($translate.instant('volleyApp.trainingUser.accessdenied'));
                 return;
@@ -228,7 +232,7 @@
             return false;
         }
 
-        function unroll(id) {
+        function unsubscribe(id) {
             var trainings = vm.trainings;
             for(var i = 0; i<trainings.length; i++) {
                 if(trainings[i].id === id) {

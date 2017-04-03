@@ -5,10 +5,10 @@
     <div id="one">
         <div ng-switch="vm.isAuthenticated()">
             <div class="signin-train" ng-switch-when="true">
-                <p class="welcome md-headline">Добро пожаловать, {{vm.account.firstName}}!</p>
-                <p class="o1">Для СМС-оповещений требуется указать свой телефон в <a ui-sref="settings">настройках</a>.</p>
+                <p class="welcome md-headline" translate="home.logged.message" translate-values="{username: '{{vm.account.firstName}}'}"></p>
+                <p class="o1">{{'home.logged.smsInfo' | translate}}<a ui-sref="settings">{{'home.logged.smsSettings' | translate}}</a>.</p>
                 <div ng-if="vm.account.city == null">
-                    <p class="o1">Для просмотра тренировок необходимо выбрать город:</p>
+                    <p class="o1" translate="home.logged.city"></p>
                     <md-select ng-init="vm.loadCities()" id="home_city" ng-model="vm.account.city" aria-label="city" md-on-close="vm.saveAccount()">
                         <md-option ng-repeat="city in vm.cities | orderBy:'name'" ng-value="city">
                             {{city.name}}
@@ -25,9 +25,9 @@
                     </md-nav-bar>
                     <ul ng-init="vm.loadTrainings()">
                         <!--todo empty view-->
-                        <li class="training-warn" ng-show="!vm.levels.length">Тренировок пока нет.</li>
+                        <li class="training-warn" ng-show="!vm.levels.length" translate="home.logged.training.empty"></li>
                         <li ng-repeat="training in vm.trainings | orderBy:'startAt' | filter: filterByLevel(currentLevel)">
-                            <md-card ng-model="hcontent">
+                            <md-card ng-model="showUsers">
                                 <md-card-title class="card-title-sm">
                                     <md-card-title-media>
                                         <div class="md-media-sm card-media training">
@@ -39,27 +39,36 @@
                                         </div>
                                     </md-card-title-media>
                                     <md-card-title-text class="card-with-border">
-                                        <span class="md-headline" ng-show="training.description">{{training.description}}</span>
+                                        <span ng-show="isTrainingCancelled(training)" class="md-headline cancelled" translate="home.logged.training.cancelled"></span>
+                                        <span ng-show="!isTrainingCancelled(training) && training.description" class="md-headline">{{training.description}}</span>
                                         <hr/>
-                                        <span class="md-subhead">{{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}} р</span>
+                                        <span class="md-subhead">{{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}}р</span>
                                         <hr/>
                                         <span class="md-subhead">{{training.gym.name}}</span>
                                         <hr/>
-                                        <span class="md-subhead">Лимит {{training.limit}} человек</span>
+                                        <span class="md-subhead" translate="home.logged.training.limit" translate-values="{n: '{{training.limit}}'}"></span>
                                     </md-card-title-text>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end center">
-                                    <md-button class="md-flat" ng-click="hcontent = !hcontent">Подробнее</md-button>
-                                    <md-button class="md-flat md-primary"
+                                    <md-button class="md-flat" aria-label="info"
+                                               ng-hide="isTrainingCancelled(training)"
+                                               ng-click="showUsers = !showUsers">
+                                        {{"home.logged.training.info" | translate}}
+                                    </md-button>
+                                    <md-button class="md-flat md-primary" aria-label="subscribe"
                                                ng-disabled="vm.account.readOnly"
-                                               ng-if="!vm.alreadyRegister(training.id)"
-                                               ng-click="vm.enroll(training.id)">Записаться</md-button>
-                                    <md-button class="md-flat md-warn"
-                                               ng-if="vm.alreadyRegister(training.id)"
-                                               ng-click="showConfirm($event, training.id)">Отписаться</md-button>
+                                               ng-hide="vm.alreadyRegister(training.id) || isTrainingCancelled(training)"
+                                               ng-click="vm.subscribe(training.id)"
+                                               translate="home.logged.training.subscribe">
+                                    </md-button>
+                                    <md-button class="md-flat md-warn" aria-label="unsubscribe"
+                                               ng-hide="!vm.alreadyRegister(training.id) || isTrainingCancelled(training)"
+                                               ng-click="showConfirm($event, training.id)"
+                                               translate="home.logged.training.unsubscribe">
+                                    </md-button>
                                 </md-card-actions>
 
-                                <div class="user-grid-container" ng-show="hcontent && training.state == 'REGISTRATION'" flex ng-cloak>
+                                <div class="user-grid-container" ng-show="showUsers" flex ng-cloak>
                                     <md-grid-list
                                         md-cols-xs="2" md-cols-sm="4" md-cols-md="4" md-cols="4"
                                         md-row-height="120px"
@@ -84,15 +93,11 @@
                                                     {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}
                                                 </a>
                                                 <a ng-if="vm.isRefreshBtn(trainingUser)" ng-click="vm.loadTrainings()">
-                                                    Обновить
+                                                    <span translate="home.refresh"/>
                                                 </a>
                                             </div>
                                         </md-grid-tile>
                                     </md-grid-list>
-                                </div>
-                                <!--todo cancelled view-->
-                                <div class="alert" ng-if="hcontent && training.state == 'CANCELLED'">
-                                    Тренировка отменена.
                                 </div>
                             </md-card>
                         </li>
