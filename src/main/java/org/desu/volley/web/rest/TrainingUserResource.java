@@ -82,6 +82,10 @@ public class TrainingUserResource {
             return badRequest("accessdenied");
         }
         Training training = trainingRepository.findOne(trainingUser.getTraining().getId());
+        if (training == null) {
+            //it might have been deleted
+            return badRequest("deleted");
+        }
         if (training.getState() != TrainingState.REGISTRATION) {
             return badRequest("wrongstate." + training.getState().name().toLowerCase());
         }
