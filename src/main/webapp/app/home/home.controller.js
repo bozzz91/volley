@@ -61,12 +61,12 @@
         $scope.showConfirm = function(ev, trainingId) {
             // Appending dialog to document.body to cover sidenav in docs app
             var confirm = $mdDialog.confirm()
-                .title('Отписаться')
-                .textContent('Вы уверены что хотите отписаться от тренировки?')
+                .title($translate.instant('home.logged.training.unsubscribe'))
+                .textContent($translate.instant('home.question.unsubscribe'))
                 .ariaLabel('Lucky day')
                 .targetEvent(ev)
-                .ok('Да')
-                .cancel('Нет');
+                .ok($translate.instant('home.answer.yes'))
+                .cancel($translate.instant('home.answer.no'));
 
             $mdDialog.show(confirm).then(function() {
                 vm.unsubscribe(trainingId);

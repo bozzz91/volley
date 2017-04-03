@@ -19,7 +19,13 @@
         "form" : {
             "phone.placeholder" : "Номер телефона"
         },
-        "question": "Если у Вас возникли вопросы:",
+        "question": {
+            "unsubscribe": "Вы уверены что хотите отписаться от тренировки?"
+        },
+        "answer": {
+            "yes": "Да",
+            "no": "Нет"
+        },
         "link": {
             "homepage": "JHipster домашняя страница",
             "stackoverflow": "JHipster на Stack Overflow",

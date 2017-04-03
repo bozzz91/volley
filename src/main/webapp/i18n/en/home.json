@@ -19,7 +19,13 @@
         "form" : {
             "phone.placeholder" : "Phone number"
         },
-        "question": "If you have any question on JHipster:",
+        "question": {
+            "unsubscribe": "Are you sure you want to unsubscribe?"
+        },
+        "answer": {
+            "yes": "Yes",
+            "no": "No"
+        },
         "link": {
             "homepage": "JHipster homepage",
             "stackoverflow": "JHipster on Stack Overflow",
