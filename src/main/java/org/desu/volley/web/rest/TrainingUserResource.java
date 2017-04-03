@@ -5,6 +5,7 @@ import org.desu.volley.domain.Sms;
 import org.desu.volley.domain.Training;
 import org.desu.volley.domain.TrainingUser;
 import org.desu.volley.domain.User;
+import org.desu.volley.domain.enumeration.TrainingState;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.repository.TrainingUserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
@@ -75,14 +76,14 @@ public class TrainingUserResource {
         User currentUser = userService.getUserWithAuthorities();
         boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
         if (!currentUser.equals(trainingUser.getUser()) && !isAdmin) {
-            return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert("trainingUser", "accessdenied", "Access denied"))
-                .body(null);
+            return badRequest("accessdenied");
         }
         if (currentUser.isReadOnly()) {
-            return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert("trainingUser", "accessdenied", "Access denied"))
-                .body(null);
+            return badRequest("accessdenied");
+        }
+        Training training = trainingRepository.findOne(trainingUser.getTraining().getId());
+        if (training.getState() != TrainingState.REGISTRATION) {
+            return badRequest("wrongstate." + training.getState().name().toLowerCase());
         }
         trainingUser.setRegisterDate(ZonedDateTime.now());
         List<TrainingUser> existed = trainingUserRepository.findByTrainingAndUser(trainingUser.getTraining(), trainingUser.getUser());
@@ -95,6 +96,12 @@ public class TrainingUserResource {
         return ResponseEntity.created(new URI("/api/training-users/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("trainingUser", result.getId().toString()))
             .body(result);
+    }
+
+    private static <T> ResponseEntity<T> badRequest(String errorKey) {
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.createFailureAlert("trainingUser", errorKey, "Internal error"))
+            .body(null);
     }
 
     /**
@@ -188,9 +195,7 @@ public class TrainingUserResource {
         boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
 
         if (!trainingUser.getUser().equals(currentUser) && !isAdmin) {
-            return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert("trainingUser", "accessdenied", "Access denied"))
-                .build();
+            return badRequest("accessdenied");
         }
         Training training = trainingRepository.findOneWithEagerRelationships(trainingUser.getTraining().getId());
         int limit = training.getLimit();
@@ -214,13 +219,13 @@ public class TrainingUserResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("trainingUser", id.toString())).build();
     }
 
-    private String createSmsMessage(Training training, User lastUser) {
+    private static String createSmsMessage(Training training, User lastUser) {
         String tz = lastUser.getCity().getTz();
-        String msg = "Освободилось место на тренировку: "
-            + training.getStartAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").withZone(ZoneId.of(tz)))
+        return "Освободилось место на тренировку: "
+            + training.getStartAt().format(DateTimeFormatter.ofPattern("E, dd MMM").withZone(ZoneId.of(tz)))
+            + ", "
+            + training.getStartAt().format(DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.of(tz)))
             + ", "
             + training.getGym().getLocation();
-        return msg;
     }
-
 }

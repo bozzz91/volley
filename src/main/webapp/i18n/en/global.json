@@ -128,7 +128,12 @@
         "emailexists": "E-mail is already in use!",
         "phoneexists": "Phone is already in use!",
         "accessdenied": "Access denied!",
-        "idexists": "A new {{ entityName }} cannot already have an ID"
+        "idexists": "A new {{ entityName }} cannot already have an ID",
+        "wrongstate": {
+            "cancelled": "The training has been cancelled!",
+            "done": "The training has already been finished!",
+            "process": "The training is already in process!"
+        }
     },
     "footer": "Lightline © 2017"
 }

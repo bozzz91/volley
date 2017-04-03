@@ -128,7 +128,12 @@
         "emailexists": "Эл. почта уже используется!!",
         "phoneexists": "Телефон уже используется!",
         "accessdenied": "Доступ запрещен!",
-        "idexists": "Новый {{entityName}} не может иметь данный ID"
+        "idexists": "Новый {{entityName}} не может иметь данный ID",
+        "wrongstate": {
+            "cancelled": "Тренировка была отменена!",
+            "done": "Тренировка уже завершена!",
+            "process": "Тренировка уже началась!"
+        }
     },
     "footer": "Lightline 2017"
 }
