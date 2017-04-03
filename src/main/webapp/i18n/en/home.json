@@ -9,7 +9,7 @@
             "city": "You need to choose your city",
             "training": {
                 "empty": "There are no trainings yet.",
-                "cancelled": "The training has been cancelled!",
+                "cancelled": "The training was cancelled!",
                 "info": "Info",
                 "subscribe": "Subscribe",
                 "unsubscribe": "Unsubscribe",

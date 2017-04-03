@@ -130,8 +130,8 @@
         "accessdenied": "Access denied!",
         "idexists": "A new {{ entityName }} cannot already have an ID",
         "wrongstate": {
-            "cancelled": "The training has been cancelled!",
-            "done": "The training has already been finished!",
+            "cancelled": "The training is cancelled!",
+            "done": "The training is already finished!",
             "process": "The training is already in process!"
         }
     },
