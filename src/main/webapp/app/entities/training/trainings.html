@@ -73,25 +73,31 @@
                                     ui-sref="training-user({trainingId:training.id})"
                                     class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-xs hidden-sm" translate="volleyApp.training.showPlayers"></span>
+                                <md-tooltip md-direction="down">{{"volleyApp.training.showPlayers" | translate}}</md-tooltip>
                             </button>
                             <button type="submit"
                                     ui-sref="training-detail({id:training.id})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                                <md-tooltip md-direction="down">{{"entity.action.view" | translate}}</md-tooltip>
                             </button>
                             <button type="submit"
                                     ui-sref="training.edit({id:training.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                                <md-tooltip md-direction="down">{{"entity.action.edit" | translate}}</md-tooltip>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="training.cancel({id:training.id})"
+                                    class="btn btn-warning btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <md-tooltip md-direction="down">{{"entity.action.cancel" | translate}}</md-tooltip>
                             </button>
                             <button type="submit"
                                     ui-sref="training.delete({id:training.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                                <md-tooltip md-direction="down">{{"entity.action.delete" | translate}}</md-tooltip>
                             </button>
                         </div>
                     </td>

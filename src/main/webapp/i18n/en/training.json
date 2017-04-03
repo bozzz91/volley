@@ -17,6 +17,11 @@
             "delete": {
                 "question": "Are you sure you want to delete training {{ id }}?"
             },
+            "cancel": {
+                "title": "Cancellation confirmation",
+                "question": "Are you sure you want to cancel the training {{ id }}?",
+                "text": "Cancel the training"
+            },
             "showPlayers": "Users",
             "detail": {
                 "title": "Training"
@@ -30,8 +35,7 @@
             "trainingUsers": "Users",
             "level": "Level",
             "organizer": "Organizer",
-            "gym": "Gym",
-            "cancel": "Cancel training"
+            "gym": "Gym"
         }
     }
 }

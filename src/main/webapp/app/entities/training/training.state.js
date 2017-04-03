@@ -146,6 +146,30 @@
                     $state.go('^');
                 });
             }]
+        })
+        .state('training.cancel', {
+            parent: 'training',
+            url: '/{id}/cancel',
+            data: {
+                authorities: ['ROLE_ADMIN']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/training/training-cancel-dialog.html',
+                    controller: 'TrainingCancelController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Training', function(Training) {
+                            return Training.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('training', null, { reload: true });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
         });
     }
 
