@@ -1,0 +1,307 @@
+$warningColor: #fb8500;
+$blueColor: #2c95dd;
+$darkBlueColor: #0256a0;
+
+#one {
+    position: relative;
+    width: 100%;
+    max-width: 630px;
+    margin: 0 auto;
+    padding: 4% 10px 0 10px;
+
+    @media (min-width: 330px) {
+        padding: 1% 0 0 0;
+    }
+
+    @media (min-width: 650px) {
+        padding: 2% 10px 0 10px;
+    }
+
+    .signin-train {
+        padding-bottom: 20px;
+    }
+    .signup-train {
+        @extend .signin-train;
+        width: 100%;
+        max-width: 300px;
+        margin: auto;
+    }
+}
+
+.welcome {
+    text-align: center;
+    font-size: 32px;
+    padding: 0;
+    margin: 0 auto 15px;
+    line-height: 120%;
+}
+
+.o1 {
+    text-align: center;
+    font-size: 16px;
+    color: #333333;
+    padding: 0;
+    margin: 0 auto 15px;
+    line-height: 140%;
+}
+
+.o2 {
+    text-align: center;
+    font-size: 16px;
+    color: #292929;
+    padding: 0;
+    margin: 0 auto 20px;
+    line-height: 140%;
+
+    a {
+        font-size: 16px;
+        color: #292929;
+        padding: 0;
+        margin: 0;
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.navbar-default {
+    z-index: 1;
+}
+
+.container {
+    width: 100%;
+    padding: 0;
+}
+.well {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 8px;
+}
+.footer {
+    display: inline-block;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+    padding: 10px;
+
+    div {
+        float: left;
+        display: inline;
+    }
+
+    a.footer-home {
+        float: left;
+        margin-left: 5px;
+        display: inline;
+    }
+    a.footer-faq {
+        float: right;
+        display: inline;
+    }
+}
+
+.train-list {
+    .md-nav-bar {
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        &.md-button {
+            color: $blueColor;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    ol {
+        padding: 0;
+        margin: 0;
+    }
+    li {
+        margin-bottom: 15px;
+    }
+}
+
+.user-grid-container {
+    padding-bottom: 10px;
+}
+
+.user-cell .user-cell-wrap {
+    text-align: center;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    font-size: 12pt;
+    line-height: 2;
+
+    &.red {
+        a {
+            color: $warningColor;
+        }
+        span {
+            color: $warningColor;
+        }
+    }
+
+    &.refresh {
+        color: $blueColor;
+    }
+
+    .user-avatar {
+        height: 75%;
+        border-radius: 50%;
+
+        &.refresh {
+            -webkit-transition: -webkit-transform .5s ease-in-out;
+            transition: transform .5s ease-in-out;
+
+            &:hover {
+                -webkit-transform: rotate(-180deg);
+                transform: rotate(-180deg);
+            }
+        }
+    }
+}
+
+.container > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-header, .container-fluid > .navbar-collapse {
+    margin: 0;
+}
+
+.card-title-sm {
+    padding: 12px 12px 8px;
+}
+
+.card-with-border {
+    border-left: 3px solid;
+    border-color: $blueColor;
+    padding-left: 10px;
+
+    hr {
+        height: 1px;
+        visibility: hidden;
+        margin-bottom: -20px;
+    }
+
+    .cancelled {
+        color: $warningColor;
+    }
+}
+
+.card-media.training {
+    padding-right: 10px;
+    position: relative;
+    text-align: center;
+}
+
+.card-media.training {
+    span {
+        position: relative;
+    }
+
+    .training-day {
+        top: 15%;
+    }
+
+    .training-date {
+        font-size: 32pt;
+        font-weight: 600;
+        top: 30%;
+    }
+
+    .training-month {
+        top: 30%;
+    }
+}
+
+@media (min-width: 650px) {
+    .card-title-sm {
+        padding: 24px 24px 8px;
+    }
+
+    .card-with-border {
+        border-left: 3px solid;
+        border-color: $darkBlueColor;
+        padding-left: 20px;
+    }
+
+    .card-media.training {
+        text-align: center;
+        padding-right: 20px;
+
+        .training-day {
+            top: 15%;
+            position: relative;
+        }
+
+        .training-date {
+            font-size: 32pt;
+            font-weight: 600;
+            top: 30%;
+            position: relative;
+        }
+
+        .training-month {
+            position: relative;
+            top: 30%;
+        }
+    }
+}
+
+.card-media.user-info {
+    text-align: center;
+
+    img {
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+    }
+}
+
+.user-detail-container {
+    display: table;
+    margin: auto;
+
+    .md-padding {
+        background-color: transparent;
+    }
+
+    .user-details {
+        padding: 0 16px 0 16px;
+    }
+}
+
+.bc-avatar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    opacity: 0.3;
+
+    @media screen and (min-width: 428px) {
+        display: none;
+    }
+}
+
+.bc-avatar-blur {
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    filter: blur(4px);
+    opacity: 0.4;
+}
+
+.user-buttons {
+    display: flex;
+
+    md-switch {
+        height: inherit;
+        margin: 0 0 0 10px;
+    }
+}
