@@ -86,6 +86,11 @@
   .train-list .md-nav-bar.md-button {
     color: #2c95dd; }
 
+.train-list .training-warn {
+  text-align: center;
+  padding: 10px;
+  font-size: 12pt; }
+
 .train-list ul {
   list-style: none;
   padding: 0;
