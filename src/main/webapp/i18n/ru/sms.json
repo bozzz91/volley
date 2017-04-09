@@ -7,7 +7,7 @@
                 "createOrEditLabel": "Создать или отредактировать SMS",
                 "search": "Найти SMS"
             },
-            "created": "SMS с идентификатором {{param}} создано и отправлено",
+            "created": "SMS создано и отправлено",
             "updated": "SMS с идентификатором {{ param }} обновлено",
             "deleted": "SMS с идентификатором {{ param }} удалено",
             "delete": {

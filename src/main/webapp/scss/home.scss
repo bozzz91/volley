@@ -1,6 +1,7 @@
 $warningColor: #fb8500;
 $blueColor: #2c95dd;
 $darkBlueColor: #0256a0;
+$inactiveStateColor: #dd0000;
 
 #one {
     position: relative;
@@ -305,9 +306,24 @@ $darkBlueColor: #0256a0;
 
 .user-buttons {
     display: flex;
+    text-align: center;
 
     md-switch {
         height: inherit;
         margin: 0 0 0 10px;
+    }
+}
+
+.training-state {
+    &.done, &.process {
+        color: $inactiveStateColor;
+    }
+
+    &.cancelled {
+        color: $warningColor;
+    }
+
+    &.registration {
+        color: $blueColor;
     }
 }

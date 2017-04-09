@@ -7,9 +7,9 @@
                 "createOrEditLabel": "Создать или отредактировать FAQ",
                 "search": "Найти FAQ"
             },
-            "created": "FAQ создан с идентификатором {{ param }}",
-            "updated": "FAQ обновлен с идентификатором {{ param }}",
-            "deleted": "FAQ удален с идентификатором {{ param }}",
+            "created": "FAQ создан",
+            "updated": "FAQ с идентификатором {{ param }} обновлен",
+            "deleted": "FAQ с идентификатором {{ param }} удален",
             "delete": {
                 "question": "Вы уверены что хотите удалить FAQ {{ id }}?"
             },

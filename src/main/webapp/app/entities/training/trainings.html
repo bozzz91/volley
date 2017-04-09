@@ -1,35 +1,19 @@
 <div>
     <h2 translate="volleyApp.training.home.title">Trainings</h2>
-    <jhi-alert></jhi-alert>
+    <md-alert></md-alert>
+    <jhi-alert-error></jhi-alert-error>
     <div class="container-fluid">
         <div class="row">
-            <div class="btn-group no-padding-left">
-                <button class="btn btn-primary" ui-sref="training.new" >
+            <div class="btn-group no-padding-left user-buttons">
+                <md-button class="md-flat md-primary" ui-sref="training.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  translate="volleyApp.training.home.createLabel">
+                    <span translate="volleyApp.training.home.createLabel">
                         Create new Training
                     </span>
-                </button>
-            </div>
-            <div class="btn-group">
-                <button type="submit" class="btn" ng-class="vm.search == 'all' ? 'btn-info' : 'btn-default'"
-                        ng-click="vm.setSearch('all'); searchCity = null">
-                    <span class="glyphicon glyphicon-eye-open"></span>
-                    <span class="hidden-xs hidden-sm" translate="volleyApp.training.home.search.all"></span>
-                </button>
-                <button type="submit" class="btn" ng-class="vm.search == 'mine' ? 'btn-info' : 'btn-default'"
-                        ng-click="vm.setSearch('mine'); searchCity = null">
-                    <span class="glyphicon glyphicon-eye-open"></span>
-                    <span class="hidden-xs hidden-sm" translate="volleyApp.training.home.search.mine"></span>
-                </button>
-                <div class="btn" style="border-color: #0088bb; padding: 0;">
-                    <select style="border-width: 0; height: 31px;"
-                            id="searchCity" ng-model="searchCity" name="searchCity"
-                            ng-change="vm.setSearch('city:' + searchCity.id)"
-                            ng-options="i as i.name for i in vm.cities | orderBy:'name'" >
-                    <option value="" disabled selected>По городу</option>
-                    </select>
-                </div>
+                </md-button>
+                <md-switch ng-model="vm.showMine" class="md-primary" ng-change="vm.reset()">
+                    <span class="hidden-xs" translate="volleyApp.training.home.filter.mine">Только мои</span>
+                </md-switch>
             </div>
         </div>
     </div>
@@ -57,18 +41,30 @@
                     <td>{{training.endAt | date:'medium'}}</td>
                     <td>{{training.price}}</td>
                     <td>{{training.limit}}</td>
-                    <td translate="{{'volleyApp.TrainingState.' + training.state}}">{{training.state}}</td>
+                    <td>
+                        <span class="training-state" ng-class="training.state.toLowerCase()">
+                            {{'volleyApp.TrainingState.' + training.state | translate}}
+                            <span class="label label-warning" ng-click="vm.setState(training, 'CANCELLED')"
+                                  ng-show="vm.isRegistration(training.state) && vm.isOrganizerCurrentUser(training)"
+                                  style="cursor: pointer;" translate="volleyApp.training.home.deactivate">
+                            </span>
+                            <span class="label label-success" ng-click="vm.setState(training, 'REGISTRATION')"
+                                  ng-show="vm.isCancelled(training.state) && vm.isOrganizerCurrentUser(training)"
+                                  style="cursor: pointer;" translate="volleyApp.training.home.activate">
+                            </span>
+                        </span>
+                    </td>
                     <td>
                         <a ui-sref="level-detail({id:training.level.id})">{{training.level.name}}</a>
                     </td>
                     <td>
-                        {{training.organizer.login}}
+                        <a ui-sref="user-management-detail({login:training.organizer.login})">{{training.organizer.firstName}} {{training.organizer.lastName}}</a>
                     </td>
                     <td>
-                        <a ui-sref="gym-detail({id:training.gym.id})">{{training.gym.name}}</a>
+                        <a ui-sref="gym-detail({id:training.gym.id})">{{training.gym.city.name}}, {{training.gym.name}}</a>
                     </td>
                     <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
+                        <div class="btn-group flex-btn-group-container" ng-if="vm.isOrganizerCurrentUser(training) || vm.isUserInRole(vm.account, 'ROLE_SUPERADMIN')">
                             <button type="submit"
                                     ui-sref="training-user({trainingId:training.id})"
                                     class="btn btn-warning btn-sm">
@@ -76,22 +72,10 @@
                                 <md-tooltip md-direction="down">{{"volleyApp.training.showPlayers" | translate}}</md-tooltip>
                             </button>
                             <button type="submit"
-                                    ui-sref="training-detail({id:training.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <md-tooltip md-direction="down">{{"entity.action.view" | translate}}</md-tooltip>
-                            </button>
-                            <button type="submit"
                                     ui-sref="training.edit({id:training.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <md-tooltip md-direction="down">{{"entity.action.edit" | translate}}</md-tooltip>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="training.cancel({id:training.id})"
-                                    class="btn btn-warning btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <md-tooltip md-direction="down">{{"entity.action.cancel" | translate}}</md-tooltip>
                             </button>
                             <button type="submit"
                                     ui-sref="training.delete({id:training.id})"

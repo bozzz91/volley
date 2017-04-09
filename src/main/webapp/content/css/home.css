@@ -220,7 +220,17 @@
   opacity: 0.4; }
 
 .user-buttons {
-  display: flex; }
+  display: flex;
+  text-align: center; }
   .user-buttons md-switch {
     height: inherit;
     margin: 0 0 0 10px; }
+
+.training-state.done, .training-state.process {
+  color: #dd0000; }
+
+.training-state.cancelled {
+  color: #fb8500; }
+
+.training-state.registration {
+  color: #2c95dd; }

@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('TrainingController', TrainingController);
 
-    TrainingController.$inject = ['$scope', '$state', 'Training', 'ParseLinks', 'AlertService', 'City'];
+    TrainingController.$inject = ['Principal', 'Training', 'ParseLinks', 'AlertService'];
 
-    function TrainingController ($scope, $state, Training, ParseLinks, AlertService, City) {
+    function TrainingController (Principal, Training, ParseLinks, AlertService) {
         var vm = this;
 
         vm.trainings = [];
@@ -18,18 +18,29 @@
         };
         vm.predicate = 'startAt';
         vm.reset = reset;
-        vm.setSearch = setSearch;
         vm.reverse = false;
-        vm.search = 'mine';
-        vm.cities = [];
+        vm.search = null;
+        vm.showMine = false;
+        vm.account = null;
+        vm.isUserInRole = isUserInRole;
 
-        loadAll();
-        loadCities();
+        /* sate operations */
+        vm.isCancelled = isCancelled;
+        vm.isRegistration = isRegistration;
+        vm.isOrganizerCurrentUser = isOrganizerCurrentUser;
+        vm.setState = setState;
+
+        Principal.identity().then(function(account) {
+            vm.account = account;
+            loadAll();
+        });
 
         function loadAll () {
             Training.query({
+                city: vm.account.city.id,
                 page: vm.page,
                 search: vm.search,
+                showMine: vm.showMine,
                 size: 20,
                 sort: sort()
             }, onSuccess, onError);
@@ -52,37 +63,44 @@
             }
         }
 
-        function loadCities() {
-            vm.cities = [];
-            City.query({
-                    page: vm.page,
-                    size: 20
-                },
-                function (data, headers){
-                    for (var i = 0; i < data.length; i++) {
-                        vm.cities.push(data[i]);
-                    }
-                }
-            );
-        }
-
         function reset() {
             vm.page = 0;
             vm.trainings = [];
             loadAll();
         }
 
-        function setSearch(search) {
-            if (vm.search == search) {
-                return;
-            }
-            vm.search = search;
-            reset();
-        }
-
         function loadPage(page) {
             vm.page = page;
             loadAll();
+        }
+
+        function isRegistration(state) {
+            return state === 'REGISTRATION';
+        }
+
+        function isCancelled(state) {
+            return state === 'CANCELLED';
+        }
+
+        function isOrganizerCurrentUser(training) {
+            return isUserInRole(vm.account, 'ROLE_SUPERADMIN') || training.organizer.id === vm.account.id;
+        }
+
+        function setState(training, state) {
+            var oldState = training.state;
+            training.state = state;
+            Training.update(training, onSaveSuccess, onSaveError);
+
+            function onSaveSuccess(result) {
+            }
+
+            function onSaveError() {
+                training.state = oldState;
+            }
+        }
+
+        function isUserInRole(user, role) {
+            return user.authorities.indexOf(role) > 0;
         }
     }
 })();

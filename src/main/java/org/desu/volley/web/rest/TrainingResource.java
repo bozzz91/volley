@@ -28,9 +28,10 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Training.
@@ -95,7 +96,7 @@ public class TrainingResource {
         }
         User currentUser = userService.getUserWithAuthorities();
         boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
-        if (currentUser.getCity().equals(training.getGym().getCity()) || isSuperAdmin) {
+        if (isSuperAdmin || currentUser.equals(training.getOrganizer())) {
             Training result = trainingRepository.save(training);
             return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert("training", training.getId().toString()))
@@ -121,29 +122,30 @@ public class TrainingResource {
         Pageable pageable,
         @RequestParam(required = false, value = "city") Long cityId,
         @RequestParam(required = false, value = "state") String stateNames,
+        @RequestParam(required = false, value = "showMine") boolean showMine,
         @RequestParam(required = false, value = "search") String search
     ) throws URISyntaxException {
 
         log.debug("REST request to get a page of Trainings");
         Page<Training> page;
-        if (cityId != null && stateNames != null) {
+        if (showMine) {
+            page = trainingRepository.findByOrganizerIsCurrentUser(pageable);
+        } else if (cityId != null) {
             City city = new City();
             city.setId(cityId);
-            List<TrainingState> states = new ArrayList<>();
-            for (String stateName : stateNames.split(",")) {
-                states.add(TrainingState.valueOf(stateName));
+            List<TrainingState> states;
+            if (stateNames != null) {
+                states = Arrays.stream(stateNames.split(","))
+                    .map(TrainingState::valueOf)
+                    .collect(Collectors.toList());
+            } else {
+                states = Arrays.asList(TrainingState.values());
             }
             page = trainingRepository.findByCityAndStates(city, states, pageable);
-        } else if (search != null) {
-            String[] searchArgs = search.split(":");
-            switch (searchArgs[0]) {
+        } else if (search != null) { //search is unused now
+            switch (search) {
                 case "all": page = trainingRepository.findAll(pageable); break;
                 case "mine": page = trainingRepository.findByOrganizerIsCurrentUser(pageable); break;
-                case "city":
-                    City city = new City();
-                    city.setId(Long.valueOf(searchArgs[1]));
-                    page = trainingRepository.findByCity(city, pageable);
-                    break;
                 default: throw new IllegalArgumentException("Wrong search type: " + search);
             }
         } else {
