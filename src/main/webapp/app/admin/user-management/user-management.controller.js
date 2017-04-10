@@ -84,7 +84,7 @@
             vm.showOnline = JSON.parse(pagingParams.showOnline || vm.showOnline);
         }
         function onError (error) {
-            AlertService.error(error.data.message);
+
         }
         function clear () {
             vm.user = {

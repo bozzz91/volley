@@ -27,7 +27,7 @@
         /* sate operations */
         vm.isCancelled = isCancelled;
         vm.isRegistration = isRegistration;
-        vm.isOrganizerCurrentUser = isOrganizerCurrentUser;
+        vm.hasPermissionToEdit = hasPermissionToEdit;
         vm.setState = setState;
 
         Principal.identity().then(function(account) {
@@ -82,8 +82,10 @@
             return state === 'CANCELLED';
         }
 
-        function isOrganizerCurrentUser(training) {
-            return isUserInRole(vm.account, 'ROLE_SUPERADMIN') || training.organizer.id === vm.account.id;
+        function hasPermissionToEdit(training) {
+            return isUserInRole(vm.account, 'ROLE_SUPERADMIN')
+                || isUserInRole(vm.account, 'ROLE_ADMIN_CITY_' + training.gym.city.role.toUpperCase())
+                || training.organizer.id === vm.account.id;
         }
 
         function setState(training, state) {

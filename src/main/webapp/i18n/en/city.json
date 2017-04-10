@@ -19,6 +19,7 @@
             "name": "Name",
             "tz": "Time zone",
             "gym": "Gym",
+            "role": "Role Group",
             "messages": {
                 "validate": {
                     "tz": {

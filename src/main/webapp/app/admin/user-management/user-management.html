@@ -1,6 +1,7 @@
 <div>
     <h2 translate="userManagement.home.title" translate-values="{param: '{{vm.titleSuffix()}}'}">Users</h2>
     <md-alert></md-alert>
+    <jhi-alert-error></jhi-alert-error>
     <div class="row">
         <div class="col-md-4 user-buttons">
             <md-button class="md-raised md-primary" ui-sref="user-management.new">
@@ -15,10 +16,10 @@
         <table class="table table-striped">
             <thead>
             <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                <th jh-sort-by="id"><span translate="global.field.id">ID</span><span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="login"><span translate="userManagement.login">Login</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="email"><span translate="userManagement.email">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="phone"><span translate="userManagement.phone">Phone</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="city"><span translate="userManagement.city">City</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
                 <th><span translate="userManagement.access.title">Access</span></th>
                 <th><span translate="userManagement.profiles">Profiles</span></th>
@@ -30,9 +31,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="user in vm.users track by user.id">
-                <td><a ui-sref="user-management-detail({login:user.login})">{{user.id}}</a></td>
                 <td>
-                    {{user.login}}<br/>
+                    <a ui-sref="user-management-detail({login:user.login})">{{user.login}}</a><br/>
                     {{user.firstName}} {{user.lastName}}<br/>
                     <span ng-if="user.socials" ng-repeat="(key, value) in user.socials">
                         <span>&nbsp;</span>
@@ -44,6 +44,7 @@
                 </td>
                 <td>{{user.email}}</td>
                 <td>{{user.phone}}</td>
+                <td>{{user.city.name}}</td>
                 <td>
                     <span class="label label-danger" ng-click="vm.setActive(user, true)" ng-show="!user.activated"
                           ng-if="!vm.isUserInRole(user, 'ROLE_ADMIN') || vm.isUserInRole(vm.currentAccount, 'ROLE_SUPERADMIN')"

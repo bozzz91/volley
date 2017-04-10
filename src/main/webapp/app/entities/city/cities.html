@@ -1,7 +1,7 @@
 <div>
     <h2 translate="volleyApp.city.home.title">Cities</h2>
     <md-alert></md-alert>
-    <div class="container-fluid">
+    <div class="container-fluid" has-authority="ROLE_SUPERADMIN">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
                 <button class="btn btn-primary" ui-sref="city.new" >
@@ -18,17 +18,17 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span translate="global.field.id">ID</span></th>
                     <th><span translate="volleyApp.city.name">Name</span></th>
                     <th><span translate="volleyApp.city.tz">TZ</span></th>
+                    <th><span translate="volleyApp.city.role">Role Group</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="city in vm.cities track by city.id">
-                    <td><a ui-sref="city-detail({id:city.id})">{{city.id}}</a></td>
-                    <td>{{city.name}}</td>
+                <tr ng-repeat="city in vm.cities | orderBy:'name' track by city.id">
+                    <td><a ui-sref="city-detail({id:city.id})">{{city.name}}</a></td>
                     <td>{{city.tz}}</td>
+                    <td>{{city.role}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

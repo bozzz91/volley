@@ -5,15 +5,14 @@
         .module('volleyApp')
         .controller('CityDialogController', CityDialogController);
 
-    CityDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'City', 'Gym'];
+    CityDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity', 'City'];
 
-    function CityDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, City, Gym) {
+    function CityDialogController ($timeout, $scope, $uibModalInstance, entity, City) {
         var vm = this;
 
         vm.city = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.gyms = Gym.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -41,7 +40,5 @@
         function onSaveError () {
             vm.isSaving = false;
         }
-
-
     }
 })();

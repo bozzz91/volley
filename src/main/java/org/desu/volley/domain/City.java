@@ -39,6 +39,10 @@ public class City implements Serializable {
     @Column(name = "tz", nullable = false)
     private String tz;
 
+    @NotNull
+    @Column(name = "role_group", nullable = false)
+    private String role;
+
     @OneToMany(mappedBy = "city")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -66,6 +70,14 @@ public class City implements Serializable {
 
     public void setGyms(Set<Gym> gyms) {
         this.gyms = gyms;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

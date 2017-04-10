@@ -45,11 +45,11 @@
                         <span class="training-state" ng-class="training.state.toLowerCase()">
                             {{'volleyApp.TrainingState.' + training.state | translate}}
                             <span class="label label-warning" ng-click="vm.setState(training, 'CANCELLED')"
-                                  ng-show="vm.isRegistration(training.state) && vm.isOrganizerCurrentUser(training)"
+                                  ng-show="vm.isRegistration(training.state) && vm.hasPermissionToEdit(training)"
                                   style="cursor: pointer;" translate="volleyApp.training.home.deactivate">
                             </span>
                             <span class="label label-success" ng-click="vm.setState(training, 'REGISTRATION')"
-                                  ng-show="vm.isCancelled(training.state) && vm.isOrganizerCurrentUser(training)"
+                                  ng-show="vm.isCancelled(training.state) && vm.hasPermissionToEdit(training)"
                                   style="cursor: pointer;" translate="volleyApp.training.home.activate">
                             </span>
                         </span>
@@ -64,7 +64,7 @@
                         <a ui-sref="gym-detail({id:training.gym.id})">{{training.gym.city.name}}, {{training.gym.name}}</a>
                     </td>
                     <td class="text-right">
-                        <div class="btn-group flex-btn-group-container" ng-if="vm.isOrganizerCurrentUser(training) || vm.isUserInRole(vm.account, 'ROLE_SUPERADMIN')">
+                        <div class="btn-group flex-btn-group-container" ng-if="vm.hasPermissionToEdit(training)">
                             <button type="submit"
                                     ui-sref="training-user({trainingId:training.id})"
                                     class="btn btn-warning btn-sm">

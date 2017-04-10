@@ -226,6 +226,26 @@ public class UserResource {
     }
 
     /**
+     * GET  /roles : get all roles.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and with body all roles
+     * @throws URISyntaxException if the pagination headers couldn't be generated
+     */
+    @RequestMapping(value = "/roles",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Secured(AuthoritiesConstants.ADMIN)
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<Authority>> getAllRoles(Pageable pageable)
+        throws URISyntaxException {
+        Page<Authority> page = authorityRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/roles");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
      * GET  /users/:login : get the "login" user.
      *
      * @param login the login of the user to find

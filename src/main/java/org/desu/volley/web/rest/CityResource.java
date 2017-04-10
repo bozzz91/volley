@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.City;
 import org.desu.volley.repository.CityRepository;
 import org.desu.volley.security.AuthoritiesConstants;
+import org.desu.volley.service.CityService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,9 @@ public class CityResource {
     @Inject
     private CityRepository cityRepository;
 
+    @Inject
+    private CityService cityService;
+
     /**
      * POST  /cities : Create a new city.
      *
@@ -50,6 +54,7 @@ public class CityResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("city", "idexists", "A new city cannot already have an ID")).body(null);
         }
         City result = cityRepository.save(city);
+        cityService.updateRole(result);
         return ResponseEntity.created(new URI("/api/cities/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("city", result.getId().toString()))
             .body(result);
@@ -75,6 +80,7 @@ public class CityResource {
             return createCity(city);
         }
         City result = cityRepository.save(city);
+        cityService.updateRole(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("city", city.getId().toString()))
             .body(result);
