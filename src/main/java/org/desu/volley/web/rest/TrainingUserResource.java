@@ -29,10 +29,10 @@ import java.net.URISyntaxException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static org.desu.volley.domain.enumeration.TrainingState.PROCESS;
+import static org.desu.volley.domain.enumeration.TrainingState.REGISTRATION;
 
 /**
  * REST controller for managing TrainingUser.
@@ -89,7 +89,18 @@ public class TrainingUserResource {
         if (training.getState() != TrainingState.REGISTRATION) {
             return badRequest("wrongstate." + training.getState().name().toLowerCase());
         }
-        trainingUser.setRegisterDate(ZonedDateTime.now());
+
+        ZonedDateTime now = ZonedDateTime.now();
+        EnumSet<TrainingState> states = EnumSet.of(PROCESS, REGISTRATION);
+        List<TrainingUser> byCurrentUser = trainingUserRepository.findByUserAndState(trainingUser.getUser(), states);
+        boolean otherRegExists = byCurrentUser.stream()
+            .filter(tu -> tu.getTraining().getStartAt().isBefore(training.getEndAt()))
+            .anyMatch(tu -> tu.getTraining().getEndAt().isAfter(training.getStartAt()));
+        if (otherRegExists) {
+            return badRequest("othertrainingregistered");
+        }
+
+        trainingUser.setRegisterDate(now);
         List<TrainingUser> existed = trainingUserRepository.findByTrainingAndUser(trainingUser.getTraining(), trainingUser.getUser());
         TrainingUser result;
         if (existed.isEmpty()) {

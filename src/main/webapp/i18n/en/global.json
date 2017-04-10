@@ -134,7 +134,8 @@
             "cancelled": "The training is cancelled!",
             "done": "The training is already finished!",
             "process": "The training is already in process!"
-        }
+        },
+        "othertrainingregistered": "You already registered at another training at the same time!"
     },
     "footer": "Lightline © 2017"
 }
