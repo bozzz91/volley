@@ -23,7 +23,7 @@
 
         Role.query(function (result) {
             for (var i=0; i<result.length; i++) {
-                result[i].selected = vm.user.authorities.indexOf(result[i].name) >= 0;
+                result[i].selected = entity.authorities.indexOf(result[i].name) >= 0;
                 vm.authorities.push(result[i]);
             }
         });
