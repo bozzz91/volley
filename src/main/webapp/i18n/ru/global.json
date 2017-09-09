@@ -19,7 +19,7 @@
             "account": {
                 "main": "Профиль",
                 "settings": "Настройки",
-                "password": "Пароль",
+                "password": "Смена пароля",
                 "sessions": "Сессии",
                 "login": "Войти",
                 "logout": "Выйти",
