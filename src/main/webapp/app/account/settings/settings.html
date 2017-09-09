@@ -107,7 +107,14 @@
                     </div>
                 </div>
 
-                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="settings.form.button">Save</button>
+                <div class="modal-footer">
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="settings.form.button">Save</button>
+                    <button type="submit" ng-click="vm.logout()" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-log-out"></span>&nbsp;
+                        <span translate="global.menu.account.logout">Logout</span>
+                    </button>
+                </div>
+
                 <br/>
                 <br/>
             </form>

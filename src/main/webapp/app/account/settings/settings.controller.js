@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['Principal', 'Auth', 'JhiLanguageService', '$translate', 'City'];
+    SettingsController.$inject = ['Principal', 'Auth', '$state', 'JhiLanguageService', '$translate', 'City'];
 
-    function SettingsController (Principal, Auth, JhiLanguageService, $translate, City) {
+    function SettingsController (Principal, Auth,  $state, JhiLanguageService, $translate, City) {
         var vm = this;
 
         vm.error = null;
@@ -15,6 +15,7 @@
         vm.settingsAccount = null;
         vm.success = null;
         vm.cities = City.query();
+        vm.logout = logout;
 
         /**
          * Store the "settings account" in a separate variable, and not in the shared "account" variable.
@@ -52,6 +53,11 @@
                 vm.success = null;
                 vm.error = 'ERROR';
             });
+        }
+
+        function logout() {
+            Auth.logout();
+            $state.go('home');
         }
     }
 })();
