@@ -28,12 +28,14 @@
         }
 
         function getProviderURL (provider) {
-            var hideMenu = $location.search().hideMenu;
-            var providerUrl = 'signin/' + provider;
-            if (hideMenu == 'true') {
-                providerUrl += '?hideMenu=true';
-            }
-            return providerUrl;
+            // var hideMenu = $location.search().hideMenu;
+            // var providerUrl = 'signin/' + provider;
+            // if (hideMenu == 'true') {
+            //     providerUrl += '?hideMenu=true';
+            // }
+            // return providerUrl;
+
+            return 'signin/' + provider;;
         }
 
         function getCSRF () {

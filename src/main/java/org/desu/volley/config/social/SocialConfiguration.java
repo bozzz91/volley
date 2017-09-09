@@ -151,8 +151,8 @@ public class SocialConfiguration implements SocialConfigurer {
 
         @Override
         default void preSignIn(ConnectionFactory<T> connectionFactory, MultiValueMap<String, String> multiValueMap, WebRequest webRequest) {
-            String hideMenu = webRequest.getParameter("hideMenu");
-            webRequest.setAttribute("hideMenu", "true".equalsIgnoreCase(hideMenu), RequestAttributes.SCOPE_SESSION);
+//            String hideMenu = webRequest.getParameter("hideMenu");
+//            webRequest.setAttribute("hideMenu", "true".equalsIgnoreCase(hideMenu), RequestAttributes.SCOPE_SESSION);
         }
 
         @Override

@@ -55,12 +55,14 @@ public class CustomSignInAdapter implements SignInAdapter {
         sessionRegistry.registerNewSession(request.getSessionId(), newAuth.getPrincipal());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         applicationEventPublisher.publishEvent(new AuthenticationSuccessEvent(newAuth));
-        boolean hideMenu = (boolean) request.getAttribute("hideMenu", RequestAttributes.SCOPE_SESSION);
-        String redirectAfterSignIn = jHipsterProperties.getSocial().getRedirectAfterSignIn();
-        boolean isAdmin = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(AuthoritiesConstants.ADMIN::equals);
-        if (isAdmin || !hideMenu) {
-            return redirectAfterSignIn;
-        }
-        return redirectAfterSignIn + "?hideMenu=true";
+//        boolean hideMenu = (boolean) request.getAttribute("hideMenu", RequestAttributes.SCOPE_SESSION);
+//        String redirectAfterSignIn = jHipsterProperties.getSocial().getRedirectAfterSignIn();
+//        boolean isAdmin = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(AuthoritiesConstants.ADMIN::equals);
+//        if (isAdmin || !hideMenu) {
+//            return redirectAfterSignIn;
+//        }
+//        return redirectAfterSignIn + "?hideMenu=true";
+
+        return jHipsterProperties.getSocial().getRedirectAfterSignIn();
     }
 }

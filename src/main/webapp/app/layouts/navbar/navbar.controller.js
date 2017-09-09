@@ -44,8 +44,11 @@
             if (isAuthenticated) {
                 isAdmin = vm.currentAccount.authorities.indexOf('ROLE_ADMIN') > 0;
             }
-            var hasNoParam = $location.search().hideMenu != "true";
-            return isAdmin || (isAuthenticated && hasNoParam);
+            // var hasNoParam = $location.search().hideMenu != "true";
+            // return isAdmin || (isAuthenticated && hasNoParam);
+
+            //now we want to show it for admins only
+            return isAdmin;
         }
 
         function login() {
