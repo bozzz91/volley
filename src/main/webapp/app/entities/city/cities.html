@@ -19,6 +19,7 @@
             <thead>
                 <tr>
                     <th><span translate="volleyApp.city.name">Name</span></th>
+                    <th><span translate="volleyApp.city.info">Info</span></th>
                     <th><span translate="volleyApp.city.tz">TZ</span></th>
                     <th><span translate="volleyApp.city.role">Role Group</span></th>
                     <th></th>
@@ -27,6 +28,7 @@
             <tbody>
                 <tr ng-repeat="city in vm.cities | orderBy:'name' track by city.id">
                     <td><a ui-sref="city-detail({id:city.id})">{{city.name}}</a></td>
+                    <td>{{city.info}}</td>
                     <td>{{city.tz}}</td>
                     <td>{{city.role}}</td>
                     <td class="text-right">

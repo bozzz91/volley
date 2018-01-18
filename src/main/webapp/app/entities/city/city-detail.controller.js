@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('CityDetailController', CityDetailController);
 
-    CityDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'City', 'Gym'];
+    CityDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity'];
 
-    function CityDetailController($scope, $rootScope, $stateParams, entity, City, Gym) {
+    function CityDetailController($scope, $rootScope, $stateParams, entity) {
         var vm = this;
 
         vm.city = entity;

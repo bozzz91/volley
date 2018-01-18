@@ -6,6 +6,7 @@
         <div ng-switch="vm.isAuthenticated()">
             <div class="signin-train" ng-switch-when="true">
                 <p class="welcome md-headline" translate="home.logged.message" translate-values="{username: '{{vm.account.firstName}}'}"></p>
+                <p ng-if="vm.account.city.info" class="o1">{{vm.account.city.info}}</p>
                 <p class="o1">{{'home.logged.smsInfo' | translate}}<a ui-sref="settings">{{'home.logged.smsSettings' | translate}}</a>.</p>
                 <div ng-if="vm.account.city == null">
                     <p class="o1" translate="home.logged.city"></p>

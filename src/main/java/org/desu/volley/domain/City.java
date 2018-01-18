@@ -36,6 +36,10 @@ public class City implements Serializable {
     private String name;
 
     @NotNull
+    @Column(name = "info")
+    private String info;
+
+    @NotNull
     @Column(name = "tz", nullable = false)
     private String tz;
 
@@ -78,6 +82,14 @@ public class City implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     @Override

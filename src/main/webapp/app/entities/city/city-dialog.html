@@ -26,6 +26,11 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label" translate="volleyApp.city.info" for="field_info">Info</label>
+            <input type="text" class="form-control" name="info" id="field_info"
+                   ng-model="vm.city.info" />
+        </div>
+        <div class="form-group">
             <label class="control-label" translate="volleyApp.city.tz" for="field_tz">TZ</label>
             <input type="text" class="form-control" name="tz" id="field_tz"
                    ng-model="vm.city.tz" placeholder="+0300" ng-pattern="/^\+[0-9]{4}$/"
