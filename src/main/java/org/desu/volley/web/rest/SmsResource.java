@@ -2,6 +2,8 @@ package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Sms;
+import org.desu.volley.domain.User;
+import org.desu.volley.repository.UserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.service.SmsService;
 import org.desu.volley.web.rest.util.HeaderUtil;
@@ -21,6 +23,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +39,8 @@ public class SmsResource {
 
     @Inject
     private SmsService smsService;
+    @Inject
+    private UserRepository userRepository;
 
     /**
      * POST  /sms : Create a new sms.
@@ -52,6 +57,10 @@ public class SmsResource {
         log.debug("REST request to save Sms : {}", sms);
         if (sms.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("sms", "idexists", "A new sms cannot already have an ID")).body(null);
+        }
+        if (sms.getRecipients().isEmpty()) {
+            List<User> cityUsers = userRepository.findAllByCityAndPhoneIsNotNull(sms.getSender().getCity());
+            sms.setRecipients(new HashSet<>(cityUsers));
         }
         Sms result = smsService.save(sms, true);
         return ResponseEntity.created(new URI("/api/sms/" + result.getId()))

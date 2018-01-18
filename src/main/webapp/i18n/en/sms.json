@@ -4,7 +4,9 @@
             "home": {
                 "title": "Sms",
                 "createLabel": "Create a new Sms",
+                "createAllCityLabel": "Broadcast SMS",
                 "createOrEditLabel": "Create or edit a Sms",
+                "createBroadcastSms": "Create city broadcast Sms",
                 "search": "Search for Sms"
             },
             "created": "A new Sms is created with identifier {{ param }}",

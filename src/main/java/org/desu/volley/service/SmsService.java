@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
@@ -36,25 +39,46 @@ public class SmsService {
             log.info("sendSms.enter; to {} people", sms.getRecipients().size());
             try {
                 Thread.sleep(1000L);
-                String phones = sms.getRecipients().stream()
+                Collection<String> phones = sms.getRecipients().stream()
                     .map(User::getPhone)
                     .filter(StringUtils::isNotBlank)
-                    .collect(Collectors.joining(","));
-                String[] result = smsc.send_sms(phones, sms.getText(), 0, "", sms.getId()+"", 0, "LightLine", "");
-                if (result.length == 2) {
-                    //send failed
-                    log.warn("sendSms; sms send to {} with text {} failed, result {}", phones, sms.getText(), result);
-                    sms.setState(result[1]);
-                } else {
-                    sms.setState("0");
-                    log.info("sendSms; sms send to {} with text {} success, result {}", phones, sms.getText(), result);
+                    .collect(Collectors.toList());
+
+                int batchSize = 50;
+                Set<String> batch = new HashSet<>(50);
+                for (String phone: phones) {
+                    batch.add(phone);
+                    if (batch.size() == batchSize) {
+                        sendBatch(batch, sms);
+                    }
+                }
+                if (!batch.isEmpty()) {
+                    sendBatch(batch, sms);
                 }
             } catch (Exception e) {
-                sms.setState("-1");
+                if (sms.getState() == null) {
+                    sms.setState("-1");
+                }
                 log.error("Error while send", e);
             }
             save(sms, false);
         });
+    }
+
+    private void sendBatch(Set<String> phonesBatch, Sms sms) {
+        log.info("sendSms; process batch with {} phones", phonesBatch.size());
+        String concatPhones = phonesBatch.stream().collect(Collectors.joining(","));
+        String[] result = smsc.send_sms(concatPhones, sms.getText(), 0, "", sms.getId()+"", 0, "LightLine", "");
+        if (result.length == 2) {
+            //send failed
+            log.warn("sendSms; sms send to {} with text {} failed, result {}", phonesBatch, sms.getText(), result);
+            sms.setState(result[1]);
+            throw new RuntimeException("Can't send batch sms: " + phonesBatch);
+        } else {
+            sms.setState("0");
+            log.info("sendSms; sms send to {} with text {} success, result {}", phonesBatch, sms.getText(), result);
+        }
+        phonesBatch.clear();
     }
 
     /**

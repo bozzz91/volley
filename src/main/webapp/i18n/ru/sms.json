@@ -4,7 +4,9 @@
             "home": {
                 "title": "SMS",
                 "createLabel": "Отправить SMS",
+                "createAllCityLabel": "Отправить сообщение",
                 "createOrEditLabel": "Создать или отредактировать SMS",
+                "createBroadcastSms": "Отправить сообщение всем игрокам в Вашем городе",
                 "search": "Найти SMS"
             },
             "created": "SMS создано и отправлено",

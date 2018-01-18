@@ -1,5 +1,6 @@
 package org.desu.volley.repository;
 
+import org.desu.volley.domain.City;
 import org.desu.volley.domain.User;
 
 import java.time.ZonedDateTime;
@@ -19,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneByActivationKey(String activationKey);
 
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(ZonedDateTime dateTime);
+
+    List<User> findAllByCityAndPhoneIsNotNull(City city);
 
     Page<User> findAllByLoginIn(List<String> logins, Pageable pageable);
 

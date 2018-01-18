@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('SmsDialogController', SmsDialogController);
 
-    SmsDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Sms', 'User'];
+    SmsDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Sms', 'Principal'];
 
-    function SmsDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Sms, User) {
+    function SmsDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Sms, Principal) {
         var vm = this;
 
         vm.sms = entity;
@@ -15,7 +15,11 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.users = User.query();
+        vm.account = null;
+
+        Principal.identity().then(function(account) {
+            vm.account = account;
+        });
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -30,6 +34,8 @@
             if (vm.sms.id !== null) {
                 Sms.update(vm.sms, onSaveSuccess, onSaveError);
             } else {
+                vm.sms.sender = vm.account;
+                vm.sms.sendDate = new Date();
                 Sms.save(vm.sms, onSaveSuccess, onSaveError);
             }
         }
