@@ -236,8 +236,9 @@ public class TrainingUserResource {
 
     private static String createSmsMessage(Training training, User lastUser) {
         String tz = lastUser.getCity().getTz();
+        Locale locale = new Locale(lastUser.getLangKey());
         return "Освободилось место на тренировку: "
-            + training.getStartAt().format(DateTimeFormatter.ofPattern("E, dd MMM").withZone(ZoneId.of(tz)))
+            + training.getStartAt().format(DateTimeFormatter.ofPattern("E, dd MMM", locale).withZone(ZoneId.of(tz)))
             + ", "
             + training.getStartAt().format(DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.of(tz)))
             + ", "
