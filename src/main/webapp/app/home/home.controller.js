@@ -20,9 +20,9 @@
             };
         });
 
-    HomeController.$inject = ['$scope', 'TrainingUser', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City', '$mdDialog', '$translate'];
+    HomeController.$inject = ['$scope', 'TrainingUser', 'Principal', 'LoginService', 'ParseLinks', 'Training', 'Auth', 'AlertService', 'City', '$mdDialog', '$translate', '$sce'];
 
-    function HomeController ($scope, TrainingUser, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City, $mdDialog, $translate) {
+    function HomeController ($scope, TrainingUser, Principal, LoginService, ParseLinks, Training, Auth, AlertService, City, $mdDialog, $translate, $sce) {
         var vm = this;
 
         vm.account = null;
@@ -51,6 +51,7 @@
         vm.loadCities = loadCities;
         vm.isCurrentUserAdmin = isCurrentUserAdmin;
         vm.isRefreshBtn = isRefreshBtn;
+        vm.asHtml = asHtml;
 
         $scope.onLevelSelected = function (level) {
             if (level.id !== $scope.currentLevel.id) {
@@ -117,6 +118,10 @@
             Principal.identity().then(function(account) {
                 vm.account = account;
             });
+        }
+
+        function asHtml(text) {
+            return $sce.trustAsHtml(text);
         }
 
         function isCurrentUserAdmin() {
