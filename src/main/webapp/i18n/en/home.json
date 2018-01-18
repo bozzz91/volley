@@ -10,6 +10,7 @@
             "training": {
                 "empty": "There are no trainings yet.",
                 "cancelled": "The training was cancelled!",
+                "process": "The training started!<br/>Free slots: {{n}}",
                 "info": "Info",
                 "subscribe": "Subscribe",
                 "unsubscribe": "Unsubscribe",

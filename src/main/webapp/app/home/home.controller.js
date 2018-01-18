@@ -79,6 +79,14 @@
             return training.state === 'CANCELLED';
         };
 
+        $scope.isTrainingInProcess = function (training) {
+            return training.state === 'PROCESS';
+        };
+
+        $scope.isTrainingInRegistration = function (training) {
+            return training.state === 'REGISTRATION';
+        };
+
         vm.detectBlur = function () {
             var blurClassName = 'bc-avatar-blur';
             if (navigator.userAgent.toLowerCase().match(/android/i)) {
@@ -139,7 +147,7 @@
 
             Training.query({
                 city: vm.account.city.id,
-                state: 'REGISTRATION,CANCELLED',
+                state: 'REGISTRATION,CANCELLED,PROCESS',
                 page: vm.page,
                 size: 40,
                 sort: sort()

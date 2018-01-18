@@ -145,6 +145,8 @@
     margin-bottom: -20px; }
   .card-with-border .cancelled {
     color: #fb8500; }
+  .card-with-border .process {
+    color: #10c808; }
 
 .card-media.training {
   padding-right: 10px;
@@ -226,11 +228,14 @@
     height: inherit;
     margin: 0 0 0 10px; }
 
-.training-state.done, .training-state.process {
+.training-state.done {
   color: #dd0000; }
 
 .training-state.cancelled {
   color: #fb8500; }
+
+.training-state.process {
+  color: #10c808; }
 
 .training-state.registration {
   color: #2c95dd; }

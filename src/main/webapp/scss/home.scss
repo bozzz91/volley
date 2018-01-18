@@ -1,4 +1,5 @@
 $warningColor: #fb8500;
+$processColor: #10c808;
 $blueColor: #2c95dd;
 $darkBlueColor: #0256a0;
 $inactiveStateColor: #dd0000;
@@ -199,6 +200,10 @@ $inactiveStateColor: #dd0000;
     .cancelled {
         color: $warningColor;
     }
+
+    .process {
+        color: $processColor;
+    }
 }
 
 .card-media.training {
@@ -315,12 +320,16 @@ $inactiveStateColor: #dd0000;
 }
 
 .training-state {
-    &.done, &.process {
+    &.done {
         color: $inactiveStateColor;
     }
 
     &.cancelled {
         color: $warningColor;
+    }
+
+    &.process {
+        color: $processColor;
     }
 
     &.registration {

@@ -40,7 +40,9 @@
                                     </md-card-title-media>
                                     <md-card-title-text class="card-with-border">
                                         <span ng-show="isTrainingCancelled(training)" class="md-headline cancelled" translate="home.logged.training.cancelled"></span>
-                                        <span ng-show="!isTrainingCancelled(training) && training.description" class="md-headline">{{training.description}}</span>
+                                        <span ng-show="isTrainingInProcess(training)" class="md-headline process" translate="home.logged.training.process"
+                                              translate-values="{n: '{{training.limit - training.trainingUsers.length + 1}}'}"></span>
+                                        <span ng-show="isTrainingInRegistration(training) && training.description" class="md-headline">{{training.description}}</span>
                                         <hr/>
                                         <span class="md-subhead">{{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}}р</span>
                                         <hr/>
@@ -51,18 +53,18 @@
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end center">
                                     <md-button class="md-flat" aria-label="info"
-                                               ng-hide="isTrainingCancelled(training)"
+                                               ng-show="isTrainingInRegistration(training)"
                                                ng-click="showUsers = !showUsers">
                                         {{"home.logged.training.info" | translate}}
                                     </md-button>
                                     <md-button class="md-flat md-primary" aria-label="subscribe"
                                                ng-disabled="vm.account.readOnly"
-                                               ng-hide="vm.alreadyRegister(training.id) || isTrainingCancelled(training)"
+                                               ng-show="!vm.alreadyRegister(training.id) && isTrainingInRegistration(training)"
                                                ng-click="vm.subscribe(training.id)"
                                                translate="home.logged.training.subscribe">
                                     </md-button>
                                     <md-button class="md-flat md-warn" aria-label="unsubscribe"
-                                               ng-hide="!vm.alreadyRegister(training.id) || isTrainingCancelled(training)"
+                                               ng-show="vm.alreadyRegister(training.id) && isTrainingInRegistration(training)"
                                                ng-click="showConfirm($event, training.id)"
                                                translate="home.logged.training.unsubscribe">
                                     </md-button>
