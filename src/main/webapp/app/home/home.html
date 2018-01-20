@@ -39,10 +39,15 @@
                                         </div>
                                     </md-card-title-media>
                                     <md-card-title-text class="card-with-border">
-                                        <span ng-show="isTrainingCancelled(training)" class="md-headline cancelled" translate="home.logged.training.cancelled"></span>
-                                        <span ng-show="isTrainingInProcess(training)" class="md-headline process" translate="home.logged.training.process"
-                                              translate-values="{n: '{{training.limit - training.trainingUsers.length + 1}}'}"></span>
-                                        <span ng-show="isTrainingInRegistration(training) && training.description" class="md-headline">{{training.description}}</span>
+                                        <span ng-if="isTrainingCancelled(training)" class="md-headline cancelled" translate="home.logged.training.cancelled"></span>
+                                        <span ng-if="isTrainingInProcess(training)" class="md-headline process">
+                                            <span translate="home.logged.training.process.message"></span>
+                                            <span ng-if="vm.calcFreeSlots(training) > 0" class="md-headline process"
+                                                  translate="home.logged.training.process.hasSlot" translate-values="{n: '{{vm.calcFreeSlots(training)}}'}"></span>
+                                            <span ng-if="vm.calcFreeSlots(training) == 0" class="md-headline process"
+                                                  translate="home.logged.training.process.hasNoSlot"></span>
+                                        </span>
+                                        <span ng-if="isTrainingInRegistration(training) && training.description" class="md-headline">{{training.description}}</span>
                                         <hr/>
                                         <span class="md-subhead">{{training.startAt | date:'shortTime':vm.account.city.tz}}, {{training.price}}р</span>
                                         <hr/>

@@ -52,6 +52,7 @@
         vm.isCurrentUserAdmin = isCurrentUserAdmin;
         vm.isRefreshBtn = isRefreshBtn;
         vm.asHtml = asHtml;
+        vm.calcFreeSlots = calcFreeSlots;
 
         $scope.onLevelSelected = function (level) {
             if (level.id !== $scope.currentLevel.id) {
@@ -122,6 +123,10 @@
 
         function asHtml(text) {
             return $sce.trustAsHtml(text);
+        }
+
+        function calcFreeSlots(training) {
+            return Math.max(0, training.limit - training.trainingUsers.length + 1);
         }
 
         function isCurrentUserAdmin() {

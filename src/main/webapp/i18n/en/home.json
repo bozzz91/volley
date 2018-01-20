@@ -10,7 +10,11 @@
             "training": {
                 "empty": "There are no trainings yet.",
                 "cancelled": "The training was cancelled!",
-                "process": "The training started!<br/>Free slots: {{n}}",
+                "process": {
+                    "message": "The training started!<br/>",
+                    "hasSlot": "Free slots: {{n}}",
+                    "hasNoSlot": "There is no free slot"
+                },
                 "info": "Info",
                 "subscribe": "Subscribe",
                 "unsubscribe": "Unsubscribe",
