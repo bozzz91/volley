@@ -29,6 +29,7 @@
                 "title": "Training"
             },
             "startAt": "Start At",
+            "duration": "Duration",
             "endAt": "End At",
             "price": "Price",
             "limit": "Limit",

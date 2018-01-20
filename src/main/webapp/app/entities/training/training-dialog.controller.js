@@ -15,9 +15,12 @@
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
+        vm.durationInit = durationInit;
+        vm.onDurationUpdate = onDurationUpdate;
         vm.save = save;
         vm.levels = Level.query();
         vm.gyms = [];
+        vm.duration = null;
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -40,6 +43,20 @@
             }
         });
 
+        function durationInit() {
+            vm.duration = new Date();
+            vm.duration.setHours(2, 0, 0 ,0);
+        }
+
+        function onDurationUpdate() {
+            var newAndAt = new Date(vm.training.startAt);
+            newAndAt.setHours(
+                newAndAt.getHours() + vm.duration.getHours(),
+                newAndAt.getMinutes() + vm.duration.getMinutes()
+            );
+            vm.training.endAt = newAndAt;
+        }
+
         function save () {
             vm.isSaving = true;
             if (vm.training.id !== null) {
@@ -61,7 +78,7 @@
         }
 
         vm.datePickerOpenStatus.startAt = false;
-        vm.datePickerOpenStatus.endAt = false;
+        vm.datePickerOpenStatus.duration = false;
 
         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
