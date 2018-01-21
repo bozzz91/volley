@@ -20,7 +20,7 @@
             <div class="input-group">
                 <input id="field_startAt" type="text" class="form-control" name="startAt"
                        datetime-picker="{{dateformat}}" ng-model="vm.training.startAt"
-                       is-open="vm.datePickerOpenStatus.startAt"
+                       is-open="vm.datePickerOpenStatus.startAt" ng-change="vm.updateTrainingPeriod()"
                        required/>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startAt')"><i
@@ -44,7 +44,7 @@
             <div class="input-group">
                 <input id="field_duration" type="text" class="form-control" name="duration" datetime-picker="HH:mm"
                        ng-model="vm.duration" is-open="vm.datePickerOpenStatus.duration"
-                       enable-date="false" default-time="14:00:00" ng-change="vm.onDurationUpdate()"
+                       enable-date="false" default-time="14:00:00" ng-change="vm.updateTrainingPeriod()"
                        required/>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="vm.openCalendar('duration')"><i

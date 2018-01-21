@@ -16,7 +16,7 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.durationInit = durationInit;
-        vm.onDurationUpdate = onDurationUpdate;
+        vm.updateTrainingPeriod = updateTrainingPeriod;
         vm.save = save;
         vm.levels = Level.query();
         vm.gyms = [];
@@ -48,7 +48,7 @@
             vm.duration.setHours(2, 0, 0 ,0);
         }
 
-        function onDurationUpdate() {
+        function updateTrainingPeriod() {
             var newAndAt = new Date(vm.training.startAt);
             newAndAt.setHours(
                 newAndAt.getHours() + vm.duration.getHours(),
