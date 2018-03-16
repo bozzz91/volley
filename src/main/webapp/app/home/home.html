@@ -53,7 +53,14 @@
                                         <hr/>
                                         <span class="md-subhead">{{training.gym.name}}</span>
                                         <hr/>
-                                        <span class="md-subhead" translate="home.logged.training.limit" translate-values="{n: '{{training.limit}}'}"></span>
+                                        <span>
+                                            <span ng-show="training.trainingUsers.length-1 <= training.limit" class="md-subhead" translate="home.logged.training.limit.main"
+                                                  translate-values="{l: '{{training.limit}}', c: '{{training.trainingUsers.length-1}}'}"></span>
+                                            <span ng-show="training.trainingUsers.length-1 > training.limit" class="md-subhead" translate="home.logged.training.limit.over"
+                                                  translate-values="{l: '{{training.limit}}'}"></span>
+                                            <span ng-show="training.trainingUsers.length-1 > training.limit" class="cancelled" translate="home.logged.training.limit.reserved"
+                                                  translate-values="{r: '{{training.trainingUsers.length-training.limit-1}}'}"></span>
+                                        </span>
                                     </md-card-title-text>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end center">

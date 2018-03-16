@@ -18,7 +18,11 @@
                 "info": "Info",
                 "subscribe": "Subscribe",
                 "unsubscribe": "Unsubscribe",
-                "limit": "Limit: {{n}} people"
+                "limit": {
+                    "main": "Signed in <b>{{c}} of {{l}}</b>",
+                    "over": "Signed in <b>{{l}} of {{l}}</b>",
+                    "reserved": " <b>(+{{r}} in reserve)</b>"
+                }
             }
         },
         "form" : {
