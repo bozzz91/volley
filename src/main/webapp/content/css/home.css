@@ -152,6 +152,8 @@
   padding-right: 10px;
   position: relative;
   text-align: center; }
+  .card-media.training.md-media-sm {
+    width: 90px; }
 
 .card-media.training span {
   position: relative; }
