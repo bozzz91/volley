@@ -82,28 +82,32 @@ $inactiveStateColor: #dd0000;
     box-shadow: none;
     padding: 8px;
 }
-.footer {
-    display: inline-block;
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-    background-color: #f8f8f8;
-    border-top: 1px solid #e7e7e7;
-    padding: 10px;
+.footer-container {
+    height: 20px;
 
-    div {
-        float: left;
-        display: inline;
-    }
+    .footer {
+        display: inline-block;
+        bottom: 0;
+        position: fixed;
+        width: 100%;
+        background-color: #f8f8f8;
+        border-top: 1px solid #e7e7e7;
+        padding: 10px;
 
-    a.footer-home {
-        float: left;
-        margin-left: 5px;
-        display: inline;
-    }
-    a.footer-faq {
-        float: right;
-        display: inline;
+        div {
+            float: left;
+            display: inline;
+        }
+
+        a.footer-home {
+            float: left;
+            margin-left: 5px;
+            display: inline;
+        }
+        a.footer-faq {
+            float: right;
+            display: inline;
+        }
     }
 }
 

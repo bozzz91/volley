@@ -61,24 +61,26 @@
   box-shadow: none;
   padding: 8px; }
 
-.footer {
-  display: inline-block;
-  bottom: 0;
-  position: fixed;
-  width: 100%;
-  background-color: #f8f8f8;
-  border-top: 1px solid #e7e7e7;
-  padding: 10px; }
-  .footer div {
-    float: left;
-    display: inline; }
-  .footer a.footer-home {
-    float: left;
-    margin-left: 5px;
-    display: inline; }
-  .footer a.footer-faq {
-    float: right;
-    display: inline; }
+.footer-container {
+  height: 20px; }
+  .footer-container .footer {
+    display: inline-block;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+    padding: 10px; }
+    .footer-container .footer div {
+      float: left;
+      display: inline; }
+    .footer-container .footer a.footer-home {
+      float: left;
+      margin-left: 5px;
+      display: inline; }
+    .footer-container .footer a.footer-faq {
+      float: right;
+      display: inline; }
 
 .train-list .md-nav-bar {
   overflow-x: auto;
