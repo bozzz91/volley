@@ -33,6 +33,7 @@
             "endAt": "End At",
             "price": "Price",
             "limit": "Limit",
+            "booking": "Booking",
             "state": "State",
             "description": "Description",
             "trainingUsers": "Users",

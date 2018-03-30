@@ -65,13 +65,41 @@
             var confirm = $mdDialog.confirm()
                 .title($translate.instant('home.logged.training.unsubscribe'))
                 .textContent($translate.instant('home.question.unsubscribe'))
-                .ariaLabel('Lucky day')
                 .targetEvent(ev)
                 .ok($translate.instant('home.answer.yes'))
                 .cancel($translate.instant('home.answer.no'));
 
             $mdDialog.show(confirm).then(function() {
                 vm.unsubscribe(trainingId);
+            }, function() {
+                //nothing
+            });
+        };
+
+        $scope.promptBooking = function(ev, training) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            var prompt = $mdDialog.prompt()
+                .title($translate.instant('home.logged.training.booking'))
+                .targetEvent(ev)
+                .ok($translate.instant('home.answer.confirm'))
+                .cancel($translate.instant('home.answer.cancel'));
+
+            $mdDialog.show(prompt).then(function(newValue) {
+                newValue = Number(newValue);
+                if (training.booking === newValue) {
+                    console.log('no changes, skip training updating');
+                } else {
+                    if (Number.isInteger(newValue) && newValue >= 0 && newValue <= training.limit) {
+                        training.booking = newValue;
+                        //clear pseudo users - bookings and refresh button
+                        training.trainingUsers = [];
+                        Training.update(training, function () {
+                            loadTrainings();
+                        });
+                    } else {
+                        AlertService.error($translate.instant('volleyApp.trainingUser.incorrectinput'));
+                    }
+                }
             }, function() {
                 //nothing
             });
@@ -185,6 +213,22 @@
                             },
                             'registerDate': '2050-01-01T00:00:00.0000'
                         };
+
+                        //there are booking to show
+                        if (result.booking > 0) {
+                            var bookingUser = JSON.parse(JSON.stringify(refreshButtonAsUser));
+                            bookingUser.user.login = '__booking';
+                            bookingUser.user.firstName = $translate.instant('volleyApp.training.booking');
+                            bookingUser.registerDate = '2000-01-01T00:00:00.0000';
+
+                            for (var bookingCount = 0; bookingCount < result.booking; bookingCount++) {
+                                var indexedBookingUser = JSON.parse(JSON.stringify(bookingUser));
+                                //generate pseudo id for uniqueness
+                                indexedBookingUser.id = bookingCount - 1000;
+                                result.trainingUsers.push(indexedBookingUser);
+                            }
+                        }
+
                         result.trainingUsers.push(refreshButtonAsUser);
                         vm.trainings.push(result);
                     });

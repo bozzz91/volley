@@ -215,12 +215,13 @@ public class TrainingUserResource {
         Training training = trainingRepository.findOneWithEagerRelationships(trainingUser.getTraining().getId());
         int limit = training.getLimit();
         List<User> users = new ArrayList<>(training.getUsers());
-        int removedIndex = users.indexOf(trainingUser.getUser());
+        int removedIndex = users.indexOf(trainingUser.getUser()) + training.getBooking();
 
         trainingUserRepository.delete(id);
 
-        if (removedIndex < limit && users.size() > limit) {
-            User lastUser = users.get(limit);
+        int limitWithoutBooking = limit - training.getBooking();
+        if (removedIndex < limit && users.size() > limitWithoutBooking) {
+            User lastUser = users.get(limitWithoutBooking);
             if (lastUser.getPhone() != null) {
                 String msg = createSmsMessage(training, lastUser);
                 Sms sms = new Sms();

@@ -33,6 +33,7 @@
             "endAt": "Конец",
             "price": "Цена",
             "limit": "Лимит",
+            "booking": "Бронь",
             "state": "Статус",
             "description": "Описание",
             "trainingUsers": "Участники",

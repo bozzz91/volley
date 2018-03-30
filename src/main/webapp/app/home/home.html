@@ -64,6 +64,11 @@
                                     </md-card-title-text>
                                 </md-card-title>
                                 <md-card-actions layout="row" layout-align="end center">
+                                    <md-button class="md-raised md-primary" aria-label="booking"
+                                               ng-show="vm.isCurrentUserAdmin() && isTrainingInRegistration(training)"
+                                               ng-click="promptBooking($event, training)"
+                                               translate="volleyApp.training.booking">
+                                    </md-button>
                                     <md-button class="md-flat" aria-label="info"
                                                ng-show="isTrainingInRegistration(training)"
                                                ng-click="showUsers = !showUsers">

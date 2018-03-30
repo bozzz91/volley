@@ -50,6 +50,11 @@ public class Training implements Serializable {
     private Integer limit = 18;
 
     @NotNull
+    @Min(value = 0)
+    @Column(name = "booking", nullable = false)
+    private Integer booking = 0;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
     private TrainingState state = TrainingState.REGISTRATION;
@@ -168,6 +173,14 @@ public class Training implements Serializable {
         this.limit = limit;
     }
 
+    public Integer getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Integer booking) {
+        this.booking = booking;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -196,6 +209,8 @@ public class Training implements Serializable {
             ", endAt='" + endAt + "'" +
             ", price='" + price + "'" +
             ", state='" + state + "'" +
+            ", booking='" + booking + "'" +
+            ", limit='" + limit + "'" +
             ", description='" + description + "'" +
             '}';
     }

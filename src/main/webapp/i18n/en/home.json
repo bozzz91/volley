@@ -18,6 +18,7 @@
                 "info": "Info",
                 "subscribe": "Subscribe",
                 "unsubscribe": "Unsubscribe",
+                "booking": "Booked slots count",
                 "limit": {
                     "main": "Signed in <b>{{c}} of {{l}}</b>",
                     "over": "Signed in <b>{{l}} of {{l}}</b>",
@@ -33,7 +34,9 @@
         },
         "answer": {
             "yes": "Yes",
-            "no": "No"
+            "no": "No",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
         },
         "link": {
             "homepage": "JHipster homepage",
