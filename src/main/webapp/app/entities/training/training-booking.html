@@ -1,0 +1,53 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;
+        </button>
+        <h4 class="modal-title" id="myBookingLabel" translate="volleyApp.training.booking.label">
+            Create or delete a booking
+        </h4>
+    </div>
+    <div class="modal-body" ng-init="vm.init()">
+        <jhi-alert-error></jhi-alert-error>
+        <div ng-repeat="bookedUser in vm.bookedUsers track by bookedUser.id">
+            <div class="form-group">
+                <div layout="row">
+                    <input type="text" class="form-control" name="booking_{{bookedUser.id}}" id="booking_{{bookedUser.id}}"
+                           ng-model="bookedUser.name" placeholder="{{'volleyApp.training.booking.name' | translate}}"
+                           required
+                    />
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="button"
+                                ng-click="vm.remove($index)"
+                                class="btn btn-danger">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </div>
+                </div>
+                <div ng-show="editForm.booking_{{bookedUser.id}}.$invalid">
+                    <p class="help-block"
+                       ng-show="editForm.booking_{{bookedUser.id}}.$error.required" translate="entity.validation.required">
+                        This field is required.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group flex-btn-group-container">
+            <button type="button"
+                    ng-click="vm.add()"
+                    ng-disabled="editForm.$invalid || vm.isSaving || vm.isLimitExceed()"
+                    class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-plus-sign">&nbsp;Добавить</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;
+            <span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="(editForm.$invalid && !vm.isClear()) || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

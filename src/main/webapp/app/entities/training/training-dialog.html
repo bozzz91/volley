@@ -100,24 +100,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" translate="volleyApp.training.booking" for="field_booking">Booking</label>
-            <input type="number" class="form-control" name="booking" id="field_booking"
-                   ng-model="vm.training.booking"
-                   required min="0" max="{{vm.training.limit}}"/>
-            <div ng-show="editForm.booking.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.booking.$error.required" translate="entity.validation.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                   ng-show="editForm.booking.$error.min" translate="entity.validation.min" translate-value-min="0">
-                    This field should be more than or equal 0.
-                </p>
-                <p class="help-block"
-                   ng-show="editForm.booking.$error.number" translate="entity.validation.number">
-                    This field should be a number.
-                </p>
-            </div>
+            <label class="control-label" translate="volleyApp.training.booking.label" for="field_booking">Booking</label>
+            <input type="text" class="form-control" name="booking" id="field_booking"
+                   ng-model="vm.training.booking" placeholder="{{'volleyApp.training.booking.description' | translate}}"
+            />
         </div>
         <div class="form-group">
             <label class="control-label" translate="volleyApp.training.state" for="field_state">State</label>

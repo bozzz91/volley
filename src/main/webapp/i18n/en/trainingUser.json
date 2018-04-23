@@ -21,7 +21,11 @@
             "registerDate": "Register Date",
             "training": "Training",
             "user": "User",
-            "sendSms": "Send SMS"
+            "sendSms": "Send SMS",
+            "smsPopup": {
+                "title": "Sms sending",
+                "content": "Current users don't have phones"
+            }
         }
     }
 }

@@ -86,7 +86,7 @@
                                 price: 150,
                                 state: 'REGISTRATION',
                                 limit: 18,
-                                booking: 0,
+                                booking: null,
                                 description: null,
                                 id: null
                             };

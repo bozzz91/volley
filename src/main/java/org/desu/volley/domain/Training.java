@@ -49,10 +49,8 @@ public class Training implements Serializable {
     @Column(name = "user_limit", nullable = false)
     private Integer limit = 18;
 
-    @NotNull
-    @Min(value = 0)
-    @Column(name = "booking", nullable = false)
-    private Integer booking = 0;
+    @Column(name = "booking")
+    private String booking;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -173,11 +171,15 @@ public class Training implements Serializable {
         this.limit = limit;
     }
 
-    public Integer getBooking() {
+    public Integer getBookingCount() {
+        return booking == null ? 0 : booking.split(",").length;
+    }
+
+    public String getBooking() {
         return booking;
     }
 
-    public void setBooking(Integer booking) {
+    public void setBooking(String booking) {
         this.booking = booking;
     }
 

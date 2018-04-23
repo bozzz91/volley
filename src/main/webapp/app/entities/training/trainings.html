@@ -27,6 +27,7 @@
                     <th jh-sort-by="endAt"><span translate="volleyApp.training.endAt">End At</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="price"><span translate="volleyApp.training.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="limit"><span translate="volleyApp.training.limit">Limit</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th><span translate="volleyApp.training.booking.label">Booking</span></th>
                     <th jh-sort-by="state"><span translate="volleyApp.training.state">State</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="level.name"><span translate="volleyApp.training.level">Level</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="organizer.login"><span translate="volleyApp.training.organizer">Organizer</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -41,6 +42,7 @@
                     <td>{{training.endAt | date:'medium'}}</td>
                     <td>{{training.price}}</td>
                     <td>{{training.limit}}</td>
+                    <td>{{training.booking.split(',').length}}</td>
                     <td>
                         <span class="training-state" ng-class="training.state.toLowerCase()">
                             {{'volleyApp.TrainingState.' + training.state | translate}}

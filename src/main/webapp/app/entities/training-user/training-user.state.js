@@ -25,6 +25,7 @@
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                    $translatePartialLoader.addPart('training');
                     $translatePartialLoader.addPart('trainingUser');
                     $translatePartialLoader.addPart('sms');
                     $translatePartialLoader.addPart('user-management');
@@ -134,6 +135,31 @@
                     $state.go('training-user', null, { reload: true });
                 }, function() {
                     $state.go('^');
+                });
+            }]
+        })
+        .state('training-user-detail.booking', {
+            parent: 'training-user',
+            url: '/{id}/booking',
+            data: {
+                authorities: ['ROLE_ADMIN']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/training/training-booking.html',
+                    controller: 'TrainingBookingController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Training', function(Training) {
+                            return Training.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('training-user', null, { reload: true });
+                }, function() {
+                    $state.go('training-user');
                 });
             }]
         });

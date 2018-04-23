@@ -215,11 +215,11 @@ public class TrainingUserResource {
         Training training = trainingRepository.findOneWithEagerRelationships(trainingUser.getTraining().getId());
         int limit = training.getLimit();
         List<User> users = new ArrayList<>(training.getUsers());
-        int removedIndex = users.indexOf(trainingUser.getUser()) + training.getBooking();
+        int removedIndex = users.indexOf(trainingUser.getUser()) + training.getBookingCount();
 
         trainingUserRepository.delete(id);
 
-        int limitWithoutBooking = limit - training.getBooking();
+        int limitWithoutBooking = limit - training.getBookingCount();
         if (removedIndex < limit && users.size() > limitWithoutBooking) {
             User lastUser = users.get(limitWithoutBooking);
             if (lastUser.getPhone() != null) {

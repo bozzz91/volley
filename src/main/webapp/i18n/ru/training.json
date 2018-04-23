@@ -33,7 +33,11 @@
             "endAt": "Конец",
             "price": "Цена",
             "limit": "Лимит",
-            "booking": "Бронь",
+            "booking": {
+                "label": "Бронь",
+                "name": "Имя",
+                "description": "Имена игроков для брони (через запятую)"
+            },
             "state": "Статус",
             "description": "Описание",
             "trainingUsers": "Участники",

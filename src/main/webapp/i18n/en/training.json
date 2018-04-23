@@ -33,7 +33,11 @@
             "endAt": "End At",
             "price": "Price",
             "limit": "Limit",
-            "booking": "Booking",
+            "booking": {
+                "label": "Booking",
+                "name": "Name",
+                "description": "Reserved player names (comma-splitted)"
+            },
             "state": "State",
             "description": "Description",
             "trainingUsers": "Users",
