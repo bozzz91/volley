@@ -73,6 +73,9 @@
         <spring-social-twitter.version>1.1.2.RELEASE</spring-social-twitter.version>
         <spring-social-vkontakte.version>1.1.1.BUILD-SNAPSHOT</spring-social-vkontakte.version>
         <springfox.version>2.4.0</springfox.version>
+
+        <!-- lombok -->
+        <lombok.version>1.16.20</lombok.version>
     </properties>
 
     <dependencies>
@@ -409,6 +412,13 @@
             <version>${spring-social-vkontakte.version}</version>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>

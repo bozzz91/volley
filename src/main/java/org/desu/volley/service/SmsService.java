@@ -1,11 +1,11 @@
 package org.desu.volley.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.desu.volley.domain.Sms;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.SmsRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.desu.volley.service.sms.SmsSender;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,18 +21,17 @@ import java.util.stream.Collectors;
 /**
  * Service Implementation for managing Sms.
  */
+@Slf4j
 @Service
 @Transactional
 public class SmsService {
-
-    private final Logger log = LoggerFactory.getLogger(SmsService.class);
 
     @Inject
     private SmsRepository smsRepository;
     @Inject
     private Executor executor;
-
-    private Smsc smsc = new Smsc();
+    @Inject
+    private SmsSender smsSender;
 
     private void sendSms(Sms sms) {
         executor.execute(() -> {
@@ -46,7 +45,7 @@ public class SmsService {
 
                 int batchSize = 50;
                 Set<String> batch = new HashSet<>(50);
-                for (String phone: phones) {
+                for (String phone : phones) {
                     batch.add(phone);
                     if (batch.size() == batchSize) {
                         sendBatch(batch, sms);
@@ -68,7 +67,7 @@ public class SmsService {
     private void sendBatch(Set<String> phonesBatch, Sms sms) {
         log.info("sendSms; process batch with {} phones", phonesBatch.size());
         String concatPhones = phonesBatch.stream().collect(Collectors.joining(","));
-        String[] result = smsc.send_sms(concatPhones, sms.getText(), 0, "", sms.getId()+"", 0, "LightLine", "");
+        String[] result = smsSender.sendSms(concatPhones, sms.getText(), 0, "", sms.getId() + "", 0, "LightLine", "");
         if (result.length == 2) {
             //send failed
             log.warn("sendSms; sms send to {} with text {} failed, result {}", phonesBatch, sms.getText(), result);
@@ -97,23 +96,24 @@ public class SmsService {
     }
 
     /**
-     *  Get all the sms.
+     * Get all the sms.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<Sms> findAll(Pageable pageable) {
         log.debug("Request to get all Sms");
         Page<Sms> result = smsRepository.findAll(pageable);
+        log.debug("findAll.exit; returning {}", result);
         return result;
     }
 
     /**
-     *  Get one sms by id.
+     * Get one sms by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public Sms findOne(Long id) {
@@ -124,9 +124,9 @@ public class SmsService {
     }
 
     /**
-     *  Delete the  sms by id.
+     * Delete the  sms by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Sms : {}", id);
