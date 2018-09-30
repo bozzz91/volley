@@ -45,6 +45,7 @@
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('user-management');
                     $translatePartialLoader.addPart('social');
+                    $translatePartialLoader.addPart('organization');
                     return $translate.refresh();
                 }]
 

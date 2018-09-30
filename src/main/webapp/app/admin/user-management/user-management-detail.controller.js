@@ -24,9 +24,9 @@
         }
 
         function detectUserRole(user) {
-            if (user.authorities.indexOf('ROLE_SUPERADMIN') > 0) {
+            if (user.authorities.indexOf('ROLE_SUPERADMIN') >= 0) {
                 return 'Суперадмин';
-            } else if (user.authorities.indexOf('ROLE_ADMIN') > 0) {
+            } else if (user.authorities.indexOf('ROLE_ADMIN') >= 0) {
                 return 'Админ';
             } else {
                 return 'Юзер';

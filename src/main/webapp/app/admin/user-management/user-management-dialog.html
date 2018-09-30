@@ -116,6 +116,20 @@
             </select>
         </div>
 
+        <div class="form-group" ng-if="vm.isCurrentUserAdmin()">
+            <label translate="volleyApp.organization.detail.title" for="field_organization">Organization</label>
+            <select class="form-control" id="field_organization" name="organization" ng-model="vm.user.organization"
+                    ng-options="organization as organization.name for organization in vm.organizations track by organization.id" required>
+                <option value=""></option>
+            </select>
+            <div ng-show="form.organization.$dirty && form.organization.$invalid || !vm.user.organization">
+                <p class="help-block"
+                   ng-show="form.organization.$error.required" translate="settings.messages.validate.organization.required">
+                    Your organization is required.
+                </p>
+            </div>
+        </div>
+
         <div class="form-group" has-authority="ROLE_SUPERADMIN">
             <label translate="userManagement.profiles">Profiles</label>
             <md-list-item ng-repeat="authority in vm.authorities | orderBy:'name'" ng-model="vm.user.authorities">

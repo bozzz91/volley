@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('UserManagementDialogController',UserManagementDialogController);
 
-    UserManagementDialogController.$inject = ['$uibModalInstance', 'entity', 'User', 'Role', 'JhiLanguageService', 'City'];
+    UserManagementDialogController.$inject = ['$uibModalInstance', 'entity', 'User', 'Role', 'JhiLanguageService', 'City', 'Organization'];
 
-    function UserManagementDialogController ($uibModalInstance, entity, User, Role, JhiLanguageService, City) {
+    function UserManagementDialogController ($uibModalInstance, entity, User, Role, JhiLanguageService, City, Organization) {
         var vm = this;
 
         vm.authorities = [];
@@ -16,10 +16,21 @@
         vm.save = save;
         vm.user = entity;
         vm.cities = City.query();
+        vm.organizations = Organization.query();
+        vm.isCurrentUserAdmin = isCurrentUserAdmin;
 
         JhiLanguageService.getAll().then(function (languages) {
             vm.languages = languages;
         });
+
+        function isCurrentUserAdmin() {
+            for (var i=0; i<vm.authorities.length; i++) {
+                if (vm.authorities[i].selected && vm.authorities[i].name.indexOf('ROLE_ADMIN') >= 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         Role.query(function (result) {
             for (var i=0; i<result.length; i++) {

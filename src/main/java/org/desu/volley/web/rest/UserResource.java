@@ -158,6 +158,7 @@ public class UserResource {
                 user.setEmail(managedUserDTO.getEmail());
                 user.setPhone(managedUserDTO.getPhone());
                 user.setCity(managedUserDTO.getCity());
+                user.setOrganization(managedUserDTO.getOrganization());
                 user.setLangKey(managedUserDTO.getLangKey());
                 Set<Authority> authorities = user.getAuthorities();
                 boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);

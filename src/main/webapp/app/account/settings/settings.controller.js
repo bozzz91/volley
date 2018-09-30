@@ -42,7 +42,7 @@
         });
 
         function isCurrentUserAdmin() {
-            return vm.settingsAccount.authorities.indexOf('ROLE_ADMIN') > 0;
+            return vm.settingsAccount.authorities.indexOf('ROLE_ADMIN') >= 0;
         }
 
         function save () {

@@ -100,7 +100,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonSerialize
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Organization organization;
 
     @JsonIgnore

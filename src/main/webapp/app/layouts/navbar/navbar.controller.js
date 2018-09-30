@@ -42,7 +42,7 @@
             var isAdmin = false;
             var isAuthenticated = Principal.isAuthenticated();
             if (isAuthenticated) {
-                isAdmin = vm.currentAccount.authorities.indexOf('ROLE_ADMIN') > 0;
+                isAdmin = vm.currentAccount.authorities.indexOf('ROLE_ADMIN') >= 0;
             }
             // var hasNoParam = $location.search().hideMenu != "true";
             // return isAdmin || (isAuthenticated && hasNoParam);

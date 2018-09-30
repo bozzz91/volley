@@ -60,6 +60,7 @@
                         <a ui-sref="level-detail({id:training.level.id})">{{training.level.name}}</a>
                     </td>
                     <td>
+                        <a ui-sref="organization-detail({id:training.organizer.organization.id})">{{training.organizer.organization.name}}</a>:
                         <a ui-sref="user-management-detail({login:training.organizer.login})">{{training.organizer.firstName}} {{training.organizer.lastName}}</a>
                     </td>
                     <td>

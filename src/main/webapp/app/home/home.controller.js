@@ -129,7 +129,7 @@
         }
 
         function isCurrentUserAdmin() {
-            return vm.account.authorities.indexOf('ROLE_ADMIN') > 0;
+            return vm.account.authorities.indexOf('ROLE_ADMIN') >= 0;
         }
 
         function isRefreshBtn(trainingUser) {
