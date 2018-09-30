@@ -1,8 +1,12 @@
 package org.desu.volley.web.rest.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.desu.volley.config.Constants;
 import org.desu.volley.domain.Authority;
 import org.desu.volley.domain.City;
+import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.User;
 import org.hibernate.validator.constraints.Email;
 
@@ -15,6 +19,9 @@ import java.util.stream.Collectors;
 /**
  * A DTO representing a user, with his authorities.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserDTO {
 
     private Long id;
@@ -36,6 +43,8 @@ public class UserDTO {
 
     private City city;
 
+    private Organization organization;
+
     private String imageUrl;
 
     @Email
@@ -51,19 +60,17 @@ public class UserDTO {
 
     private Set<String> authorities;
 
-    public UserDTO() {
-    }
-
     public UserDTO(User user) {
         this(user.getLogin(), user.getFirstName(), user.getLastName(), user.getEmail(),
             user.isActivated(), user.getLangKey(), user.getPhone(), user.getCity(),
-            user.getImageUrl(), user.getId(), user.isReadOnly(),
+            user.getImageUrl(), user.getId(), user.isReadOnly(), user.getOrganization(),
             user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet()));
     }
 
     public UserDTO(String login, String firstName, String lastName,
                    String email, boolean activated, String langKey, String phone,
-                   City city, String imageUrl, Long id, boolean readOnly, Set<String> authorities) {
+                   City city, String imageUrl, Long id, boolean readOnly,
+                   Organization organization, Set<String> authorities) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -73,64 +80,9 @@ public class UserDTO {
         this.authorities = authorities;
         this.phone = phone;
         this.city = city;
+        this.organization = organization;
         this.imageUrl = imageUrl;
         this.id = id;
-        this.readOnly = readOnly;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public String getLangKey() {
-        return langKey;
-    }
-
-    public Set<String> getAuthorities() {
-        return authorities;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
     }
 
@@ -143,20 +95,12 @@ public class UserDTO {
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
             ", phone='" + phone + '\'' +
-            ", city='" + city + '\'' +
+            ", city='" + city.getName() + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
             ", readOnly=" + readOnly +
             ", langKey='" + langKey + '\'' +
             ", authorities=" + authorities +
             "}";
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

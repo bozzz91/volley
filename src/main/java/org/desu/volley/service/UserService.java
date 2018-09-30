@@ -2,6 +2,7 @@ package org.desu.volley.service;
 
 import org.desu.volley.domain.Authority;
 import org.desu.volley.domain.City;
+import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.AuthorityRepository;
 import org.desu.volley.repository.PersistentTokenRepository;
@@ -174,13 +175,15 @@ public class UserService {
         return user;
     }
 
-    public void updateUserInformation(String firstName, String lastName, String email, String langKey, String phone, City city) {
+    public void updateUserInformation(String firstName, String lastName, String email, String langKey, String phone,
+                                      City city, Organization organization) {
         userRepository.findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);
             u.setPhone(phone);
             u.setCity(city);
+            u.setOrganization(organization);
             u.setLangKey(langKey);
             userRepository.save(u);
             log.debug("Changed Information for User: {}", u);
@@ -264,12 +267,15 @@ public class UserService {
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public User eagerlyLoad(User user) {
         user.getAuthorities().size(); // eagerly load the association
         City city = user.getCity(); //eagerly load city
         if (city != null) {
-            //noinspection ResultOfMethodCallIgnored
             city.getName();
+        }
+        if (user.getOrganization() != null) {
+            user.getOrganization().getName();
         }
         return user;
     }

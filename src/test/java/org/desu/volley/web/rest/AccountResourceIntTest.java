@@ -161,7 +161,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
-            false                    // readonly
+            false,
+            null                    // readonly
         );
 
         restMvc.perform(
@@ -193,7 +194,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
-            false                    // readonly
+            false,
+            null                       // readonly
         );
 
         restUserMockMvc.perform(
@@ -225,7 +227,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
-            false                    // readonly
+            false,
+            null                      // readonly
         );
 
         restUserMockMvc.perform(
@@ -257,7 +260,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
-            false                    // readonly
+            false,
+            null                     // readonly
         );
 
         restUserMockMvc.perform(
@@ -290,14 +294,15 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
-            false                    // readonly
+            false,
+            null                       // readonly
         );
 
         // Duplicate login, different e-mail
         ManagedUserDTO duplicatedUser = new ManagedUserDTO(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
             "alicejr@example.com", true, validUser.getLangKey(), validUser.getPhone(), validUser.getCity(),
             validUser.getAuthorities(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(),
-            validUser.getImageUrl(), validUser.isActivated());
+            validUser.getImageUrl(), validUser.isActivated(), validUser.getOrganization());
 
         // Good user
         restMvc.perform(
@@ -337,7 +342,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
-            false                    // readonly
+            false,
+            null                     // readonly
         );
 
         // Duplicate e-mail, different login
@@ -357,7 +363,8 @@ public class AccountResourceIntTest {
             validUser.getLastModifiedBy(),
             validUser.getLastModifiedDate(),
             validUser.getImageUrl(),
-            validUser.isActivated());
+            validUser.isActivated(),
+            validUser.getOrganization());
 
         // Good user
         restMvc.perform(
@@ -395,8 +402,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,
-            null,                   // lastModifiedDate
-            false                    // readonly
+            null,
+            false,
+            null                      // readonly
         );
 
         restMvc.perform(
@@ -426,6 +434,7 @@ public class AccountResourceIntTest {
             null,
             1L,
             false,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER))
         );
 

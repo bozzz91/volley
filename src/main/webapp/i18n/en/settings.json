@@ -36,6 +36,9 @@
                 },
                 "city": {
                     "required": "Your city is required"
+                },
+                "organization": {
+                    "required": "Your organization is required"
                 }
             }
         }

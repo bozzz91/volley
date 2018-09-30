@@ -14,6 +14,7 @@
                 "trainingUser": "Training User",
                 "sms": "SMS",
                 "faq": "FAQ",
+                "organization": "Organization",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

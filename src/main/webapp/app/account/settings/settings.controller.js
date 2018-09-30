@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['Principal', 'Auth', '$state', 'JhiLanguageService', '$translate', 'City'];
+    SettingsController.$inject = ['Principal', 'Auth', '$state', 'JhiLanguageService', '$translate', 'City', 'Organization'];
 
-    function SettingsController (Principal, Auth,  $state, JhiLanguageService, $translate, City) {
+    function SettingsController (Principal, Auth,  $state, JhiLanguageService, $translate, City, Organization) {
         var vm = this;
 
         vm.error = null;
@@ -15,7 +15,9 @@
         vm.settingsAccount = null;
         vm.success = null;
         vm.cities = City.query();
+        vm.organizations = Organization.query();
         vm.logout = logout;
+        vm.isCurrentUserAdmin = isCurrentUserAdmin;
 
         /**
          * Store the "settings account" in a separate variable, and not in the shared "account" variable.
@@ -29,13 +31,19 @@
                 lastName: account.lastName,
                 login: account.login,
                 phone: account.phone,
-                city: account.city
+                authorities: account.authorities,
+                city: account.city,
+                organization: account.organization
             };
         };
 
         Principal.identity().then(function(account) {
             vm.settingsAccount = copyAccount(account);
         });
+
+        function isCurrentUserAdmin() {
+            return vm.settingsAccount.authorities.indexOf('ROLE_ADMIN') > 0;
+        }
 
         function save () {
             Auth.updateAccount(vm.settingsAccount).then(function() {

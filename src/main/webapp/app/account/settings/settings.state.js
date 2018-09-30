@@ -26,6 +26,7 @@
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('settings');
                     $translatePartialLoader.addPart('city');
+                    $translatePartialLoader.addPart('organization');
                     return $translate.refresh();
                 }]
             }

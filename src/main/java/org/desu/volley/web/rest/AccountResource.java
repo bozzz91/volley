@@ -172,7 +172,8 @@ public class AccountResource {
                     userDTO.getEmail(),
                     userDTO.getLangKey(),
                     userDTO.getPhone(),
-                    userDTO.getCity());
+                    userDTO.getCity(),
+                    userDTO.getOrganization());
                 return new ResponseEntity<String>(HttpStatus.OK);
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));

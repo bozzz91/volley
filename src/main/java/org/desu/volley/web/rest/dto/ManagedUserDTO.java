@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.desu.volley.domain.City;
+import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.User;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -45,8 +46,8 @@ public class ManagedUserDTO extends UserDTO {
     public ManagedUserDTO(Long id, String login, String password, String firstName, String lastName,
                           String email, boolean activated, String langKey, String phone, City city,
                           Set<String> authorities , ZonedDateTime createdDate, String lastModifiedBy,
-                          ZonedDateTime lastModifiedDate, String imageUrl, boolean readOnly) {
-        super(login, firstName, lastName, email, activated, langKey, phone, city, imageUrl, id, readOnly, authorities);
+                          ZonedDateTime lastModifiedDate, String imageUrl, boolean readOnly, Organization organization) {
+        super(login, firstName, lastName, email, activated, langKey, phone, city, imageUrl, id, readOnly, organization, authorities);
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
