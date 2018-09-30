@@ -1,27 +1,32 @@
 package org.desu.volley.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
 
 /**
  * A City.
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "city")
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    public City() {}
 
     public City(int id) {
         this.setId((long)id);
@@ -52,79 +57,11 @@ public class City implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Gym> gyms = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Gym> getGyms() {
-        return gyms;
-    }
-
-    public void setGyms(Set<Gym> gyms) {
-        this.gyms = gyms;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        City city = (City) o;
-        if(city.id == null || id == null) {
-            return false;
-        }
-        return Objects.equals(id, city.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
-
     @Override
     public String toString() {
         return "City{" +
             "id=" + id +
             ", name='" + name + "'" +
             '}';
-    }
-
-    public String getTz() {
-        return tz;
-    }
-
-    public void setTz(String tz) {
-        this.tz = tz;
     }
 }

@@ -2,6 +2,7 @@ package org.desu.volley.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.desu.volley.config.Constants;
@@ -28,6 +29,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "jhi_user")
+@EqualsAndHashCode(of = "login", callSuper = false)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
@@ -129,25 +131,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        User user = (User) o;
-
-        return login.equals(user.login);
-    }
-
-    @Override
-    public int hashCode() {
-        return login.hashCode();
-    }
-
-    @Override
     public String toString() {
         return "User{" +
             "login='" + login + '\'' +
@@ -162,3 +145,4 @@ public class User extends AbstractAuditingEntity implements Serializable {
             "}";
     }
 }
+

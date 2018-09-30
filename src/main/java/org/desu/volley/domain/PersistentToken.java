@@ -2,21 +2,27 @@ package org.desu.volley.domain;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Persistent tokens are used by Spring Security to automatically log in users.
  *
  * @see org.desu.volley.security.CustomPersistentRememberMeServices
  */
+@Getter
+@Setter
+@EqualsAndHashCode(of = "series")
 @Entity
 @Table(name = "jhi_persistent_token")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -52,45 +58,9 @@ public class PersistentToken implements Serializable {
     @ManyToOne
     private User user;
 
-    public String getSeries() {
-        return series;
-    }
-
-    public void setSeries(String series) {
-        this.series = series;
-    }
-
-    public String getTokenValue() {
-        return tokenValue;
-    }
-
-    public void setTokenValue(String tokenValue) {
-        this.tokenValue = tokenValue;
-    }
-
-    public LocalDate getTokenDate() {
-        return tokenDate;
-    }
-
-    public void setTokenDate(LocalDate tokenDate) {
-        this.tokenDate = tokenDate;
-    }
-
     @JsonGetter
     public String getFormattedTokenDate() {
         return DATE_TIME_FORMATTER.format(this.tokenDate);
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public String getUserAgent() {
-        return userAgent;
     }
 
     public void setUserAgent(String userAgent) {
@@ -99,37 +69,6 @@ public class PersistentToken implements Serializable {
         } else {
             this.userAgent = userAgent;
         }
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        PersistentToken that = (PersistentToken) o;
-
-        if (!series.equals(that.series)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return series.hashCode();
     }
 
     @Override

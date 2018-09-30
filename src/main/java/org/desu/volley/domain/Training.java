@@ -1,6 +1,9 @@
 package org.desu.volley.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -14,13 +17,15 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * A Training.
  */
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "training")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -78,129 +83,13 @@ public class Training implements Serializable {
     @NotFound(action = NotFoundAction.IGNORE)
     private Gym gym;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ZonedDateTime getStartAt() {
-        return startAt;
-    }
-
-    public void setStartAt(ZonedDateTime startAt) {
-        this.startAt = startAt;
-    }
-
-    public ZonedDateTime getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(ZonedDateTime endAt) {
-        this.endAt = endAt;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public TrainingState getState() {
-        return state;
-    }
-
-    public void setState(TrainingState state) {
-        this.state = state;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @Transient
     public List<User> getUsers() {
         return trainingUsers.stream().sorted().map(TrainingUser::getUser).collect(Collectors.toList());
     }
 
-    public Set<TrainingUser> getTrainingUsers() {
-        return trainingUsers;
-    }
-
-    public void setTrainingUsers(Set<TrainingUser> users) {
-        this.trainingUsers = users;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public User getOrganizer() {
-        return organizer;
-    }
-
-    public void setOrganizer(User user) {
-        this.organizer = user;
-    }
-
-    public Gym getGym() {
-        return gym;
-    }
-
-    public void setGym(Gym gym) {
-        this.gym = gym;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
     public Integer getBookingCount() {
         return booking == null ? 0 : booking.split(",").length;
-    }
-
-    public String getBooking() {
-        return booking;
-    }
-
-    public void setBooking(String booking) {
-        this.booking = booking;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Training training = (Training) o;
-        if(training.id == null || id == null) {
-            return false;
-        }
-        return Objects.equals(id, training.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 
     @Override

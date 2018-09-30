@@ -1,18 +1,23 @@
 package org.desu.volley.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.Objects;
 
 /**
  * A TrainingUser.
  */
+@Getter
+@Setter
 @Entity
+@EqualsAndHashCode(of = "id")
 @Table(name = "training_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class TrainingUser implements Serializable, Comparable<TrainingUser> {
@@ -33,58 +38,6 @@ public class TrainingUser implements Serializable, Comparable<TrainingUser> {
 
     @ManyToOne(optional = false)
     private User user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ZonedDateTime getRegisterDate() {
-        return registerDate;
-    }
-
-    public void setRegisterDate(ZonedDateTime registerDate) {
-        this.registerDate = registerDate;
-    }
-
-    public Training getTraining() {
-        return training;
-    }
-
-    public void setTraining(Training training) {
-        this.training = training;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        TrainingUser trainingUser = (TrainingUser) o;
-        if(trainingUser.id == null || id == null) {
-            return false;
-        }
-        return Objects.equals(id, trainingUser.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 
     @Override
     public String toString() {
