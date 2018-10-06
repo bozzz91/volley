@@ -3,13 +3,16 @@
     <md-alert></md-alert>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="gym.new" >
+            <div class="btn-group no-padding-left user-buttons">
+                <md-button class="md-flat md-primary" ui-sref="gym.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  translate="volleyApp.gym.home.createLabel">
+                    <span translate="volleyApp.gym.home.createLabel">
                         Create new Gym
                     </span>
-                </button>
+                </md-button>
+                <md-switch has-authority="ROLE_SUPERADMIN" ng-model="vm.showByOrg" class="md-primary" ng-change="vm.reset()">
+                    <span class="hidden-xs" translate="volleyApp.gym.filter.organization">My organization</span>
+                </md-switch>
             </div>
         </div>
     </div>
@@ -17,12 +20,13 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
                     <th><span translate="global.field.id">ID</span></th>
-                    <th><span translate="volleyApp.gym.name">Name</span></th>
+                    <th jh-sort-by="name"><span translate="volleyApp.gym.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th><span translate="volleyApp.gym.location">Location</span></th>
                     <th><span translate="volleyApp.gym.description">Description</span></th>
-                    <th><span translate="volleyApp.gym.city">City</span></th>
+                    <th jh-sort-by="city.name"><span translate="volleyApp.gym.city">City</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="organization.name"><span translate="volleyApp.gym.organization">Organization</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -34,6 +38,9 @@
                     <td>{{gym.description}}</td>
                     <td>
                         <a ui-sref="city-detail({id:gym.city.id})">{{gym.city.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="organization-detail({id:gym.organization.id})">{{gym.organization.name}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

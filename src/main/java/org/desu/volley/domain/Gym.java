@@ -1,6 +1,5 @@
 package org.desu.volley.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A Gym.
@@ -36,19 +33,17 @@ public class Gym implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "location")
+    @Column(name = "location", nullable = false)
     private String location;
 
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "gym")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Training> trainings = new HashSet<>();
-
-    @ManyToOne
+    @ManyToOne(optional = false)
     private City city;
+
+    @ManyToOne(optional = false)
+    private Organization organization;
 
     @Override
     public String toString() {

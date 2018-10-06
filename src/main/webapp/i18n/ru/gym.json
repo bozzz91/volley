@@ -3,7 +3,7 @@
         "gym" : {
             "home": {
                 "title": "Залы",
-                "createLabel": "Создать новый зал",
+                "createLabel": "Добавить зал",
                 "createOrEditLabel": "Создать или отредактировать зал",
                 "search": "Найти зал"
             },
@@ -20,7 +20,11 @@
             "location": "Адрес",
             "description": "Описание",
             "training": "Тренировки",
-            "city": "Город"
+            "city": "Город",
+            "organization": "Организация",
+            "filter": {
+                "organization": "Моей организации"
+            }
         }
     }
 }

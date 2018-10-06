@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('GymDetailController', GymDetailController);
 
-    GymDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Gym', 'Training', 'City'];
+    GymDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity'];
 
-    function GymDetailController($scope, $rootScope, $stateParams, entity, Gym, Training, City) {
+    function GymDetailController($scope, $rootScope, $stateParams, entity) {
         var vm = this;
 
         vm.gym = entity;

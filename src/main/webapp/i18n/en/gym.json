@@ -3,7 +3,7 @@
         "gym" : {
             "home": {
                 "title": "Gyms",
-                "createLabel": "Create a new Gym",
+                "createLabel": "New Gym",
                 "createOrEditLabel": "Create or edit a Gym",
                 "search": "Search for Gym"
             },
@@ -20,7 +20,11 @@
             "location": "Location",
             "description": "Description",
             "training": "Training",
-            "city": "City"
+            "city": "City",
+            "organization": "Organization",
+            "filter": {
+                "organization": "My organization"
+            }
         }
     }
 }

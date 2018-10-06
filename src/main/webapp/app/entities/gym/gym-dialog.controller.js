@@ -5,16 +5,16 @@
         .module('volleyApp')
         .controller('GymDialogController', GymDialogController);
 
-    GymDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity', 'Gym', 'Training', 'City'];
+    GymDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity', 'Gym', 'City', 'Organization'];
 
-    function GymDialogController ($timeout, $scope, $uibModalInstance, entity, Gym, Training, City) {
+    function GymDialogController ($timeout, $scope, $uibModalInstance, entity, Gym, City, Organization) {
         var vm = this;
 
         vm.gym = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.trainings = Training.query();
         vm.cities = City.query();
+        vm.organizations = Organization.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

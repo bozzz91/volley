@@ -32,16 +32,16 @@
 
         Principal.identity().then(function(account) {
             vm.account = account;
+            loadGyms();
         });
 
-        Gym.query(function(result) {
-            var allGyms = result;
-            for (var i=0; i<allGyms.length; i++) {
-                if (allGyms[i].city && allGyms[i].city.id === vm.account.city.id) {
-                    vm.gyms.push(allGyms[i]);
-                }
-            }
-        });
+        function loadGyms() {
+            Gym.query({
+                organizationId: vm.account.organization.id
+            }, function(result) {
+                vm.gyms = result;
+            });
+        }
 
         function durationInit() {
             vm.duration = new Date();

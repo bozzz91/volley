@@ -1,8 +1,8 @@
 package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import org.desu.volley.domain.City;
 import org.desu.volley.domain.Gym;
+import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.User;
 import org.desu.volley.repository.GymRepository;
 import org.desu.volley.security.AuthoritiesConstants;
@@ -11,6 +11,7 @@ import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -96,9 +97,14 @@ public class GymResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Gym> getAllGyms() {
-        log.debug("REST request to get all Gyms");
-        List<Gym> gyms = gymRepository.findAll();
+    public List<Gym> getAllGyms(Sort sort, @RequestParam(required = false, value = "organizationId") Organization organization) {
+        log.debug("REST request to get Gyms");
+        List<Gym> gyms;
+        if (organization == null) {
+            gyms = gymRepository.findAll(sort);
+        } else {
+            gyms = gymRepository.findByOrganization(organization, sort);
+        }
         return gyms;
     }
 
@@ -137,10 +143,10 @@ public class GymResource {
     public ResponseEntity<Void> deleteGym(@PathVariable Long id) {
         log.debug("REST request to delete Gym : {}", id);
         Gym gym = gymRepository.findOne(id);
-        City gymCity = gym.getCity();
+        Organization organization = gym.getOrganization();
         User user = userService.getUserWithAuthorities();
         boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
-        if (gymCity.equals(user.getCity()) || isSuperAdmin) {
+        if (isSuperAdmin || organization.getId().equals(user.getOrganization().getId())) {
             gymRepository.delete(id);
             return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("gym", id.toString())).build();
         }
