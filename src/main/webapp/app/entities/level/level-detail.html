@@ -16,6 +16,10 @@
         <dd>
             <span>{{vm.level.description}}</span>
         </dd>
+        <dt><span translate="volleyApp.level.organization">Organization</span></dt>
+        <dd>
+            <a ui-sref="organization-detail({id:vm.level.organization.id})">{{vm.level.organization.name}}</a>
+        </dd>
     </dl>
 
     <button type="submit"

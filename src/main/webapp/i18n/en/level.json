@@ -18,7 +18,11 @@
             },
             "order": "Order",
             "name": "Name",
-            "description": "Description"
+            "description": "Description",
+            "organization": "Organization",
+            "filter": {
+                "organization": "My organization"
+            }
         }
     }
 }

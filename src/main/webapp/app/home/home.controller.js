@@ -274,8 +274,8 @@
                 if(trainings[i].id === id) {
                     var trainingUsers = trainings[i].trainingUsers;
                     var index = findUserInTraining(trainingUsers, vm.account);
-                    var regId = trainingUsers[index].id;
                     if (index > -1) {
+                        var regId = trainingUsers[index].id;
                         TrainingUser.delete({id: regId}, function () {
                             trainingUsers.splice(index, 1);
                         }, function (error) {

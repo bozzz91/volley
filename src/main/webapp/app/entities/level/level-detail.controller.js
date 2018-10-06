@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('LevelDetailController', LevelDetailController);
 
-    LevelDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Level'];
+    LevelDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity'];
 
-    function LevelDetailController($scope, $rootScope, $stateParams, entity, Level) {
+    function LevelDetailController($scope, $rootScope, $stateParams, entity) {
         var vm = this;
 
         vm.level = entity;

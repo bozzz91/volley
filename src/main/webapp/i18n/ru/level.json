@@ -18,7 +18,11 @@
             },
             "order": "№ вкладки",
             "name": "Название",
-            "description": "Описание"
+            "description": "Описание",
+            "organization": "Организация",
+            "filter": {
+                "organization": "Моей организации"
+            }
         }
     }
 }

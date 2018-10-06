@@ -5,14 +5,15 @@
         .module('volleyApp')
         .controller('LevelDialogController', LevelDialogController);
 
-    LevelDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Level'];
+    LevelDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Level', 'Organization'];
 
-    function LevelDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Level) {
+    function LevelDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Level, Organization) {
         var vm = this;
 
         vm.level = entity;
         vm.clear = clear;
         vm.save = save;
+        vm.organizations = Organization.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -40,7 +41,5 @@
         function onSaveError () {
             vm.isSaving = false;
         }
-
-
     }
 })();

@@ -18,7 +18,7 @@
         vm.durationInit = durationInit;
         vm.updateTrainingPeriod = updateTrainingPeriod;
         vm.save = save;
-        vm.levels = Level.query();
+        vm.levels = [];
         vm.gyms = [];
         vm.duration = null;
 
@@ -33,13 +33,24 @@
         Principal.identity().then(function(account) {
             vm.account = account;
             loadGyms();
+            loadLevels()
         });
 
         function loadGyms() {
             Gym.query({
-                organizationId: vm.account.organization.id
+                organizationId: vm.account.organization.id,
+                sort: ['name']
             }, function(result) {
                 vm.gyms = result;
+            });
+        }
+
+        function loadLevels() {
+            Level.query({
+                organizationId: vm.account.organization.id,
+                sort: ['order', 'name']
+            }, function(result) {
+                vm.levels = result;
             });
         }
 

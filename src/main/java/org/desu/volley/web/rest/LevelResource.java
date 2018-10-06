@@ -2,12 +2,13 @@ package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Level;
+import org.desu.volley.domain.Organization;
 import org.desu.volley.repository.LevelRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -90,9 +91,14 @@ public class LevelResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Level> getAllLevels() {
-        log.debug("REST request to get all Levels");
-        List<Level> levels = levelRepository.findAll();
+    public List<Level> getAllLevels(Sort sort, @RequestParam(required = false, value = "organizationId") Organization organization) {
+        log.debug("REST request to get Levels");
+        List<Level> levels;
+        if (organization == null) {
+            levels = levelRepository.findAll(sort);
+        } else {
+            levels = levelRepository.findByOrganization(organization, sort);
+        }
         return levels;
     }
 

@@ -3,13 +3,16 @@
     <md-alert></md-alert>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="level.new" >
+            <div class="btn-group no-padding-left user-buttons">
+                <md-button class="md-flat md-primary" ui-sref="level.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  translate="volleyApp.level.home.createLabel">
+                    <span translate="volleyApp.level.home.createLabel">
                         Create new Level
                     </span>
-                </button>
+                </md-button>
+                <md-switch has-authority="ROLE_SUPERADMIN" ng-model="vm.showByOrg" class="md-primary" ng-change="vm.reset()">
+                    <span class="hidden-xs" translate="volleyApp.level.filter.organization">My organization</span>
+                </md-switch>
             </div>
         </div>
     </div>
@@ -17,10 +20,11 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span translate="volleyApp.level.order">Order</span></th>
-                    <th><span translate="volleyApp.level.name">Name</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="order"><span translate="volleyApp.level.order">Order</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span translate="volleyApp.level.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th><span translate="volleyApp.level.description">Description</span></th>
+                    <th><span translate="volleyApp.level.organization">Organization</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -29,6 +33,9 @@
                     <td>{{level.order}}</td>
                     <td><a ui-sref="level-detail({id:level.id})">{{level.name}}</a></td>
                     <td>{{level.description}}</td>
+                    <td>
+                        <a ui-sref="organization-detail({id:level.organization.id})">{{level.organization.name}}</a>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

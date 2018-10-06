@@ -39,4 +39,7 @@ public class Level implements Serializable {
     @NotNull
     @Column(name = "tab_order")
     private int order = 0;
+
+    @ManyToOne(optional = false)
+    private Organization organization;
 }
