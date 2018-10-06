@@ -1,6 +1,7 @@
 package org.desu.volley.repository;
 
 import org.desu.volley.domain.City;
+import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.Training;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.springframework.data.domain.Page;
@@ -17,8 +18,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface TrainingRepository extends JpaRepository<Training,Long> {
 
-    @Query("select training from Training training where training.organizer.login = ?#{principal.username}")
-    Page<Training> findByOrganizerIsCurrentUser(Pageable pageable);
+    @Query("select training from Training training where training.organizer.organization = :organization")
+    Page<Training> findByOrganization(@Param("organization") Organization organization, Pageable pageable);
 
     @Query("select distinct training from Training training left join fetch training.trainingUsers")
     List<Training> findAllWithEagerRelationships();

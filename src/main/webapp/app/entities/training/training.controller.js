@@ -19,8 +19,7 @@
         vm.predicate = 'startAt';
         vm.reset = reset;
         vm.reverse = false;
-        vm.search = null;
-        vm.showMine = false;
+        vm.showByOrg = true;
         vm.account = null;
         vm.isUserInRole = isUserInRole;
 
@@ -37,10 +36,9 @@
 
         function loadAll () {
             Training.query({
-                city: vm.account.city.id,
+                organizationId: vm.account.organization.id,
                 page: vm.page,
-                search: vm.search,
-                showMine: vm.showMine,
+                showByOrg: vm.showByOrg,
                 size: 20,
                 sort: sort()
             }, onSuccess, onError);
@@ -102,7 +100,7 @@
         }
 
         function isUserInRole(user, role) {
-            return user.authorities.indexOf(role) > 0;
+            return user.authorities.indexOf(role) >= 0;
         }
     }
 })();

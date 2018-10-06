@@ -5,11 +5,6 @@
                 "title": "Trainings",
                 "createLabel": "Create a new Training",
                 "createOrEditLabel": "Create or edit a Training",
-                "filter": {
-                    "all": "All",
-                    "mine": "Only mine",
-                    "city": "By city"
-                },
                 "activate": "Resume",
                 "deactivate": "Cancel"
             },
@@ -43,7 +38,10 @@
             "trainingUsers": "Users",
             "level": "Level",
             "organizer": "Organizer",
-            "gym": "Gym"
+            "gym": "Gym",
+            "filter": {
+                "organization": "My organization"
+            }
         }
     }
 }

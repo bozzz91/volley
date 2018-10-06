@@ -2,6 +2,7 @@ package org.desu.volley.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.City;
+import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.Training;
 import org.desu.volley.domain.User;
 import org.desu.volley.domain.enumeration.TrainingState;
@@ -121,15 +122,15 @@ public class TrainingResource {
     public ResponseEntity<List<Training>> getAllTrainings(
         Pageable pageable,
         @RequestParam(required = false, value = "city") Long cityId,
+        @RequestParam(required = false, value = "organizationId") Organization organization,
         @RequestParam(required = false, value = "state") String stateNames,
-        @RequestParam(required = false, value = "showMine") boolean showMine,
-        @RequestParam(required = false, value = "search") String search
+        @RequestParam(required = false, value = "showByOrg") boolean showByOrg
     ) throws URISyntaxException {
 
         log.debug("REST request to get a page of Trainings");
         Page<Training> page;
-        if (showMine) {
-            page = trainingRepository.findByOrganizerIsCurrentUser(pageable);
+        if (showByOrg) {
+            page = trainingRepository.findByOrganization(organization, pageable);
         } else if (cityId != null) {
             City city = new City();
             city.setId(cityId);
@@ -142,12 +143,6 @@ public class TrainingResource {
                 states = Arrays.asList(TrainingState.values());
             }
             page = trainingRepository.findByCityAndStates(city, states, pageable);
-        } else if (search != null) { //search is unused now
-            switch (search) {
-                case "all": page = trainingRepository.findAll(pageable); break;
-                case "mine": page = trainingRepository.findByOrganizerIsCurrentUser(pageable); break;
-                default: throw new IllegalArgumentException("Wrong search type: " + search);
-            }
         } else {
             page = trainingRepository.findAll(pageable);
         }

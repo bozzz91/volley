@@ -11,8 +11,8 @@
                         Create new Training
                     </span>
                 </md-button>
-                <md-switch ng-model="vm.showMine" class="md-primary" ng-change="vm.reset()">
-                    <span class="hidden-xs" translate="volleyApp.training.home.filter.mine">Только мои</span>
+                <md-switch has-authority="ROLE_SUPERADMIN" ng-model="vm.showByOrg" class="md-primary" ng-change="vm.reset()">
+                    <span class="hidden-xs" translate="volleyApp.training.filter.organization">My organization</span>
                 </md-switch>
             </div>
         </div>
