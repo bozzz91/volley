@@ -81,9 +81,7 @@
         }
 
         function hasPermissionToEdit(training) {
-            return isUserInRole(vm.account, 'ROLE_SUPERADMIN')
-                || isUserInRole(vm.account, 'ROLE_ADMIN_CITY_' + training.gym.city.role.toUpperCase())
-                || training.organizer.id === vm.account.id;
+            return isUserInRole(vm.account, 'ROLE_SUPERADMIN') || training.organizer.organization.id === vm.account.organization.id;
         }
 
         function setState(training, state) {
