@@ -62,7 +62,7 @@
         <div class="form-group" has-authority="ROLE_ADMIN">
             <label for="showAllOrganizations">
                 <input type="checkbox" id="showAllOrganizations" ng-model="vm.showAllOrganizations"
-                       ng-disabled="vm.account.organization == null" ng-change="vm.loadOrganizations()">
+                       ng-disabled="vm.account.organization == null" ng-change="vm.updateOrganizations()">
                 <span translate="volleyApp.gym.filter.showAll">Show all</span>
             </label>
         </div>

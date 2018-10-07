@@ -5,16 +5,16 @@
         .module('volleyApp')
         .controller('LevelDialogController', LevelDialogController);
 
-    LevelDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Level', 'Organization', 'Principal'];
+    LevelDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Level', 'Organization', 'Principal', 'OrganizationUtil'];
 
-    function LevelDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Level, Organization, Principal) {
+    function LevelDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Level, Organization, Principal, OrganizationUtil) {
         var vm = this;
 
         vm.level = entity;
         vm.account = null;
         vm.clear = clear;
         vm.save = save;
-        vm.loadOrganizations = loadOrganizations;
+        vm.updateOrganizations = updateOrganizations;
         vm.organizations = [];
         vm.showAllOrganizations = true;
 
@@ -24,23 +24,12 @@
 
         Principal.identity().then(function(account) {
             vm.account = account;
-            if (vm.account.organization) {
-                vm.showAllOrganizations = false;
-            }
-            loadOrganizations();
+            vm.showAllOrganizations = vm.account.organization == null;
+            updateOrganizations();
         });
 
-        function loadOrganizations() {
-            vm.organizations = [];
-            if (Principal.hasUserRole(vm.account, 'ROLE_ADMIN')) {
-                if (vm.showAllOrganizations) {
-                    vm.organizations = Organization.query();
-                } else {
-                    vm.organizations.push(vm.account.organization);
-                }
-            } else if (vm.account.organization) {
-                vm.organizations.push(vm.account.organization);
-            }
+        function updateOrganizations() {
+            vm.organizations = OrganizationUtil.loadNecessaryOrganizations(vm.account, vm.showAllOrganizations);
         }
 
         function clear () {
