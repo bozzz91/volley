@@ -40,7 +40,8 @@
             "organizer": "Организатор",
             "gym": "Зал",
             "filter": {
-                "organization": "Моей организации"
+                "organization": "Моей организации",
+                "showAll": "Все тренировки"
             }
         }
     }

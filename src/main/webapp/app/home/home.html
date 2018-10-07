@@ -66,7 +66,7 @@
                                 <md-card-actions layout="row" layout-align="end center">
                                     <md-button class="md-raised md-primary" aria-label="booking"
                                                ui-sref="home.booking({id:training.id})"
-                                               ng-show="vm.isCurrentUserAdmin() && isTrainingInRegistration(training)">
+                                               ng-show="vm.canCurrentUserEditTraining() && isTrainingInRegistration(training)">
                                         <span class="glyphicon glyphicon-lock"></span>
                                     </md-button>
                                     <md-button class="md-flat" aria-label="info"
@@ -95,7 +95,7 @@
 
                                         <md-grid-tile ng-repeat="trainingUser in training.trainingUsers | orderBy:'registerDate'"
                                                       md-rowspan="1" md-colspan="1" md-colspan-sm="1" md-colspan-xs="1"
-                                                      class="user-cell" >
+                                                      class="user-cell" title="{{trainingUser.user.firstName}} {{trainingUser.user.lastName}}">
                                             <div class="user-cell-wrap" ng-class="vm.calcUserClass($index, training.limit, trainingUser)">
                                                 <img ng-if="!vm.isRefreshBtn(trainingUser)" class="user-avatar"
                                                      ng-src="{{trainingUser.user.imageUrl || '/content/images/nouser.png'}}"/>
@@ -105,11 +105,11 @@
                                                 <br>
 
                                                 <span ng-if="!vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)">
-                                                    {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}
+                                                    {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName.substr(0,10)}}
                                                 </span>
                                                 <a ng-if="vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)"
                                                            ui-sref="user-management-detail({login:trainingUser.user.login})">
-                                                    {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName}}
+                                                    {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName.substr(0,10)}}
                                                 </a>
                                                 <a ng-if="vm.isRefreshBtn(trainingUser)" ng-click="vm.loadTrainings()">
                                                     <span translate="home.refresh"/>

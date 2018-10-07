@@ -40,15 +40,17 @@
 
         function showMenu() {
             var isAdmin = false;
+            var isOrganizer = false;
             var isAuthenticated = Principal.isAuthenticated();
             if (isAuthenticated) {
-                isAdmin = vm.currentAccount.authorities.indexOf('ROLE_ADMIN') >= 0;
+                isAdmin = Principal.hasUserRole(vm.currentAccount, 'ROLE_ADMIN');
+                isOrganizer = Principal.hasUserRole(vm.currentAccount, 'ROLE_ORGANIZER');
             }
             // var hasNoParam = $location.search().hideMenu != "true";
             // return isAdmin || (isAuthenticated && hasNoParam);
 
-            //now we want to show it for admins only
-            return isAdmin;
+            //now we want to show it for admins and organizers only
+            return isAdmin || isOrganizer;
         }
 
         function login() {

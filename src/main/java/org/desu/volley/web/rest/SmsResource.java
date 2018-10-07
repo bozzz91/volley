@@ -53,6 +53,7 @@ public class SmsResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.ORGANIZER})
     public ResponseEntity<Sms> createSms(@Valid @RequestBody Sms sms) throws URISyntaxException {
         log.debug("REST request to save Sms : {}", sms);
         if (sms.getId() != null) {
@@ -81,6 +82,7 @@ public class SmsResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.ORGANIZER})
     public ResponseEntity<Sms> updateSms(@Valid @RequestBody Sms sms) throws URISyntaxException {
         log.debug("REST request to update Sms : {}", sms);
         if (sms.getId() == null) {
@@ -141,7 +143,7 @@ public class SmsResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteSms(@PathVariable Long id) {
         log.debug("REST request to delete Sms : {}", id);
         smsService.delete(id);

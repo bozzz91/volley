@@ -46,7 +46,7 @@ public class FaqResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Faq> createFaq(@Valid @RequestBody Faq faq) throws URISyntaxException {
         log.debug("REST request to save Faq : {}", faq);
         if (faq.getId() != null) {
@@ -71,7 +71,7 @@ public class FaqResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Faq> updateFaq(@Valid @RequestBody Faq faq) throws URISyntaxException {
         log.debug("REST request to update Faq : {}", faq);
         if (faq.getId() == null) {
@@ -110,7 +110,7 @@ public class FaqResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Faq> getFaq(@PathVariable Long id) {
         log.debug("REST request to get Faq : {}", id);
         Faq faq = faqRepository.findOne(id);
@@ -131,7 +131,7 @@ public class FaqResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteFaq(@PathVariable Long id) {
         log.debug("REST request to delete Faq : {}", id);
         faqRepository.delete(id);

@@ -13,7 +13,7 @@
             parent: 'admin',
             url: '/user-management?page&sort&showOnline',
             data: {
-                authorities: ['ROLE_ADMIN'],
+                authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZER'],
                 pageTitle: 'user-management.home.title'
             },
             views: {
@@ -54,7 +54,7 @@
             parent: 'admin',
             url: '/user/:login',
             data: {
-                authorities: ['ROLE_ADMIN'],
+                authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZER'],
                 pageTitle: 'user-management.detail.title'
             },
             views: {

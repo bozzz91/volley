@@ -1,15 +1,15 @@
 <div>
     <h2 style="font-weight: 600; font-family: 'Arvo', serif" translate="volleyApp.faq.home.title">FAQ</h2>
     <md-alert></md-alert>
-    <div class="container-fluid" has-authority="ROLE_SUPERADMIN">
+    <div class="container-fluid" has-authority="ROLE_ADMIN">
         <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="faq.new" >
+            <div class="btn-group no-padding-left user-buttons">
+                <md-button class="md-flat md-primary" ui-sref="faq.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  translate="volleyApp.faq.home.createLabel">
+                    <span translate="volleyApp.faq.home.createLabel">
                         Create new FAQ
                     </span>
-                </button>
+                </md-button>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
                         <div style="white-space: normal" ng-bind-html="vm.asHtml(($index+1) + '. ' + faq.question)"></div>
                         <div style="white-space: normal" ng-bind-html="vm.asHtml(faq.answer)"></div>
                     </td>
-                    <td has-authority="ROLE_SUPERADMIN" class="text-right">
+                    <td has-authority="ROLE_ADMIN" class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     ui-sref="faq-detail({id:faq.id})"

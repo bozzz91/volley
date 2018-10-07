@@ -19,9 +19,8 @@
         vm.predicate = 'startAt';
         vm.reset = reset;
         vm.reverse = false;
-        vm.showByOrg = true;
+        vm.showAll = false;
         vm.account = null;
-        vm.isUserInRole = isUserInRole;
 
         /* sate operations */
         vm.isCancelled = isCancelled;
@@ -31,14 +30,20 @@
 
         Principal.identity().then(function(account) {
             vm.account = account;
+            if (Principal.hasUserRole(vm.account, 'ROLE_ADMIN') && vm.account.organization == null) {
+                vm.showAll = true;
+            }
             loadAll();
         });
 
         function loadAll () {
+            if (!vm.showAll && vm.account.organization == null) {
+                vm.trainings = [];
+                return;
+            }
             Training.query({
-                organizationId: vm.account.organization.id,
+                organizationId: vm.showAll ? null : vm.account.organization.id,
                 page: vm.page,
-                showByOrg: vm.showByOrg,
                 size: 20,
                 sort: sort()
             }, onSuccess, onError);
@@ -81,7 +86,7 @@
         }
 
         function hasPermissionToEdit(training) {
-            return isUserInRole(vm.account, 'ROLE_SUPERADMIN') || training.organizer.organization.id === vm.account.organization.id;
+            return Principal.hasUserRole(vm.account, 'ROLE_ADMIN') || training.organizer.organization.id === vm.account.organization.id;
         }
 
         function setState(training, state) {
@@ -95,10 +100,6 @@
             function onSaveError() {
                 training.state = oldState;
             }
-        }
-
-        function isUserInRole(user, role) {
-            return user.authorities.indexOf(role) >= 0;
         }
     }
 })();

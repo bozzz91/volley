@@ -23,7 +23,8 @@
             "city": "Город",
             "organization": "Организация",
             "filter": {
-                "organization": "Моей организации"
+                "organization": "Моей организации",
+                "showAll": "Все залы"
             }
         }
     }

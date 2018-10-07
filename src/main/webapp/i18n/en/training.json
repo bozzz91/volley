@@ -40,7 +40,8 @@
             "organizer": "Organizer",
             "gym": "Gym",
             "filter": {
-                "organization": "My organization"
+                "organization": "My organization",
+                "showAll": "Show all trainings"
             }
         }
     }

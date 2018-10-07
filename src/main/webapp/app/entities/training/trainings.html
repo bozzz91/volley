@@ -5,14 +5,14 @@
     <div class="container-fluid">
         <div class="row">
             <div class="btn-group no-padding-left user-buttons">
-                <md-button class="md-flat md-primary" ui-sref="training.new" >
+                <md-button class="md-flat md-primary" ui-sref="training.new" has-authority="ROLE_ORGANIZER">
                     <span class="glyphicon glyphicon-plus"></span>
                     <span translate="volleyApp.training.home.createLabel">
                         Create new Training
                     </span>
                 </md-button>
-                <md-switch has-authority="ROLE_SUPERADMIN" ng-model="vm.showByOrg" class="md-primary" ng-change="vm.reset()">
-                    <span class="hidden-xs" translate="volleyApp.training.filter.organization">My organization</span>
+                <md-switch has-authority="ROLE_ADMIN" ng-model="vm.showAll" class="md-primary" ng-change="vm.reset()">
+                    <span class="hidden-xs" translate="volleyApp.training.filter.showAll">Show all</span>
                 </md-switch>
             </div>
         </div>
@@ -74,7 +74,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <md-tooltip md-direction="down">{{"volleyApp.training.showPlayers" | translate}}</md-tooltip>
                             </button>
-                            <button type="submit"
+                            <button type="submit" has-authority="ROLE_ORGANIZER"
                                     ui-sref="training.edit({id:training.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>

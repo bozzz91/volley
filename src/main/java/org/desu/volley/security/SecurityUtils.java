@@ -1,5 +1,8 @@
 package org.desu.volley.security;
 
+import org.desu.volley.domain.Organization;
+import org.desu.volley.domain.User;
+import org.desu.volley.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 /**
  * Utility class for Spring Security.
@@ -63,15 +67,30 @@ public final class SecurityUtils {
      * @param authority the authorithy to check
      * @return true if the current user has the authority, false otherwise
      */
-    public static boolean isCurrentUserInRole(String authority) {
+    public static boolean isCurrentUserInRole(String... authority) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserDetails) {
                 UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
+                for (String auth : authority) {
+                    if (springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(auth))) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
+    }
+
+    public static boolean isCurrentUserInOrganizationOrAdmin(Supplier<Organization> entityOrg,
+                                                             UserService userService) {
+        boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+        if (isAdmin) {
+            return true;
+        }
+        Organization organization = entityOrg.get();
+        User user = userService.getUserWithAuthorities();
+        return organization.getId().equals(user.getOrganization().getId());
     }
 }

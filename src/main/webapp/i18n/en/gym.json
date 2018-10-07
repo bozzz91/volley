@@ -23,7 +23,8 @@
             "city": "City",
             "organization": "Organization",
             "filter": {
-                "organization": "My organization"
+                "organization": "My organization",
+                "showAll": "Show all gyms"
             }
         }
     }

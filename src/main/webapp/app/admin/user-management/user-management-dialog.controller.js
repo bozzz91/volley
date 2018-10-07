@@ -17,15 +17,15 @@
         vm.user = entity;
         vm.cities = City.query();
         vm.organizations = Organization.query();
-        vm.isCurrentUserAdmin = isCurrentUserAdmin;
+        vm.isUserOrganizer = isUserOrganizer;
 
         JhiLanguageService.getAll().then(function (languages) {
             vm.languages = languages;
         });
 
-        function isCurrentUserAdmin() {
+        function isUserOrganizer() {
             for (var i=0; i<vm.authorities.length; i++) {
-                if (vm.authorities[i].selected && vm.authorities[i].name.indexOf('ROLE_ADMIN') >= 0) {
+                if (vm.authorities[i].selected && vm.authorities[i].name.indexOf('ROLE_ORGANIZER') >= 0) {
                     return true;
                 }
             }
@@ -34,7 +34,9 @@
 
         Role.query(function (result) {
             for (var i=0; i<result.length; i++) {
-                result[i].selected = entity.authorities.indexOf(result[i].name) >= 0;
+                if (entity.authorities) {
+                    result[i].selected = entity.authorities.indexOf(result[i].name) >= 0;
+                }
                 vm.authorities.push(result[i]);
             }
         });

@@ -34,7 +34,7 @@
             parent: 'home',
             url: '/{id}/booking',
             data: {
-                authorities: ['ROLE_ADMIN']
+                authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

@@ -43,7 +43,7 @@ public class CityResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<City> createCity(@Valid @RequestBody City city) throws URISyntaxException {
         log.debug("REST request to save City : {}", city);
         if (city.getId() != null) {
@@ -125,7 +125,7 @@ public class CityResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
         log.debug("REST request to delete City : {}", id);
         cityRepository.delete(id);

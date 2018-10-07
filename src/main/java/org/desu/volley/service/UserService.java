@@ -218,14 +218,6 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User getUserWithAuthorities(Long id) {
-        User user = userRepository.findOne(id);
-        loadImageUrl(user);
-        eagerlyLoad(user);
-        return user;
-    }
-
-    @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
         User user = userRepository.findOneByLoginIgnoreCase(SecurityUtils.getCurrentUserLogin()).get();
         loadImageUrl(user);

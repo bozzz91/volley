@@ -3,7 +3,6 @@ package org.desu.volley.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.Gym;
 import org.desu.volley.domain.Organization;
-import org.desu.volley.domain.User;
 import org.desu.volley.repository.GymRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.security.SecurityUtils;
@@ -51,7 +50,7 @@ public class GymResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Gym> createGym(@Valid @RequestBody Gym gym) throws URISyntaxException {
         log.debug("REST request to save Gym : {}", gym);
         if (gym.getId() != null) {
@@ -76,16 +75,21 @@ public class GymResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Gym> updateGym(@Valid @RequestBody Gym gym) throws URISyntaxException {
         log.debug("REST request to update Gym : {}", gym);
         if (gym.getId() == null) {
             return createGym(gym);
         }
-        Gym result = gymRepository.save(gym);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("gym", gym.getId().toString()))
-            .body(result);
+        if (canModifyGym(gym.getId())) {
+            Gym result = gymRepository.save(gym);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("gym", gym.getId().toString()))
+                .body(result);
+        }
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.createFailureAlert("gym", "accessdenied", "Access denied"))
+            .body(gym);
     }
 
     /**
@@ -139,14 +143,10 @@ public class GymResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Void> deleteGym(@PathVariable Long id) {
         log.debug("REST request to delete Gym : {}", id);
-        Gym gym = gymRepository.findOne(id);
-        Organization organization = gym.getOrganization();
-        User user = userService.getUserWithAuthorities();
-        boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
-        if (isSuperAdmin || organization.getId().equals(user.getOrganization().getId())) {
+        if (canModifyGym(id)) {
             gymRepository.delete(id);
             return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("gym", id.toString())).build();
         }
@@ -155,4 +155,7 @@ public class GymResource {
             .build();
     }
 
+    private boolean canModifyGym(Long id) {
+        return SecurityUtils.isCurrentUserInOrganizationOrAdmin(() -> gymRepository.findOne(id).getOrganization(), userService);
+    }
 }

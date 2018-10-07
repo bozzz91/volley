@@ -16,6 +16,7 @@
             hasAnyAuthority: hasAnyAuthority,
             hasAuthority: hasAuthority,
             identity: identity,
+            hasUserRole: hasUserRole,
             isAuthenticated: isAuthenticated,
             isIdentityResolved: isIdentityResolved
         };
@@ -51,6 +52,10 @@
             }, function(){
                 return false;
             });
+        }
+
+        function hasUserRole(user, role) {
+            return user.authorities.indexOf(role) >= 0;
         }
 
         function identity (force) {

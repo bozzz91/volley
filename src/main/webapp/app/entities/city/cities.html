@@ -1,15 +1,15 @@
 <div>
     <h2 translate="volleyApp.city.home.title">Cities</h2>
     <md-alert></md-alert>
-    <div class="container-fluid" has-authority="ROLE_SUPERADMIN">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="city.new" >
+            <div class="btn-group no-padding-left user-buttons">
+                <md-button class="md-flat md-primary" ui-sref="city.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  translate="volleyApp.city.home.createLabel">
+                    <span translate="volleyApp.city.home.createLabel">
                         Create new City
                     </span>
-                </button>
+                </md-button>
             </div>
         </div>
     </div>

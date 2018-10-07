@@ -12,19 +12,26 @@
         
         vm.levels = [];
         vm.account = null;
-        vm.showByOrg = true;
+        vm.showAll = false;
         vm.predicate = 'order';
         vm.reverse = true;
         vm.reset = reset;
 
         Principal.identity().then(function(account) {
             vm.account = account;
-            loadAll(vm.showByOrg);
+            if (Principal.hasUserRole(vm.account, 'ROLE_ADMIN') && vm.account.organization == null) {
+                vm.showAll = true;
+            }
+            loadAll();
         });
 
-        function loadAll(byOrg) {
+        function loadAll() {
+            if (!vm.showAll && vm.account.organization == null) {
+                vm.levels = [];
+                return;
+            }
             Level.query({
-                organizationId: byOrg ? vm.account.organization.id : null,
+                organizationId: vm.showAll ? null : vm.account.organization.id,
                 sort: sort()
             }, function(result) {
                 vm.levels = result;
@@ -37,7 +44,7 @@
 
         function reset() {
             vm.gyms = [];
-            loadAll(vm.showByOrg);
+            loadAll();
         }
     }
 })();

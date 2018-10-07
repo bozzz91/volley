@@ -5,9 +5,9 @@
         .module('volleyApp')
         .controller('UserManagementDetailController', UserManagementDetailController);
 
-    UserManagementDetailController.$inject = ['$stateParams', 'User'];
+    UserManagementDetailController.$inject = ['$stateParams', 'User', 'Principal'];
 
-    function UserManagementDetailController ($stateParams, User) {
+    function UserManagementDetailController ($stateParams, User, Principal) {
         var vm = this;
 
         vm.load = load;
@@ -24,13 +24,20 @@
         }
 
         function detectUserRole(user) {
-            if (user.authorities.indexOf('ROLE_SUPERADMIN') >= 0) {
-                return 'Суперадмин';
-            } else if (user.authorities.indexOf('ROLE_ADMIN') >= 0) {
-                return 'Админ';
-            } else {
-                return 'Юзер';
+            var profiles = [];
+            if (Principal.hasUserRole(user, 'ROLE_SUPERADMIN')) {
+                profiles.push('Суперадмин');
             }
+            if (Principal.hasUserRole(user, 'ROLE_ADMIN')) {
+                profiles.push('Админ');
+            }
+            if (Principal.hasUserRole(user, 'ROLE_ORGANIZER')) {
+                profiles.push('Организатор');
+            }
+            if (profiles.length === 0 && Principal.hasUserRole(user, 'ROLE_USER')) {
+                profiles.push('Юзер');
+            }
+            return profiles.toString();
         }
     }
 })();

@@ -5,6 +5,8 @@ import org.desu.volley.domain.Level;
 import org.desu.volley.domain.Organization;
 import org.desu.volley.repository.LevelRepository;
 import org.desu.volley.security.AuthoritiesConstants;
+import org.desu.volley.security.SecurityUtils;
+import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,8 @@ public class LevelResource {
 
     @Inject
     private LevelRepository levelRepository;
+    @Inject
+    private UserService userService;
 
     /**
      * POST  /levels : Create a new level.
@@ -45,7 +49,7 @@ public class LevelResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Level> createLevel(@Valid @RequestBody Level level) throws URISyntaxException {
         log.debug("REST request to save Level : {}", level);
         if (level.getId() != null) {
@@ -70,16 +74,21 @@ public class LevelResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Level> updateLevel(@Valid @RequestBody Level level) throws URISyntaxException {
         log.debug("REST request to update Level : {}", level);
         if (level.getId() == null) {
             return createLevel(level);
         }
-        Level result = levelRepository.save(level);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("level", level.getId().toString()))
-            .body(result);
+        if (canModifyLevel(level.getId())) {
+            Level result = levelRepository.save(level);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("level", level.getId().toString()))
+                .body(result);
+        }
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.createFailureAlert("level", "accessdenied", "Access denied"))
+            .body(level);
     }
 
     /**
@@ -132,11 +141,19 @@ public class LevelResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.SUPER_ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Void> deleteLevel(@PathVariable Long id) {
         log.debug("REST request to delete Level : {}", id);
-        levelRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("level", id.toString())).build();
+        if (canModifyLevel(id)) {
+            levelRepository.delete(id);
+            return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("level", id.toString())).build();
+        }
+        return ResponseEntity.badRequest()
+            .headers(HeaderUtil.createFailureAlert("level", "accessdenied", "Access denied"))
+            .build();
     }
 
+    private boolean canModifyLevel(Long id) {
+        return SecurityUtils.isCurrentUserInOrganizationOrAdmin(() -> levelRepository.findOne(id).getOrganization(), userService);
+    }
 }

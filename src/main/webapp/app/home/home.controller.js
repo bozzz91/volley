@@ -49,6 +49,7 @@
         vm.levels = [];
         vm.saveAccount = saveAccount;
         vm.loadCities = loadCities;
+        vm.canCurrentUserEditTraining = canCurrentUserEditTraining;
         vm.isCurrentUserAdmin = isCurrentUserAdmin;
         vm.isRefreshBtn = isRefreshBtn;
         vm.asHtml = asHtml;
@@ -129,7 +130,15 @@
         }
 
         function isCurrentUserAdmin() {
-            return vm.account.authorities.indexOf('ROLE_ADMIN') >= 0;
+            return Principal.hasUserRole(vm.account, 'ROLE_ADMIN');
+        }
+
+        function isCurrentUserOrganizer() {
+            return Principal.hasUserRole(vm.account, 'ROLE_ORGANIZER');
+        }
+
+        function canCurrentUserEditTraining() {
+            return isCurrentUserAdmin() || isCurrentUserOrganizer();
         }
 
         function isRefreshBtn(trainingUser) {

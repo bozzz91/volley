@@ -36,7 +36,7 @@
             parent: 'entity',
             url: '/faq/{id}',
             data: {
-                authorities: ['ROLE_SUPERADMIN'],
+                authorities: ['ROLE_ADMIN'],
                 pageTitle: 'volleyApp.faq.detail.title'
             },
             views: {
@@ -60,7 +60,7 @@
             parent: 'faq',
             url: '/new',
             data: {
-                authorities: ['ROLE_SUPERADMIN']
+                authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -90,7 +90,7 @@
             parent: 'faq',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_SUPERADMIN']
+                authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -115,7 +115,7 @@
             parent: 'faq',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_SUPERADMIN']
+                authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

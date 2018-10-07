@@ -74,8 +74,8 @@ public class TrainingUserResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("trainingUser", "idexists", "A new trainingUser cannot already have an ID")).body(null);
         }
         User currentUser = userService.getUserWithAuthorities();
-        boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
-        if (!currentUser.equals(trainingUser.getUser()) && !isAdmin) {
+        boolean canModify = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN, AuthoritiesConstants.ORGANIZER);
+        if (!currentUser.equals(trainingUser.getUser()) && !canModify) {
             return badRequest("accessdenied");
         }
         if (currentUser.isReadOnly()) {
@@ -132,7 +132,7 @@ public class TrainingUserResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<TrainingUser> updateTrainingUser(@RequestBody TrainingUser trainingUser) throws URISyntaxException {
         log.debug("REST request to update TrainingUser : {}", trainingUser);
         if (trainingUser.getId() == null) {
@@ -154,7 +154,7 @@ public class TrainingUserResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public List<TrainingUser> getAllTrainingUsers(Sort sort, @RequestParam(required = false, value = "trainingId") Long trainingId) {
         log.debug("REST request to get all TrainingUsers");
         List<TrainingUser> userList;
@@ -207,9 +207,9 @@ public class TrainingUserResource {
         TrainingUser trainingUser = trainingUserRepository.findOne(id);
         User currentUser = userService.getUserWithAuthorities();
 
-        boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+        boolean canModify = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN, AuthoritiesConstants.ORGANIZER);
 
-        if (!trainingUser.getUser().equals(currentUser) && !isAdmin) {
+        if (!trainingUser.getUser().equals(currentUser) && !canModify) {
             return badRequest("accessdenied");
         }
         Training training = trainingRepository.findOneWithEagerRelationships(trainingUser.getTraining().getId());

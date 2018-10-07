@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.City;
 import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.Training;
-import org.desu.volley.domain.User;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.repository.TrainingUserRepository;
@@ -63,7 +62,7 @@ public class TrainingResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured(AuthoritiesConstants.ORGANIZER)
     public ResponseEntity<Training> createTraining(@Valid @RequestBody Training training) throws URISyntaxException {
         log.debug("REST request to save Training : {}", training);
         if (training.getId() != null) {
@@ -89,15 +88,13 @@ public class TrainingResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Training> updateTraining(@Valid @RequestBody Training training) throws URISyntaxException {
         log.debug("REST request to update Training : {}", training);
         if (training.getId() == null) {
             return createTraining(training);
         }
-        User currentUser = userService.getUserWithAuthorities();
-        boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
-        if (isSuperAdmin || currentUser.equals(training.getOrganizer())) {
+        if (canModifyTraining(training.getId())) {
             Training result = trainingRepository.save(training);
             return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert("training", training.getId().toString()))
@@ -105,7 +102,7 @@ public class TrainingResource {
         }
         return ResponseEntity.badRequest()
             .headers(HeaderUtil.createFailureAlert("training", "accessdenied", "Access denied"))
-            .body(null);
+            .body(training);
     }
 
     /**
@@ -123,13 +120,12 @@ public class TrainingResource {
         Pageable pageable,
         @RequestParam(required = false, value = "city") Long cityId,
         @RequestParam(required = false, value = "organizationId") Organization organization,
-        @RequestParam(required = false, value = "state") String stateNames,
-        @RequestParam(required = false, value = "showByOrg") boolean showByOrg
+        @RequestParam(required = false, value = "state") String stateNames
     ) throws URISyntaxException {
 
         log.debug("REST request to get a page of Trainings");
         Page<Training> page;
-        if (showByOrg) {
+        if (organization != null) {
             page = trainingRepository.findByOrganization(organization, pageable);
         } else if (cityId != null) {
             City city = new City();
@@ -181,13 +177,11 @@ public class TrainingResource {
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured({AuthoritiesConstants.ORGANIZER, AuthoritiesConstants.ADMIN})
     public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
         log.debug("REST request to delete Training : {}", id);
-        Training training = trainingRepository.findOneWithEagerRelationships(id);
-        User currentUser = userService.getUserWithAuthorities();
-        boolean isSuperAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPER_ADMIN);
-        if (training.getOrganizer().equals(currentUser) || isSuperAdmin) {
+        if (canModifyTraining(id)) {
+            Training training = trainingRepository.findOneWithEagerRelationships(id);
             trainingUserRepository.delete(training.getTrainingUsers());
             trainingRepository.delete(id);
             return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("training", id.toString())).build();
@@ -197,4 +191,7 @@ public class TrainingResource {
             .build();
     }
 
+    private boolean canModifyTraining(Long id) {
+        return SecurityUtils.isCurrentUserInOrganizationOrAdmin(() -> trainingRepository.findOne(id).getOrganizer().getOrganization(), userService);
+    }
 }

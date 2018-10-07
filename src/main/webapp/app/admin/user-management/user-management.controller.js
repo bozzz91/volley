@@ -11,7 +11,6 @@
         var vm = this;
 
         vm.showOnline = JSON.parse($stateParams.showOnline || false);
-        vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         vm.currentAccount = null;
         vm.languages = null;
         vm.loadAll = loadAll;
@@ -58,7 +57,7 @@
         }
 
         function isUserInRole(user, role) {
-            return user.authorities.indexOf(role) > 0;
+            return Principal.hasUserRole(user, role);
         }
 
         function loadAll () {
