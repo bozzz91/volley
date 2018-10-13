@@ -104,10 +104,10 @@
                                                      ng-click="vm.loadTrainings()"/>
                                                 <br>
 
-                                                <span ng-if="!vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)">
+                                                <span ng-if="!vm.canCurrentUserEditTraining() && !vm.isRefreshBtn(trainingUser)">
                                                     {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName.substr(0,10)}}
                                                 </span>
-                                                <a ng-if="vm.isCurrentUserAdmin() && !vm.isRefreshBtn(trainingUser)"
+                                                <a ng-if="vm.canCurrentUserEditTraining() && !vm.isRefreshBtn(trainingUser)"
                                                            ui-sref="user-management-detail({login:trainingUser.user.login})">
                                                     {{$last ? '' : $index+1 + '. '}}{{trainingUser.user.firstName.substr(0,10)}}
                                                 </a>

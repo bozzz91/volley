@@ -272,6 +272,17 @@ public class UserService {
         return user;
     }
 
+    void amendPersonalData(User user) {
+        user.setEmail(null);
+        user.setPhone(null);
+        user.setCity(null);
+        user.setResetDate(null);
+        user.setResetKey(null);
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN, AuthoritiesConstants.ORGANIZER)) {
+            user.setLogin("login");
+        }
+    }
+
     public void loadImageUrl(User user) {
         ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(user.getLogin());
         MultiValueMap<String, Connection<?>> connections = connectionRepository.findAllConnections();

@@ -4,11 +4,13 @@ import com.codahale.metrics.annotation.Timed;
 import org.desu.volley.domain.City;
 import org.desu.volley.domain.Organization;
 import org.desu.volley.domain.Training;
+import org.desu.volley.domain.TrainingUser;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.desu.volley.repository.TrainingRepository;
 import org.desu.volley.repository.TrainingUserRepository;
 import org.desu.volley.security.AuthoritiesConstants;
 import org.desu.volley.security.SecurityUtils;
+import org.desu.volley.service.TrainingService;
 import org.desu.volley.service.UserService;
 import org.desu.volley.web.rest.util.HeaderUtil;
 import org.desu.volley.web.rest.util.PaginationUtil;
@@ -50,6 +52,9 @@ public class TrainingResource {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private TrainingService trainingService;
 
     /**
      * POST  /trainings : Create a new training.
@@ -143,7 +148,7 @@ public class TrainingResource {
             page = trainingRepository.findAll(pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/trainings");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(trainingService.amendTrainingOrganizer(page.getContent()), headers, HttpStatus.OK);
     }
 
     /**
@@ -161,9 +166,13 @@ public class TrainingResource {
         Training training = trainingRepository.findOneWithEagerRelationships(id);
         return Optional.ofNullable(training)
             .map(result -> {
-                result.getTrainingUsers().forEach(tu -> userService.loadImageUrl(tu.getUser()));
-                return new ResponseEntity<>(result, HttpStatus.OK);
+                for (TrainingUser tu : result.getTrainingUsers()) {
+                    userService.loadImageUrl(tu.getUser());
+                }
+                return result;
             })
+            .map(trainingService::amendTrainingUsers)
+            .map(result -> new ResponseEntity<>(result, HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

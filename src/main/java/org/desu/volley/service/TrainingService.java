@@ -1,6 +1,7 @@
 package org.desu.volley.service;
 
 import org.desu.volley.domain.Training;
+import org.desu.volley.domain.TrainingUser;
 import org.desu.volley.domain.enumeration.TrainingState;
 import org.desu.volley.repository.TrainingRepository;
 import org.slf4j.Logger;
@@ -19,6 +20,9 @@ public class TrainingService {
 
     @Inject
     private TrainingRepository trainingRepository;
+
+    @Inject
+    private UserService userService;
 
     @Scheduled(cron = "0 5/15 * * * ?")
     public void updateTrainingState() {
@@ -39,5 +43,24 @@ public class TrainingService {
             .collect(Collectors.toList()));
         if (!saved.isEmpty())
             log.info("Updated {} trainings to {}", saved.size(), TrainingState.DONE);
+    }
+
+    public List<Training> amendTrainingOrganizer(List<Training> trainings) {
+        for (Training training : trainings) {
+            amendTrainingOrganizer(training);
+        }
+        return trainings;
+    }
+
+    public Training amendTrainingUsers(Training training) {
+        for (TrainingUser trainingUser : training.getTrainingUsers()) {
+            userService.amendPersonalData(trainingUser.getUser());
+        }
+        return amendTrainingOrganizer(training);
+    }
+
+    private Training amendTrainingOrganizer(Training training) {
+        userService.amendPersonalData(training.getOrganizer());
+        return training;
     }
 }
