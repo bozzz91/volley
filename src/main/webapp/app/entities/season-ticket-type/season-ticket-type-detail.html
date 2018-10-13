@@ -1,0 +1,42 @@
+
+<div>
+    <h2><span translate="volleyApp.seasonTicketType.detail.title">Season Ticket Type</span> {{vm.seasonTicketType.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span translate="volleyApp.seasonTicketType.name">Name</span></dt>
+        <dd>
+            <span>{{vm.seasonTicketType.name}}</span>
+        </dd>
+        <dt><span translate="volleyApp.seasonTicketType.price">Price</span></dt>
+        <dd>
+            <span>{{vm.seasonTicketType.price}}</span>
+        </dd>
+        <dt><span translate="volleyApp.seasonTicketType.duration">Duration</span></dt>
+        <dd>
+            <span>{{vm.seasonTicketType.duration}}</span>
+        </dd>
+        <dt><span translate="volleyApp.seasonTicketType.capacity">Capacity</span></dt>
+        <dd>
+            <span>{{vm.seasonTicketType.capacity}}</span>
+        </dd>
+        <dt><span translate="volleyApp.seasonTicketType.index">Index</span></dt>
+        <dd>
+            <span>{{vm.seasonTicketType.index}}</span>
+        </dd>
+        <dt><span translate="volleyApp.seasonTicketType.attendingType">Attending Type</span></dt>
+        <dd>
+            <span translate="{{'volleyApp.AttendingType.' + vm.seasonTicketType.attendingType}}">{{vm.seasonTicketType.attendingType}}</span>
+        </dd>
+        <dt><span translate="volleyApp.seasonTicketType.organization">Organization</span></dt>
+        <dd>
+            <a ui-sref="organization-detail({id:vm.seasonTicketType.organization.id})">{{vm.seasonTicketType.organization.name}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

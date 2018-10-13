@@ -1,0 +1,9 @@
+{
+    "volleyApp": {
+        "AttendingType" : {
+            "DURATION": "Limited by ticket duration only",
+            "CAPACITY": "Limited by ticket capacity only",
+            "BOTH": "Limited by both ticket capacity and duration"
+        }
+    }
+}

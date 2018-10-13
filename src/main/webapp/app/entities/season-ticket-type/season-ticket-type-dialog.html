@@ -1,0 +1,146 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="mySeasonTicketTypeLabel" translate="volleyApp.seasonTicketType.home.createOrEditLabel">Create or edit a Season Ticket Type</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.seasonTicketType.id">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.seasonTicketType.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.seasonTicketType.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="vm.seasonTicketType.name"
+                    required ng-maxlength="100" />
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.name.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="100">
+                    This field cannot be longer than 100 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.seasonTicketType.price" for="field_price">Price</label>
+            <input type="text" class="form-control" name="price" id="field_price"
+                    ng-model="vm.seasonTicketType.price"
+                    required ng-maxlength="100" />
+            <div ng-show="editForm.price.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.price.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.price.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="100">
+                    This field cannot be longer than 100 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.seasonTicketType.duration" for="field_duration">Duration</label>
+            <input type="number" class="form-control" name="duration" id="field_duration"
+                    ng-model="vm.seasonTicketType.duration"
+                    required min="1" />
+            <div ng-show="editForm.duration.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.duration.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.duration.$error.min" translate="entity.validation.min" translate-value-min="1">
+                    This field should be more than 1.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.duration.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.seasonTicketType.capacity" for="field_capacity">Capacity</label>
+            <input type="number" class="form-control" name="capacity" id="field_capacity"
+                    ng-model="vm.seasonTicketType.capacity"
+                    required min="0" />
+            <div ng-show="editForm.capacity.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.capacity.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.capacity.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.capacity.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.seasonTicketType.index" for="field_index">Index</label>
+            <input type="number" class="form-control" name="index" id="field_index"
+                    ng-model="vm.seasonTicketType.index"
+                    required min="0" />
+            <div ng-show="editForm.index.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.index.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.index.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.index.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="volleyApp.seasonTicketType.attendingType" for="field_attendingType">Attending Type</label>
+            <select class="form-control" name="attendingType" ng-model="vm.seasonTicketType.attendingType" id="field_attendingType" required>
+                <option value="BOTH" translate="volleyApp.AttendingType.BOTH">Limited by both duration and capacity</option>
+                <option value="DURATION" translate="volleyApp.AttendingType.DURATION">Limited by duration only</option>
+                <option value="CAPACITY" translate="volleyApp.AttendingType.CAPACITY">Limited by capacity only</option>
+            </select>
+            <div ng-show="editForm.attendingType.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.attendingType.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label translate="volleyApp.seasonTicketType.organization" for="field_organization">Organization</label>
+            <select class="form-control" id="field_organization" name="organization" ng-model="vm.seasonTicketType.organization"
+                    ng-options="organization as organization.name for organization in vm.organizations | orderBy:'name' track by organization.id"
+                    required>
+                <option value=""></option>
+            </select>
+            <div ng-show="editForm.organization.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.organization.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

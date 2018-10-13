@@ -1,0 +1,73 @@
+<div>
+    <h2 translate="volleyApp.seasonTicketType.home.title">Season Ticket Types</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="btn-group no-padding-left user-buttons">
+                <md-button class="md-flat md-primary" ui-sref="season-ticket-type.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span translate="volleyApp.seasonTicketType.home.createLabel">
+                        Create new Season Ticket Type
+                    </span>
+                </md-button>
+                <md-switch has-authority="ROLE_ADMIN" ng-model="vm.showAll" class="md-primary" ng-change="vm.reset()">
+                    <span class="hidden-xs" translate="volleyApp.seasonTicketType.filter.showAll">Show all</span>
+                </md-switch>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span translate="volleyApp.seasonTicketType.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="price"><span translate="volleyApp.seasonTicketType.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="duration"><span translate="volleyApp.seasonTicketType.duration">Duration</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="capacity"><span translate="volleyApp.seasonTicketType.capacity">Capacity</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="index"><span translate="volleyApp.seasonTicketType.index">Index</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="attendingType"><span translate="volleyApp.seasonTicketType.attendingType">Attending Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="organization.name"><span translate="volleyApp.seasonTicketType.organization">Organization</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="seasonTicketType in vm.seasonTicketTypes track by seasonTicketType.id">
+                    <td><a ui-sref="season-ticket-type-detail({id:seasonTicketType.id})">{{seasonTicketType.id}}</a></td>
+                    <td>{{seasonTicketType.name}}</td>
+                    <td>{{seasonTicketType.price}}</td>
+                    <td>{{seasonTicketType.duration}}</td>
+                    <td>{{seasonTicketType.capacity}}</td>
+                    <td>{{seasonTicketType.index}}</td>
+                    <td translate="{{'volleyApp.AttendingType.' + seasonTicketType.attendingType}}">{{seasonTicketType.attendingType}}</td>
+                    <td>
+                        <a ui-sref="organization-detail({id:seasonTicketType.organization.id})">{{seasonTicketType.organization.name}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="season-ticket-type-detail({id:seasonTicketType.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="season-ticket-type.edit({id:seasonTicketType.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="season-ticket-type.delete({id:seasonTicketType.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+{
+    "volleyApp": {
+        "seasonTicketType" : {
+            "home": {
+                "title": "Season Ticket Types",
+                "createLabel": "Create a Season Ticket Type",
+                "createOrEditLabel": "Create or edit a Season Ticket Type",
+                "search": "Search for Season Ticket Type"
+            },
+            "created": "A new Season Ticket Type is created with identifier {{ param }}",
+            "updated": "A Season Ticket Type is updated with identifier {{ param }}",
+            "deleted": "A Season Ticket Type is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Season Ticket Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Season Ticket Type"
+            },
+            "name": "Name",
+            "price": "Price",
+            "duration": "Duration (days)",
+            "capacity": "Capacity (games)",
+            "index": "Index",
+            "attendingType": "Attending Type",
+            "organization": "Organization",
+            "filter": {
+                "organization": "My organization",
+                "showAll": "Show all tickets"
+            }
+        }
+    }
+}
