@@ -32,8 +32,11 @@
                 </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end center">
-                <md-button class="md-flat md-primary" ui-sref="user-management.edit({login:vm.user.login})">Изменить</md-button>
-                <md-button class="md-flat md-warn" ui-sref="user-management"><span translate="entity.action.back">Back</span></md-button>
+                <md-button has-authority="ROLE_ADMIN" class="md-flat md-primary" ui-sref="user-management.edit({login:vm.user.login})">Изменить</md-button>
+                <md-button onclick="window.history.back()" class="md-flat md-warn">
+                    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;
+                    <span translate="entity.action.back"> Back</span>
+                </md-button>
             </md-card-actions>
         </md-card>
     </md-content>
