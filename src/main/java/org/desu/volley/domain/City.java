@@ -28,10 +28,6 @@ public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public City(int id) {
-        this.setId((long)id);
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
