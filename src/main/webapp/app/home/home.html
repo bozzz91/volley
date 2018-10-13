@@ -63,12 +63,23 @@
                                         </span>
                                     </md-card-title-text>
                                 </md-card-title>
-                                <md-card-actions layout="row" layout-align="end center">
-                                    <md-button class="md-raised md-primary" aria-label="booking"
+                                <md-card-actions layout="row" layout-align="end center" class="training-actions">
+                                    <md-button class="md-raised md-primary md-box-button" aria-label="booking" title="Booking"
                                                ui-sref="home.booking({id:training.id})"
                                                ng-show="vm.canCurrentUserEditTraining() && isTrainingInRegistration(training)">
                                         <span class="glyphicon glyphicon-lock"></span>
                                     </md-button>
+                                    <md-button class="md-raised md-primary md-box-button" aria-label="edit" title="Edit"
+                                               ui-sref="training.edit({id:training.id})"
+                                               ng-show="vm.canCurrentUserEditTraining() && isTrainingInRegistration(training)">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </md-button>
+                                    <md-button class="md-raised md-primary md-box-button" aria-label="list" title="Player list"
+                                               ui-sref="training-user({trainingId:training.id})"
+                                               ng-show="vm.canCurrentUserEditTraining() && isTrainingInRegistration(training)">
+                                        <span class="glyphicon glyphicon-list"></span>
+                                    </md-button>
+                                    <span class="delimiter"></span>
                                     <md-button class="md-flat" aria-label="info"
                                                ng-show="isTrainingInRegistration(training)"
                                                ng-click="showUsers = !showUsers">

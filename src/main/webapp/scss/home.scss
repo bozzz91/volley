@@ -127,6 +127,24 @@ $inactiveStateColor: #dd0000;
         font-size: 12pt;
     }
 
+    .training-actions {
+        .md-button.md-box-button {
+            min-width: 36px;
+            max-width: 36px;
+            min-height: 36px;
+            max-height: 36px;
+
+        }
+
+        .md-button {
+            flex-grow: 0;
+        }
+
+        .delimiter {
+            flex-grow: 1;
+        }
+    }
+
     ul {
         list-style: none;
         padding: 0;

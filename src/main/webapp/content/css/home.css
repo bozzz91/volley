@@ -93,6 +93,18 @@
   padding: 10px;
   font-size: 12pt; }
 
+.train-list .training-actions .md-button.md-box-button {
+  min-width: 36px;
+  max-width: 36px;
+  min-height: 36px;
+  max-height: 36px; }
+
+.train-list .training-actions .md-button {
+  flex-grow: 0; }
+
+.train-list .training-actions .delimiter {
+  flex-grow: 1; }
+
 .train-list ul {
   list-style: none;
   padding: 0;
