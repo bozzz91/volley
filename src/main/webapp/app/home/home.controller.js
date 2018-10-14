@@ -301,7 +301,7 @@
                 return -1;
             }
             for (var i=0; i<trainingUsers.length; i++) {
-                if (trainingUsers[i].user.login === user.login) {
+                if (trainingUsers[i].user.id === user.id) {
                     return i;
                 }
             }
