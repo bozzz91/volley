@@ -183,8 +183,10 @@ public class UserService {
             u.setEmail(email);
             u.setPhone(phone);
             u.setCity(city);
-            u.setOrganization(organization);
             u.setLangKey(langKey);
+            if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+                u.setOrganization(organization);
+            }
             userRepository.save(u);
             log.debug("Changed Information for User: {}", u);
         });

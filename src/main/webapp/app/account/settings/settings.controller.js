@@ -17,7 +17,7 @@
         vm.cities = City.query();
         vm.organizations = Organization.query();
         vm.logout = logout;
-        vm.isCurrentUserOrganizer = isCurrentUserOrganizer;
+        vm.isCurrentUserAdmin = isCurrentUserAdmin;
 
         /**
          * Store the "settings account" in a separate variable, and not in the shared "account" variable.
@@ -41,8 +41,8 @@
             vm.settingsAccount = copyAccount(account);
         });
 
-        function isCurrentUserOrganizer() {
-            return Principal.hasUserRole(vm.settingsAccount, 'ROLE_ORGANIZER');
+        function isCurrentUserAdmin() {
+            return Principal.hasUserRole(vm.settingsAccount, 'ROLE_ADMIN');
         }
 
         function save () {

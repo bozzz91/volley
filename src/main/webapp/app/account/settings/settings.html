@@ -113,17 +113,27 @@
                     </div>
                 </div>
 
-                <div class="form-group" ng-if="vm.isCurrentUserOrganizer()">
-                    <label translate="volleyApp.organization.detail.title" for="field_organization">Organization</label>
-                    <select class="form-control" id="field_organization" name="organization" ng-model="vm.settingsAccount.organization"
-                            ng-options="organization as organization.name for organization in vm.organizations track by organization.id" required>
-                        <option value=""></option>
-                    </select>
-                    <div ng-show="form.organization.$dirty && form.organization.$invalid || !vm.settingsAccount.organization">
-                        <p class="help-block"
-                           ng-show="form.organization.$error.required" translate="settings.messages.validate.organization.required">
-                            Your organization is required.
-                        </p>
+                <div ng-switch on="vm.isCurrentUserAdmin()">
+                    <div ng-switch-when="true">
+                        <div class="form-group">
+                            <label translate="volleyApp.organization.detail.title" for="field_organization">Organization</label>
+                            <select class="form-control" id="field_organization" name="organization" ng-model="vm.settingsAccount.organization"
+                                    ng-options="organization as organization.name for organization in vm.organizations track by organization.id" required>
+                                <option value=""></option>
+                            </select>
+                            <div ng-show="form.organization.$dirty && form.organization.$invalid || !vm.settingsAccount.organization">
+                                <p class="help-block"
+                                   ng-show="form.organization.$error.required" translate="settings.messages.validate.organization.required">
+                                    Your organization is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-switch-default>
+                        <div class="form-group">
+                            <label translate="volleyApp.organization.detail.title" for="field_organization_text">Organization</label>
+                            <input type="text" class="form-control" id="field_organization_text" ng-model="vm.settingsAccount.organization.name" disabled>
+                        </div>
                     </div>
                 </div>
 
